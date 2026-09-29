@@ -30,7 +30,7 @@ jobs:
         env:
           # Un repositorio llamado <usuario>.github.io se publica en la raíz; cualquier otro, bajo /<repositorio>/.
           VITE_BASE: ${{ endsWith(github.event.repository.name, '.github.io') && '/' || format('/{0}/', github.event.repository.name) }}
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with: { path: dist }
 
   deploy:
