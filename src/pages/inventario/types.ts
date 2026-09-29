@@ -3,6 +3,7 @@ import type { components } from '../../api/schema'
 type S = components['schemas']
 
 export type Product = S['ProductView']
+export type ProductHistoryEntry = S['ProductHistoryEntry']
 export type ProductInput = S['ProductInput']
 export type Category = S['CategoryView']
 export type Movement = S['MovementView']  // existencias (StockService); los de la caja son CashMovementView

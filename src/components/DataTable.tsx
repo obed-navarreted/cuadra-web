@@ -7,7 +7,7 @@ export type Column<T> = { key: string; header: ReactNode; cell: (row: T) => Reac
  * Tabla que en pantallas angostas se desplaza a los lados dentro de su propia caja (la página nunca se desborda). Si se pasa `onRowClick`, cada fila
  * es un botón accesible con teclado.
  */
-export function DataTable<T>({ columns, rows, rowKey, empty, onRowClick }: { columns: Column<T>[]; rows: T[]; rowKey: (row: T) => string; empty: ReactNode; onRowClick?: (row: T) => void }) {
+export function DataTable<T>({ columns, rows, rowKey, empty, onRowClick, rowClassName }: { columns: Column<T>[]; rows: T[]; rowKey: (row: T) => string; empty: ReactNode; onRowClick?: (row: T) => void; rowClassName?: (row: T) => string | undefined }) {
   if (rows.length === 0) return <EmptyState>{empty}</EmptyState>
   return (
     <div className="table-wrap">
@@ -25,7 +25,7 @@ export function DataTable<T>({ columns, rows, rowKey, empty, onRowClick }: { col
           {rows.map((row) => (
             <tr
               key={rowKey(row)}
-              className={onRowClick ? 'clickable' : undefined}
+              className={[onRowClick ? 'clickable' : '', rowClassName?.(row) ?? ''].filter(Boolean).join(' ') || undefined}
               tabIndex={onRowClick ? 0 : undefined}
               onClick={onRowClick ? () => onRowClick(row) : undefined}
               onKeyDown={onRowClick ? (e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onRowClick(row)) : undefined}

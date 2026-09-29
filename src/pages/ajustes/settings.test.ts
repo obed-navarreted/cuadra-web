@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formOf, minorToInput, moduleOn, patchOf, previewTemplate, unknownVariables, validateForm, type BusinessView } from './settings'
+import { MODULES, formOf, minorToInput, moduleOn, patchOf, previewTemplate, unknownVariables, validateForm, type BusinessView } from './settings'
 
 const b: BusinessView = { id: 'b', name: 'Quesería', type: 'Lácteos', country: 'NI', currency: 'NIO', timezone: 'America/Managua', defaultLocale: 'es', dayCutoff: '02:00:00', posViews: ['TYPE'], creditRequiresCustomer: false, creditLimitEnforced: false, creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, modules: {} }
 
@@ -18,8 +18,8 @@ describe('ajustes del negocio', () => {
   })
 
   it('manda solo lo que cambió', () => {
-    const f = { ...formOf(b), name: '  Quesería Norte ', shiftRequired: true, shiftNote: '25.5', creditOverdueDays: '45', posViews: ['LIST', 'TYPE'] }
-    expect(patchOf(f, b)).toEqual({ name: 'Quesería Norte', shiftRequired: true, shiftNoteThresholdMinor: 2550, creditOverdueDays: 45, posViews: ['LIST', 'TYPE'] })
+    const f = { ...formOf(b), name: '  Quesería Norte ', creditLimitEnforced: true, timezone: 'America/New_York', creditOverdueDays: '45', posViews: ['LIST', 'TYPE'] }
+    expect(patchOf(f, b)).toEqual({ name: 'Quesería Norte', creditLimitEnforced: true, timezone: 'America/New_York', creditOverdueDays: 45, posViews: ['LIST', 'TYPE'] })
   })
 
   it('un número vacío no se manda y el mismo orden de vistas no cuenta como cambio', () => {
@@ -36,6 +36,7 @@ describe('ajustes del negocio', () => {
     expect(validateForm({ ...ok, creditDefaultDueDays: '-1' }, 'NIO')).toBe('DUE_DAYS')
     expect(validateForm({ ...ok, creditOverdueDays: '0' }, 'NIO')).toBe('OVERDUE_DAYS')
     expect(validateForm({ ...ok, shiftNote: '10.555' }, 'NIO')).toBe('SHIFT_NOTE')
+    expect(MODULES).not.toContain('shifts')
   })
 
   it('un módulo sin valor guardado sigue la regla de fábrica', () => {

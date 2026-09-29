@@ -14,3 +14,5 @@ td.nowrap { white-space: nowrap; }
 /* En el celular las cifras van de dos en dos: la página no se vuelve una columna interminable. */
 .kpis.compact { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 @media (max-width: 599px) { .kpis.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpis.compact .kpi-value { font-size: 20px; } .kpis.compact .kpi { padding: 12px; } }
+tr.row-cancelled td { background: var(--red-soft, #fbeceb); color: var(--muted); }
+.struck { text-decoration: line-through; }

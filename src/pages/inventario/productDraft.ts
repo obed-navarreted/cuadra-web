@@ -2,6 +2,8 @@ import { parseMoney } from '../../lib/money'
 import { moneyInput, parseQuantity, quantityInput } from './quantity'
 import type { Product, ProductInput } from './types'
 
+export type Pricing = 'FIXED' | 'BY_WEIGHT' | 'OPEN'
+
 /** Lo que se escribe en el formulario de producto (todo texto: se valida al guardar). */
 export type ProductDraft = {
   name: string
@@ -10,7 +12,7 @@ export type ProductDraft = {
   shortCode: string
   categoryId: string
   unit: string
-  pricing: 'FIXED' | 'BY_WEIGHT'
+  pricing: Pricing
   price: string
   cost: string
   isQuick: boolean
@@ -20,7 +22,7 @@ export type ProductDraft = {
   initialStock: string
 }
 
-export type Problem = 'name' | 'price' | 'cost' | 'minStock' | 'initialStock'
+export type Problem = 'name' | 'barcode' | 'shortCode' | 'price' | 'cost' | 'minStock' | 'initialStock'
 
 export function emptyDraft(): ProductDraft {
   return { name: '', variant: '', barcode: '', shortCode: '', categoryId: '', unit: 'UNIT', pricing: 'FIXED', price: '', cost: '', isQuick: false, trackStock: false, minStock: '', initialStock: '' }
@@ -34,8 +36,9 @@ export function draftFromProduct(p: Product, decimals: number): ProductDraft {
     shortCode: p.shortCode ?? '',
     categoryId: p.categoryId ?? '',
     unit: p.unit ?? 'UNIT',
-    pricing: p.pricing === 'BY_WEIGHT' ? 'BY_WEIGHT' : 'FIXED',
-    price: moneyInput(p.priceMinor, decimals),
+    pricing: p.pricing === 'BY_WEIGHT' || p.pricing === 'OPEN' ? p.pricing : 'FIXED',
+    // Con precio abierto, 0 significa "sin sugerencia": el campo queda vacío.
+    price: p.pricing === 'OPEN' && !p.priceMinor ? '' : moneyInput(p.priceMinor, decimals),
     cost: moneyInput(p.costMinor, decimals),
     isQuick: p.isQuick,
     trackStock: p.trackStock,
@@ -52,28 +55,35 @@ export function toProductInput(d: ProductDraft, currency: string, base: Product 
   const problems: Problem[] = []
   const name = d.name.trim()
   if (!name || name.length > 200) problems.push('name')
-  const price = parseMoney(d.price, currency)
-  if (price === null) problems.push('price')
+  const barcode = d.barcode.trim()
+  const shortCode = d.shortCode.trim()
+  if (barcode.length > 64) problems.push('barcode')
+  if (shortCode.length > 16) problems.push('shortCode')
+  // Precio abierto: el precio es opcional (solo una sugerencia); con precio fijo o por peso es obligatorio.
+  const open = d.pricing === 'OPEN'
+  const priceBlank = d.price.trim() === ''
+  const price = open && priceBlank ? null : parseMoney(d.price, currency)
+  if (price === null && !(open && priceBlank)) problems.push('price')
   const cost = d.cost.trim() === '' ? null : parseMoney(d.cost, currency)
   if (d.cost.trim() !== '' && cost === null) problems.push('cost')
   const track = inventory ? d.trackStock : (base?.trackStock ?? false)
   const min = inventory && track && d.minStock.trim() !== '' ? parseQuantity(d.minStock) : null
   if (inventory && track && d.minStock.trim() !== '' && min === null) problems.push('minStock')
   if (inventory && track && !base?.trackStock && d.initialStock.trim() !== '' && parseQuantity(d.initialStock) === null) problems.push('initialStock')
-  if (problems.length > 0 || price === null) return { problems }
-  const blank = (s: string) => (s.trim() === '' ? undefined : s.trim())
+  if (problems.length > 0) return { problems }
+  const blank = (s: string) => (s.trim() === '' ? null : s.trim())
   return {
     problems,
     input: {
       name,
       variant: blank(d.variant),
-      barcode: blank(d.barcode),
-      shortCode: blank(d.shortCode),
+      barcode: barcode || null,
+      shortCode: shortCode || null,
       categoryId: blank(d.categoryId),
       unit: d.unit,
       pricing: d.pricing,
-      priceMinor: price,
-      costMinor: cost ?? undefined,
+      priceMinor: price ?? undefined,
+      costMinor: cost,
       isQuick: d.isQuick,
       quickPosition: base?.quickPosition,
       color: base?.color,

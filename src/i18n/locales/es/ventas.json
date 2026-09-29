@@ -3,7 +3,8 @@
   "empty": "No hay ventas con estos filtros.",
   "status": {
     "COMPLETED": "Cobradas",
-    "CANCELLED": "Eliminadas"
+    "CANCELLED": "Eliminadas",
+    "ALL": "Cobradas y eliminadas"
   },
   "method": {
     "CASH": "Efectivo",
@@ -64,11 +65,18 @@
     "costOfGoods": "Costo de lo vendido",
     "costCoverage": "Solo {{percent}}% de la venta tiene costo anotado: la ganancia sería mayor a la real.",
     "close": "Cerrar",
-    "cancel": "Eliminar venta"
+    "cancel": "Eliminar venta",
+    "editedBy": "Editó",
+    "byAt": "{{name}} · {{when}}"
   },
   "cancel": {
     "title": "Eliminar venta",
-    "body": "Se elimina esta venta de {{total}}: sale de los reportes, devuelve las existencias y anula el fiado que generó. Queda registrado quién la eliminó.",
-    "confirm": "Eliminar"
+    "body": "Se elimina esta venta de {{total}}: sale de los reportes, devuelve las existencias y anula el fiado que generó. La venta se conserva marcada como eliminada, con quién, cuándo y por qué.",
+    "confirm": "Eliminar",
+    "hint": "Mínimo {{min}} letras. Queda registrado con tu nombre.",
+    "reasonRequired": "Escribe un motivo de al menos {{min}} letras para eliminar una venta cobrada."
+  },
+  "list": {
+    "cancelledBy": "por {{name}}"
   }
 }

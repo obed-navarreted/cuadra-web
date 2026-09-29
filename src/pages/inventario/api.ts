@@ -1,5 +1,5 @@
 import { call, client } from '../../api/http'
-import type { Category, ImportResult, Movement, MovementInput, PaymentView, Product, ProductInput, PurchaseInput, PurchaseView, StockReport, SupplierView } from './types'
+import type { Category, ImportResult, Movement, MovementInput, PaymentView, Product, ProductHistoryEntry, ProductInput, PurchaseInput, PurchaseView, StockReport, SupplierView } from './types'
 import type { components } from '../../api/schema'
 
 type ImportRow = components['schemas']['ImportRow']
@@ -22,6 +22,9 @@ export const saveProduct = (businessId: string, productId: string, body: Product
 
 export const deactivateProduct = (businessId: string, productId: string): Promise<void> =>
   call(client.DELETE('/api/b/{businessId}/products/{productId}', { params: { path: { businessId, productId } } }))
+
+export const loadProductHistory = (businessId: string, productId: string): Promise<ProductHistoryEntry[]> =>
+  call(client.GET('/api/b/{businessId}/products/{productId}/history', { params: { path: { businessId, productId } } }))
 
 export const loadStockReport = (businessId: string): Promise<StockReport> => call(client.GET('/api/b/{businessId}/reports/inventory', { params: { path: { businessId } } }))
 

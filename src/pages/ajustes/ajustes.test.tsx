@@ -52,20 +52,40 @@ describe('ajustes del negocio', () => {
     renderPanel(<AjustesPage />, { reload })
     // Sin cambios no hay barra de guardado (solo el botón de las plantillas, que es aparte).
     expect(screen.queryByText('Tienes cambios sin guardar')).not.toBeInTheDocument()
-    fireEvent.click(screen.getByLabelText(/^Exigir un turno abierto para vender/))
-    fireEvent.change(screen.getByLabelText(/^Diferencia que exige una nota/), { target: { value: '25.5' } })
+    fireEvent.click(screen.getByLabelText(/^Exigir cliente al fiar/))
+    fireEvent.change(screen.getByLabelText(/^Días de vencimiento/), { target: { value: '20' } })
     expect(screen.getByText('Tienes cambios sin guardar')).toBeInTheDocument()
     fireEvent.click(screen.getAllByRole('button', { name: 'Guardar cambios' })[0])
-    await waitFor(() => expect(put()?.opts?.body).toEqual({ shiftRequired: true, shiftNoteThresholdMinor: 2550 }))
+    await waitFor(() => expect(put()?.opts?.body).toEqual({ creditRequiresCustomer: true, creditDefaultDueDays: 20 }))
     await waitFor(() => expect(reload).toHaveBeenCalled())
   })
 
-  it('un monto con más decimales que la moneda se rechaza antes de llamar al servidor', async () => {
+  it('los días de vencimiento inválidos se rechazan antes de llamar al servidor', async () => {
     renderPanel(<AjustesPage />)
-    fireEvent.change(screen.getByLabelText(/^Diferencia que exige una nota/), { target: { value: '10.555' } })
+    fireEvent.change(screen.getByLabelText(/^Días de vencimiento/), { target: { value: '-3' } })
     fireEvent.click(screen.getAllByRole('button', { name: 'Guardar cambios' })[0])
-    expect(await screen.findByText('El monto no es válido para la moneda.')).toBeInTheDocument()
     expect(put()).toBeUndefined()
+  })
+
+  it('no ofrece el módulo de turnos ni su tarjeta (si el negocio no los exige)', () => {
+    renderPanel(<AjustesPage />)
+    expect(screen.queryByLabelText(/^Turnos y cierre de caja/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Exigir un turno abierto/)).not.toBeInTheDocument()
+  })
+
+  it('cambiar el corte avisa antes de guardar que rige desde la próxima jornada', () => {
+    renderPanel(<AjustesPage />)
+    expect(screen.queryByText(/Rige desde la próxima jornada/)).not.toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText(/^Hora de corte/), { target: { value: '03:00' } })
+    expect(screen.getByText(/Rige desde la próxima jornada y no cambia tus días anteriores/)).toBeInTheDocument()
+  })
+
+  it('cambiar la zona manda timezone y avisa del horario de verano si aplica', () => {
+    renderPanel(<AjustesPage />)
+    fireEvent.change(screen.getByLabelText(/^Zona horaria/), { target: { value: 'America/New_York' } })
+    expect(screen.getByText(/En tu zona cambia la hora en verano: se recomienda un corte a las 04:00/)).toBeInTheDocument()
+    fireEvent.click(screen.getAllByRole('button', { name: 'Guardar cambios' })[0])
+    expect(put()?.opts?.body).toEqual({ timezone: 'America/New_York' })
   })
 
   it('descartar devuelve el formulario a lo guardado y esconde la barra', async () => {
@@ -82,6 +102,22 @@ describe('ajustes del negocio', () => {
     renderPanel(<AjustesPage />)
     fireEvent.click(screen.getByLabelText(/^Inventario/))
     await waitFor(() => expect(put()?.opts?.body).toEqual({ modules: { inventory: true } }))
+  })
+
+  it('muestra la regla pendiente y el historial de reglas de la jornada', () => {
+    renderPanel(<AjustesPage />, {
+      business: {
+        dayRuleEffectiveFrom: '2026-10-01',
+        dayRules: [
+          { from: '1970-01-01', timezone: 'America/Managua', dayCutoff: '02:00:00' },
+          { from: '2026-10-01', timezone: 'America/Managua', dayCutoff: '04:00:00' },
+        ],
+      },
+    })
+    expect(screen.getByText(/Nueva regla desde el .*2026/)).toBeInTheDocument()
+    expect(screen.getByText('Historial de reglas de la jornada')).toBeInTheDocument()
+    expect(screen.getByText('Desde el inicio')).toBeInTheDocument()
+    expect(screen.getByText('corte 04:00')).toBeInTheDocument()
   })
 
   it('un error del servidor se explica por su código', async () => {

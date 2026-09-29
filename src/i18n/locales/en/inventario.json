@@ -47,7 +47,9 @@
     "lines": "Add at least one product to the purchase.",
     "line": "Check the highlighted lines: the product or name, quantity or cost is missing.",
     "paid": "The amount paid cannot be more than the total.",
-    "summary": "Check: {{fields}}."
+    "summary": "Check: {{fields}}.",
+    "barcode": "The barcode allows up to 64 characters.",
+    "shortCode": "The short code allows up to 16 characters."
   },
   "errors": {
     "BARCODE_IN_USE": "Another product already uses that barcode.",
@@ -62,7 +64,8 @@
     "INVALID_LINES": "A purchase needs between 1 and 200 lines.",
     "INVALID_PRODUCT": "That product no longer exists.",
     "INVALID_SUPPLIER": "That supplier no longer exists.",
-    "INVALID_CATEGORY": "That category no longer exists."
+    "INVALID_CATEGORY": "That category no longer exists.",
+    "FORBIDDEN": "Only an admin or the owner can deactivate products."
   },
   "products": {
     "search": "Search by name or code",
@@ -84,24 +87,24 @@
       "cost": "Cost",
       "margin": "Margin",
       "stock": "Stock"
-    }
+    },
+    "open": "Open",
+    "suggested": "suggested {{price}}"
   },
   "form": {
     "newTitle": "New product",
     "editTitle": "Edit product",
     "name": "Name",
     "variant": "Variant (optional)",
-    "category": "Category",
+    "category": "Category (optional)",
     "noCategory": "No category",
-    "barcode": "Barcode",
-    "shortCode": "Short code",
+    "barcode": "Barcode (optional)",
+    "shortCode": "Short code (optional)",
     "unit": "Unit",
-    "pricing": "How it is sold",
-    "pricingFixed": "Fixed price",
-    "pricingByWeight": "By weight (the price is per weight unit)",
+    "pricing": "How it is charged",
     "price": "Sale price",
-    "cost": "Cost",
-    "costHint": "Optional; used to work out profit.",
+    "cost": "Cost (optional)",
+    "costHint": "Leave it empty if you do not know it; used to work out profit.",
     "quick": "Show in the register's quick products",
     "track": "Track stock",
     "trackHint": "deducts every sale and warns when it runs low",
@@ -109,7 +112,21 @@
     "initialStock": "Current stock",
     "initialStockHint": "Optional: saved as the initial count.",
     "deactivate": "Deactivate product",
-    "deactivateConfirm": "Confirm: deactivate"
+    "deactivateConfirm": "Confirm: deactivate",
+    "barcodeHint": "Scan it or type it; up to 64 characters.",
+    "priceSuggested": "Suggested price (optional)",
+    "priceSuggestedHint": "Offered at sale time; it can be changed on every sale.",
+    "noCategoriesHint": "There are no categories yet; create them from the register or Settings.",
+    "pricingMode": {
+      "FIXED": "Fixed price",
+      "BY_WEIGHT": "By weight",
+      "OPEN": "Open price (asked at sale time)"
+    },
+    "pricingHelp": {
+      "FIXED": "Always charged at the same price.",
+      "BY_WEIGHT": "The price is per weight unit and is multiplied by the weight.",
+      "OPEN": "No fixed price: the price is asked on every sale."
+    }
   },
   "stock": {
     "title": "Tracked products",
@@ -302,5 +319,43 @@
     "newTitle": "New supplier",
     "notes": "Notes",
     "active": "Active"
+  },
+  "history": {
+    "title": "History",
+    "tab": "Details",
+    "empty": "This product has no recorded changes yet.",
+    "none": "—",
+    "yes": "Yes",
+    "no": "No",
+    "someone": "Someone",
+    "otherCategory": "another category",
+    "deactivated": "Deactivated",
+    "reactivated": "Reactivated",
+    "noChanges": "No data changes",
+    "created": "Created by {{who}} with price {{price}}",
+    "createdNoPrice": "Created by {{who}}",
+    "change": "{{field}}: {{from}} → {{to}}",
+    "pricing": {
+      "FIXED": "Fixed price",
+      "BY_WEIGHT": "By weight",
+      "OPEN": "Open price"
+    },
+    "field": {
+      "name": "Name",
+      "variant": "Variant",
+      "barcode": "Barcode",
+      "shortCode": "Short code",
+      "categoryId": "Category",
+      "unit": "Unit",
+      "pricing": "How it is sold",
+      "priceMinor": "Price",
+      "costMinor": "Cost",
+      "isQuick": "Quick product",
+      "quickPosition": "Quick position",
+      "color": "Color",
+      "trackStock": "Stock tracking",
+      "minStockMilli": "Minimum stock",
+      "active": "Active"
+    }
   }
 }

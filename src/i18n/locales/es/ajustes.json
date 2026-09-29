@@ -10,11 +10,11 @@
     "typeHint": "Opcional (por ejemplo: pulpería, quesería).",
     "locale": "Idioma por defecto",
     "cutoff": "Hora de corte de la jornada",
-    "cutoffHint": "Lo vendido antes de esta hora cuenta para el día anterior.",
+    "cutoffHint": "Lo vendido antes de esta hora cuenta para el día anterior (por defecto 02:00).",
     "country": "País",
     "currency": "Moneda",
     "timezone": "Zona horaria",
-    "fixedHint": "El país, la moneda y la zona horaria se fijan al crear el negocio: cambiarlos con ventas hechas movería las cuentas."
+    "fixedHint": "El país y la moneda se fijan al crear el negocio: cambiarlos con ventas hechas movería las cuentas."
   },
   "modules": {
     "title": "Módulos",
@@ -25,8 +25,6 @@
     "expensesHint": "Gastos, retiros y entradas de caja.",
     "inventory": "Inventario",
     "inventoryHint": "Existencias, compras y proveedores.",
-    "shifts": "Turnos y cierre de caja",
-    "shiftsHint": "Fondo inicial, conteo y diferencias.",
     "catalog": "Catálogo de productos",
     "catalogHint": "Lista de productos con precio.",
     "team": "Equipo",
@@ -51,7 +49,7 @@
     "overdueDaysHint": "Vacío = sin cambio."
   },
   "shifts": {
-    "title": "Turnos",
+    "title": "Turnos (antiguo)",
     "required": "Exigir un turno abierto para vender",
     "requiredHint": "Sin turno abierto la caja pide abrir uno primero.",
     "note": "Diferencia que exige una nota ({{currency}})",
@@ -142,5 +140,15 @@
       "platform_flag": "La plataforma cambió una opción del negocio",
       "platform_deletion_marked": "La plataforma marcó el negocio para eliminarlo"
     }
+  },
+  "dayRule": {
+    "beforeSave": "Rige desde la próxima jornada y no cambia tus días anteriores.",
+    "dstTip": "En tu zona cambia la hora en verano: se recomienda un corte a las 04:00, no a las 02:00.",
+    "pending": "Nueva regla desde el {{date}}",
+    "historyTitle": "Historial de reglas de la jornada",
+    "historyHint": "Zona horaria y hora de corte que rigieron en cada época. Los días ya vividos no se reagrupan.",
+    "always": "Desde el inicio",
+    "from": "Desde el {{date}}",
+    "cutoff": "corte {{time}}"
   }
 }

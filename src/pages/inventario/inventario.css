@@ -1,13 +1,13 @@
 /* Estilos propios de Inventario. */
 .inv-stack { display: grid; gap: 14px; min-width: 0; }
 .inv-stack .card { overflow: hidden; }
-.inv-stack input:not([type='checkbox']), .inv-stack select, .inv-stack textarea { width: 100%; max-width: 100%; min-width: 0; }
+.inv-stack input:not([type='checkbox']):not([type='radio']), .inv-stack select, .inv-stack textarea { width: 100%; max-width: 100%; min-width: 0; }
 .inv-stack input[type='file'] { padding: 8px 10px; }
 .inv-toolbar { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
 .inv-toolbar .field { flex: 1 1 220px; }
 .inv-form { display: grid; gap: 12px; min-width: 0; }
 .inv-form input, .inv-form select, .inv-form textarea { width: 100%; }
-.inv-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.inv-cols { align-items: start; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 @media (max-width: 520px) { .inv-cols { grid-template-columns: minmax(0, 1fr); } }
 .inv-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .inv-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 8px 0; cursor: pointer; }
@@ -27,3 +27,10 @@
 .inv-map-row .field { flex: 0 1 220px; }
 .inv-sample { overflow-wrap: anywhere; }
 .inv-form textarea { font-family: var(--font-body); }
+.inv-history { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.inv-history-item { padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); min-width: 0; }
+.inv-history-head { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.inv-history-lines { margin: 6px 0 0; padding-left: 18px; overflow-wrap: anywhere; }
+.inv-form[hidden] { display: none; }
+.inv-pricing { border: 0; padding: 0; margin: 0; min-width: 0; }
+.inv-pricing legend { padding: 0; margin-bottom: 2px; }

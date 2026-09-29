@@ -15,17 +15,52 @@ describe('equipo: reglas', () => {
     for (let i = 0; i < 200; i++) expect(isValidPin(generatePin())).toBe(true)
   })
 
-  it('un admin gestiona cajeros; solo el dueño gestiona admins; nadie toca al dueño', () => {
-    expect(canManage(false, 'CASHIER')).toBe(true)
-    expect(canManage(false, 'ADMIN')).toBe(false)
-    expect(canManage(true, 'ADMIN')).toBe(true)
-    expect(canManage(true, 'OWNER')).toBe(false)
-    expect(canManage(false, undefined)).toBe(false)
+  const all = { edit: true, disable: true, resetPin: true, changeRole: true }
+  const selfOnly = { edit: true, disable: false, resetPin: true, changeRole: false }
+  const none = { edit: false, disable: false, resetPin: false, changeRole: false }
+
+  it('el dueño gestiona a todos; sobre sí mismo solo nombre y PIN', () => {
+    expect(canManage('OWNER', false, 'ADMIN')).toEqual(all)
+    expect(canManage('OWNER', false, 'CASHIER')).toEqual(all)
+    expect(canManage('OWNER', true, 'OWNER')).toEqual(selfOnly)
   })
 
-  it('solo el dueño puede asignar el rol de administrador', () => {
-    expect(assignableRoles(true)).toEqual(['CASHIER', 'ADMIN'])
-    expect(assignableRoles(false)).toEqual(['CASHIER'])
+  it('el administrador gestiona cajeros y otros administradores, no al dueño', () => {
+    expect(canManage('ADMIN', false, 'CASHIER')).toEqual(all)
+    expect(canManage('ADMIN', false, 'ADMIN')).toEqual(all)
+    expect(canManage('ADMIN', false, 'OWNER')).toEqual(none)
+    expect(canManage('ADMIN', true, 'ADMIN')).toEqual(selfOnly)
+  })
+
+  it('el cajero solo se gestiona a sí mismo', () => {
+    expect(canManage('CASHIER', true, 'CASHIER')).toEqual(selfOnly)
+    expect(canManage('CASHIER', false, 'CASHIER')).toEqual(none)
+    expect(canManage('CASHIER', false, 'ADMIN')).toEqual(none)
+    expect(canManage('CASHIER', false, 'OWNER')).toEqual(none)
+  })
+
+  it('las 3x3 combinaciones (quien mira x a quién) sobre otra persona', () => {
+    const expected: Record<string, Record<string, boolean>> = {
+      OWNER: { OWNER: false, ADMIN: true, CASHIER: true },
+      ADMIN: { OWNER: false, ADMIN: true, CASHIER: true },
+      CASHIER: { OWNER: false, ADMIN: false, CASHIER: false },
+    }
+    for (const viewer of ['OWNER', 'ADMIN', 'CASHIER']) {
+      for (const target of ['OWNER', 'ADMIN', 'CASHIER']) {
+        expect(canManage(viewer, false, target), `${viewer} -> ${target}`).toEqual(expected[viewer][target] ? all : none)
+      }
+    }
+  })
+
+  it('un rol desconocido o ausente no puede nada', () => {
+    expect(canManage(undefined, false, 'CASHIER')).toEqual(none)
+    expect(canManage('X', true, 'CASHIER')).toEqual(none)
+  })
+
+  it('el dueño y el administrador asignan cajero y administrador; el cajero nada', () => {
+    expect(assignableRoles('OWNER')).toEqual(['CASHIER', 'ADMIN'])
+    expect(assignableRoles('ADMIN')).toEqual(['CASHIER', 'ADMIN'])
+    expect(assignableRoles('CASHIER')).toEqual([])
   })
 
   it('el código del teléfono se acepta con espacios, guiones y minúsculas', () => {

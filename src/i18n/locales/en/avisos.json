@@ -164,7 +164,7 @@
       "body": "Make room and check the order when it arrives."
     },
     "credits": {
-      "title": "Check overdue tabs",
+      "title": "Check overdue credit accounts",
       "body": "Some customers have a pending balance. Send them a reminder."
     }
   },
@@ -181,7 +181,7 @@
     "none": "Nothing",
     "caja": "Register",
     "cierre": "Closing",
-    "fiados": "Tabs",
+    "fiados": "Credit",
     "inventario": "Inventory",
     "gastos": "Expenses"
   },

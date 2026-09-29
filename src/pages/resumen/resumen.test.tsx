@@ -16,6 +16,8 @@ vi.mock('../../api/http', () => ({
 
 const OVERVIEW = '/api/b/{businessId}/reports/overview'
 const RECEIVABLES = '/api/b/{businessId}/reports/receivables'
+const DAILY = '/api/b/{businessId}/reports/daily-close'
+const daily = { range: {}, days: [{ date: '2026-09-28', startsAt: '2026-09-28T08:00:00Z', endsAt: '2026-09-29T08:00:00Z', salesCount: 4, salesMinor: 45000, byMethod: [], creditCollected: [], drawerExpensesMinor: 0, otherExpensesMinor: 0, withdrawalsMinor: 0, depositsMinor: 0, expectedCashMinor: 32000, cancelledCount: 0, cancelledMinor: 0 }] }
 
 const overview = {
   range: { from: '2026-09-23', to: '2026-09-29', decimals: 2, currency: 'NIO' },
@@ -54,7 +56,7 @@ async function load() {
 
 describe('Resumen', () => {
   beforeEach(async () => {
-    Object.assign(responses, { [OVERVIEW]: overview, [RECEIVABLES]: receivables })
+    Object.assign(responses, { [OVERVIEW]: overview, [RECEIVABLES]: receivables, [DAILY]: daily })
     await act(async () => {
       await setLocale('es')
     })
@@ -69,10 +71,12 @@ describe('Resumen', () => {
     expect(screen.getByText(/3 ventas/)).toBeInTheDocument()
   })
 
-  it('el último cierre dice si cuadró, faltó o sobró', async () => {
+  it('el cierre de ayer muestra la ventana, las ventas y el efectivo esperado, con enlace a Cierre del día', async () => {
     await load()
-    expect(await screen.findByText(/Faltó .*10\.00/)).toBeInTheDocument()
-    expect(screen.getByText(/Kevin/)).toBeInTheDocument()
+    expect(await screen.findByText('Cierre de ayer')).toBeInTheDocument()
+    expect(await screen.findByText(/Efectivo esperado: .*320\.00/)).toBeInTheDocument()
+    expect(screen.getByText(/Ventas: .*450\.00 \(4\)/)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Ver cierre del día' })).toHaveAttribute('href', '/cierres')
   })
 
   it('los fiados más viejos van del más antiguo al más nuevo, sin importar cuánto deben', async () => {

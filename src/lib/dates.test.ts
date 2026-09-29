@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addDays, businessDate, isValidRange, presets } from './dates'
+import { activeRule, addDays, businessDate, isValidRange, presets } from './dates'
 
 describe('fechas del negocio', () => {
   it('una venta a la 1:30 a. m. pertenece a la jornada anterior (corte 02:00)', () => {
@@ -36,5 +36,28 @@ describe('fechas del negocio', () => {
     expect(isValidRange({ from: '2026-09-20', to: '2026-09-21' })).toBe(true)
     expect(isValidRange({ from: '2026-09-21', to: '2026-09-20' })).toBe(false)
     expect(isValidRange({ from: '', to: '2026-09-20' })).toBe(false)
+  })
+})
+
+describe('regla de jornada vigente', () => {
+  const fallback = { timezone: 'America/Costa_Rica', dayCutoff: '05:00:00' }
+  const old = { from: '1970-01-01', timezone: 'America/Managua', dayCutoff: '02:00:00' }
+  const next = { from: '2026-10-01', timezone: 'America/New_York', dayCutoff: '04:00:00' }
+
+  it('sin reglas cae a la zona y el corte del negocio', () => {
+    expect(activeRule([], new Date('2026-09-29T12:00:00Z'), fallback)).toEqual({ timezone: 'America/Costa_Rica', cutoff: '05:00' })
+    expect(activeRule(undefined, new Date(), {})).toEqual({ timezone: 'UTC', cutoff: '02:00' })
+  })
+
+  it('una regla pendiente no rige todavía', () => {
+    expect(activeRule([old, next], new Date('2026-09-29T12:00:00Z'), fallback)).toEqual({ timezone: 'America/Managua', cutoff: '02:00' })
+  })
+
+  it('la regla nueva rige cuando empieza su primera jornada (a su hora de corte)', () => {
+    // 2026-10-01 07:59 UTC = 03:59 en Nueva York: todavía es la jornada del 30 (corte 04:00) -> aún la vieja.
+    expect(activeRule([old, next], new Date('2026-10-01T07:59:00Z'), fallback).timezone).toBe('America/Managua')
+    // 08:00 UTC = 04:00 en Nueva York: empieza el 1 de octubre.
+    expect(activeRule([old, next], new Date('2026-10-01T08:00:00Z'), fallback)).toEqual({ timezone: 'America/New_York', cutoff: '04:00' })
+    expect(activeRule([next, old], new Date('2026-12-01T12:00:00Z'), fallback).timezone).toBe('America/New_York')
   })
 })

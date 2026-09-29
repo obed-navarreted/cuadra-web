@@ -10,23 +10,21 @@
     "typeHint": "Optional (for example: corner store, cheese shop).",
     "locale": "Default language",
     "cutoff": "Day cutoff time",
-    "cutoffHint": "Sales before this time count for the previous day.",
+    "cutoffHint": "Anything sold before this time counts for the previous day (default 02:00).",
     "country": "Country",
     "currency": "Currency",
     "timezone": "Time zone",
-    "fixedHint": "Country, currency and time zone are set when the business is created: changing them after sales would move the accounts."
+    "fixedHint": "The country and currency are set when the business is created: changing them once there are sales would move the books."
   },
   "modules": {
     "title": "Modules",
     "hint": "Turn off what your business does not use: it is hidden in the app and the panel, nothing is deleted.",
-    "credit": "Tabs",
+    "credit": "Credit",
     "creditHint": "Customer ledger and payments.",
     "expenses": "Expenses",
     "expensesHint": "Expenses, cash withdrawals and deposits.",
     "inventory": "Inventory",
     "inventoryHint": "Stock, purchases and suppliers.",
-    "shifts": "Shifts and cash closing",
-    "shiftsHint": "Opening cash, count and differences.",
     "catalog": "Product catalog",
     "catalogHint": "List of products with prices.",
     "team": "Team",
@@ -40,18 +38,18 @@
     "LIST": "List"
   },
   "credit": {
-    "title": "Tabs (credit)",
-    "requiresCustomer": "Require a customer when selling on tab",
+    "title": "Credit",
+    "requiresCustomer": "Require a customer when selling on credit",
     "requiresCustomerHint": "If off, typing a name is enough.",
     "limitEnforced": "Block when the credit limit is exceeded",
     "limitEnforcedHint": "If off, it only warns.",
     "dueDays": "Default due days",
-    "dueDaysHint": "A new tab is due in this many days. Empty = no change.",
+    "dueDaysHint": "A new credit sale is due in this many days. Empty = no change.",
     "overdueDays": "Counted as overdue after (days)",
     "overdueDaysHint": "Empty = no change."
   },
   "shifts": {
-    "title": "Shifts",
+    "title": "Shifts (legacy)",
     "required": "Require an open shift to sell",
     "requiredHint": "With no open shift the register asks to open one first.",
     "note": "Difference that requires a note ({{currency}})",
@@ -63,7 +61,7 @@
     "kind": "Message",
     "language": "Message language",
     "kinds": {
-      "CREDIT_NEW": "New tab",
+      "CREDIT_NEW": "New credit sale",
       "PAYMENT": "Payment received",
       "PAID_OFF": "Paid off",
       "REMINDER": "Reminder",
@@ -142,5 +140,15 @@
       "platform_flag": "The platform changed a business option",
       "platform_deletion_marked": "The platform marked the business for deletion"
     }
+  },
+  "dayRule": {
+    "beforeSave": "Applies from the next business day and won't change past days.",
+    "dstTip": "Your zone changes clocks in summer: a 04:00 cutoff is recommended, not 02:00.",
+    "pending": "New rule from {{date}}",
+    "historyTitle": "Business day rule history",
+    "historyHint": "The time zone and cutoff that applied in each period. Days already lived are not regrouped.",
+    "always": "From the start",
+    "from": "From {{date}}",
+    "cutoff": "cutoff {{time}}"
   }
 }

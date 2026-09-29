@@ -37,3 +37,6 @@ export function distinctMethods(payments: SalePayment[] | null | undefined): str
 export function saleInstant(s: Pick<SaleRow, 'status' | 'completedAt' | 'cancelledAt' | 'createdAt'>): string | undefined {
   return (s.status === 'CANCELLED' ? (s.cancelledAt ?? s.completedAt) : s.completedAt) ?? s.createdAt ?? undefined
 }
+
+/** Letras mínimas del motivo para eliminar una venta cobrada (el servidor lo exige igual: REASON_REQUIRED). */
+export const MIN_REASON = 5

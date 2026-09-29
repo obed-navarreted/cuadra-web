@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuth, useBusiness } from '../../auth/context'
+import { useBusiness } from '../../auth/context'
 import { DataTable, type Column } from '../../components/DataTable'
 import { Modal } from '../../components/Modal'
 import { Button, ErrorNotice, Field, Spinner, Tag } from '../../components/ui'
@@ -129,8 +129,7 @@ export function InvitationsView() {
 
 function NewInvitationDialog({ onClose, onCreated }: { onClose: () => void; onCreated: (i: Invitation) => void }) {
   const { t } = useTranslation('equipo')
-  const { business } = useBusiness()
-  const { isOwner } = useAuth()
+  const { business, membership } = useBusiness()
   const [role, setRole] = useState<Role>('CASHIER')
   const [maxUses, setMaxUses] = useState('1')
   const [days, setDays] = useState('7')
@@ -160,7 +159,7 @@ function NewInvitationDialog({ onClose, onCreated }: { onClose: () => void; onCr
       <form className="dialog-form" onSubmit={submit}>
         <Field label={t('members.col.role')}>
           <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
-            {assignableRoles(isOwner).map((r) => (
+            {assignableRoles(membership.role).map((r) => (
               <option key={r} value={r}>
                 {t(`role.${r}`)}
               </option>

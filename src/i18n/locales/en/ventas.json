@@ -3,13 +3,14 @@
   "empty": "No sales match these filters.",
   "status": {
     "COMPLETED": "Completed",
-    "CANCELLED": "Deleted"
+    "CANCELLED": "Deleted",
+    "ALL": "Paid and deleted"
   },
   "method": {
     "CASH": "Cash",
     "TRANSFER": "Transfer",
     "CARD": "Card",
-    "CREDIT": "On tab",
+    "CREDIT": "On credit",
     "OTHER": "Other"
   },
   "filter": {
@@ -49,7 +50,7 @@
     "method": "Method",
     "amount": "Amount",
     "note": "Detail",
-    "creditTo": "On tab to {{name}}",
+    "creditTo": "On credit to {{name}}",
     "change": "Paid with {{tendered}}, change {{change}}",
     "date": "Date",
     "by": "Served by",
@@ -64,11 +65,18 @@
     "costOfGoods": "Cost of goods sold",
     "costCoverage": "Only {{percent}}% of the sale has a cost recorded: the real profit would be higher.",
     "close": "Close",
-    "cancel": "Delete sale"
+    "cancel": "Delete sale",
+    "editedBy": "Edited by",
+    "byAt": "{{name}} · {{when}}"
   },
   "cancel": {
     "title": "Delete sale",
-    "body": "This {{total}} sale will be deleted: it leaves the reports, returns the stock and voids the tab it created. Who deleted it is recorded.",
-    "confirm": "Delete"
+    "body": "This {{total}} sale is deleted: it leaves the reports, returns the stock and cancels the credit it created. The sale is kept, marked as deleted, with who, when and why.",
+    "confirm": "Delete",
+    "hint": "At least {{min}} characters. It is recorded under your name.",
+    "reasonRequired": "Write a reason of at least {{min}} characters to delete a paid sale."
+  },
+  "list": {
+    "cancelledBy": "by {{name}}"
   }
 }

@@ -884,6 +884,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/b/{businessId}/products/{productId}/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/b/{businessId}/products/{productId}/stock-movements": {
         parameters: {
             query?: never;
@@ -1004,6 +1020,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["closingsCsv"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/b/{businessId}/reports/daily-close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["dailyClose"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2133,6 +2165,9 @@ export interface components {
             creditRequiresCustomer: boolean;
             currency?: string | null;
             dayCutoff?: string | null;
+            /** Format: date */
+            dayRuleEffectiveFrom?: string | null;
+            dayRules?: components["schemas"]["DayRuleView"][] | null;
             defaultLocale?: string | null;
             /** Format: uuid */
             id: string;
@@ -2348,6 +2383,38 @@ export interface components {
             /** Format: int64 */
             rev: number;
         };
+        DailyClose: {
+            days?: components["schemas"]["DayClose"][] | null;
+            range?: components["schemas"]["Range"];
+        };
+        DayClose: {
+            byMethod?: components["schemas"]["MethodAmount"][] | null;
+            /** Format: int64 */
+            cancelledCount: number;
+            /** Format: int64 */
+            cancelledMinor: number;
+            creditCollected?: components["schemas"]["MethodAmount"][] | null;
+            /** Format: date */
+            date?: string | null;
+            /** Format: int64 */
+            depositsMinor: number;
+            /** Format: int64 */
+            drawerExpensesMinor: number;
+            /** Format: date-time */
+            endsAt?: string | null;
+            /** Format: int64 */
+            expectedCashMinor: number;
+            /** Format: int64 */
+            otherExpensesMinor: number;
+            /** Format: int64 */
+            salesCount: number;
+            /** Format: int64 */
+            salesMinor: number;
+            /** Format: date-time */
+            startsAt?: string | null;
+            /** Format: int64 */
+            withdrawalsMinor: number;
+        };
         DayPoint: {
             /** Format: date */
             date?: string | null;
@@ -2355,6 +2422,12 @@ export interface components {
             expensesMinor: number;
             /** Format: int64 */
             salesMinor: number;
+        };
+        DayRuleView: {
+            dayCutoff?: string | null;
+            /** Format: date */
+            from?: string | null;
+            timezone?: string | null;
         };
         Debtor: {
             /** Format: int64 */
@@ -3286,6 +3359,25 @@ export interface components {
             quantityMilli: number;
             /** Format: int64 */
             revenueMinor: number;
+        };
+        ProductFieldChange: {
+            from?: unknown;
+            to?: unknown;
+        };
+        ProductHistoryEntry: {
+            action?: string | null;
+            /** Format: uuid */
+            actorMemberId?: string | null;
+            actorName?: string | null;
+            actorRole?: string | null;
+            /** Format: date-time */
+            at?: string | null;
+            changes?: {
+                [key: string]: components["schemas"]["ProductFieldChange"];
+            } | null;
+            /** Format: int64 */
+            id: number;
+            name?: string | null;
         };
         ProductInput: {
             active?: boolean | null;
@@ -5590,6 +5682,31 @@ export interface operations {
             };
         };
     };
+    history: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+                productId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductHistoryEntry"][];
+                };
+            };
+        };
+    };
     productMovements: {
         parameters: {
             query?: {
@@ -5808,6 +5925,33 @@ export interface operations {
                 };
                 content: {
                     "text/csv": string;
+                };
+            };
+        };
+    };
+    dailyClose: {
+        parameters: {
+            query?: {
+                from?: string;
+                to?: string;
+            };
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DailyClose"];
                 };
             };
         };

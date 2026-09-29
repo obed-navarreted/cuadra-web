@@ -1,21 +1,21 @@
 {
-  "title": "Tabs and customers",
+  "title": "Credit and customers",
   "cancel": "Cancel",
   "save": "Save",
   "close": "Close",
   "tabs": {
-    "credits": "Tabs",
+    "credits": "Credit",
     "customers": "Customers"
   },
   "summary": {
     "open": "To collect",
     "overdue": "Older than {{days}} days",
-    "openCount_one": "{{count}} open tab",
-    "openCount_other": "{{count}} open tabs",
+    "openCount_one": "{{count}} open credit account",
+    "openCount_other": "{{count}} open credit accounts",
     "customers_one": "{{count}} customer",
     "customers_other": "{{count}} customers",
-    "overdueCount_one": "{{count}} old tab",
-    "overdueCount_other": "{{count}} old tabs"
+    "overdueCount_one": "{{count}} overdue credit account",
+    "overdueCount_other": "{{count}} overdue credit accounts"
   },
   "filters": {
     "status": "Status",
@@ -44,7 +44,7 @@
     "noCustomer": "name only",
     "days_one": "{{count}} day",
     "days_other": "{{count}} days",
-    "empty": "No tabs match these filters."
+    "empty": "No credit accounts match these filters."
   },
   "status": {
     "OPEN": "Open",
@@ -53,15 +53,15 @@
     "CANCELLED": "Cancelled"
   },
   "newCredit": {
-    "open": "New tab",
-    "title": "New tab",
-    "hint": "To record a debt that does not come from a sale, like the notebook.",
+    "open": "Add previous balance",
+    "title": "Add previous balance",
+    "hint": "For older debts or ones that don't come from a sale",
     "name": "Debtor name",
     "phone": "Phone (optional)",
     "amount": "Amount",
     "note": "Note (optional)",
     "due": "Due date (optional)",
-    "save": "Save tab"
+    "save": "Save balance"
   },
   "pager": {
     "prev": "Previous",
@@ -79,7 +79,7 @@
   "link": {
     "open": "Link to a customer",
     "title": "Link to a customer",
-    "hint": "“{{name}}” is a tab recorded with a name only. Pick the customer it belongs to; amounts and dates do not change.",
+    "hint": "“{{name}}” is a credit sale recorded with a name only. Pick the customer it belongs to; amounts and dates do not change.",
     "search": "Search customer",
     "none": "No customers with that name.",
     "createNew": "Create customer “{{name}}”"
@@ -95,7 +95,7 @@
     "openCustomer": "Record payment",
     "title": "Record payment",
     "owes": "owes {{amount}}",
-    "fifo": "The payment is spread from the oldest tab to the newest.",
+    "fifo": "The payment is spread from the oldest credit to the newest.",
     "amount": "Payment amount",
     "over": "That is {{amount}} more than owed. It is recorded anyway and flagged for review.",
     "method": "Payment method",
@@ -119,7 +119,7 @@
       "name": "Customer",
       "phone": "Phone",
       "balance": "Balance",
-      "oldest": "Oldest tab"
+      "oldest": "Oldest credit"
     },
     "archived": "Archived",
     "debtOnly": "With debt only",
@@ -131,7 +131,7 @@
     "name": "Name",
     "phone": "Phone",
     "limit": "Credit limit (optional)",
-    "limitHint": "Empty = no limit. The app warns when selling on tab beyond it.",
+    "limitHint": "Empty = no limit. The app warns when selling on credit beyond it.",
     "notes": "Notes",
     "edit": "Edit details",
     "loading": "Customer",

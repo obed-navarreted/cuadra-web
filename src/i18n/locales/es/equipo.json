@@ -31,14 +31,15 @@
     "edit": "Editar",
     "resetPin": "Cambiar PIN",
     "resetPinTitle": "Cambiar el PIN de {{name}}",
-    "hint": "Quienes trabajan en la caja entran con un PIN en el teléfono. Solo el dueño gestiona administradores.",
+    "hint": "Quienes trabajan en la caja entran con un PIN en el teléfono. El dueño gestiona a todos; un administrador gestiona a cajeros y a otros administradores, pero no al dueño.",
     "new": "Nuevo miembro",
     "newHint": "Crea a alguien que entrará a la caja con un PIN, sin cuenta de Google.",
     "create": "Crear miembro",
     "empty": "Todavía no hay miembros.",
     "color": "Color",
     "activeLabel": "Puede entrar a la caja",
-    "disableHint": "Una persona deshabilitada no puede entrar, pero su historial se conserva."
+    "disableHint": "Una persona deshabilitada no puede entrar, pero su historial se conserva.",
+    "ownerLocked": "Solo el dueño puede modificar esta cuenta"
   },
   "pin": {
     "label": "PIN (4 a 6 dígitos)",

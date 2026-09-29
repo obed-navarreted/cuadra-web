@@ -52,10 +52,16 @@ export function SaleDetail({ sale, onClose, onCancel }: { sale: SaleRow | null; 
             <dd>{saleInstant(sale) ? dateTime(saleInstant(sale) as string) : '—'}</dd>
             <dt>{t('detail.by')}</dt>
             <dd>{sale.completedBy?.name ?? sale.createdBy?.name ?? '—'}</dd>
+            {sale.editedAt && (
+              <>
+                <dt>{t('detail.editedBy')}</dt>
+                <dd>{t('detail.byAt', { name: sale.editedBy?.name ?? '—', when: dateTime(sale.editedAt) })}</dd>
+              </>
+            )}
             {sale.status === 'CANCELLED' && (
               <>
                 <dt>{t('detail.cancelledBy')}</dt>
-                <dd>{sale.cancelledBy?.name ?? '—'}</dd>
+                <dd>{t('detail.byAt', { name: sale.cancelledBy?.name ?? '—', when: sale.cancelledAt ? dateTime(sale.cancelledAt) : '—' })}</dd>
                 <dt>{t('detail.reason')}</dt>
                 <dd>{sale.cancelReason ?? '—'}</dd>
               </>

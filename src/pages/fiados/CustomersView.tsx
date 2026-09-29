@@ -22,8 +22,7 @@ export function CustomersView({ onOpen }: { onOpen: (id: string) => void }) {
   const search = useDebounced(q)
   const list = useAsync(() => listCustomers(business.id, search, debtOnly, archived, page), [business.id, search, debtOnly, archived, page])
   const [creating, setCreating] = useState(false)
-  const tz = business.timezone ?? 'UTC'
-  const cutoff = business.dayCutoff?.slice(0, 5) ?? '02:00'
+  const { timezone: tz, cutoff } = useFormat()
 
   const columns: Column<CustomerView>[] = [
     {

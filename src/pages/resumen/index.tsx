@@ -9,7 +9,8 @@ import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
 import type { DateRange } from '../../lib/dates'
 import { coverageIncomplete, barPercent } from '../reportes/logic'
-import { Bar, Difference } from '../reportes/shared'
+import { Bar } from '../reportes/shared'
+import { windowLocale, windowText, zoneFor } from '../cierres/logic'
 import type { Debtor, ReportProduct } from '../reportes/types'
 import { SalesExpensesChart } from './SalesExpensesChart'
 import './resumen.css'
@@ -19,7 +20,8 @@ export default function ResumenPage() {
   const { t } = useTranslation('resumen')
   const { t: tc } = useTranslation()
   const { business } = useBusiness()
-  const { money, day, dateTime, presets } = useFormat()
+  const { money, day, presets, timezone } = useFormat()
+  const { i18n } = useTranslation()
   const [range, setRange] = useState<DateRange>(() => presets().last7)
 
   const overview = useAsync(
@@ -33,8 +35,9 @@ export default function ResumenPage() {
   const profit = o?.profit
   const maxRevenue = Math.max(0, ...(o?.topProducts ?? []).map((p) => p.revenueMinor))
   const oldest: Debtor[] = [...(receivables.data?.worst ?? [])].sort((a, b) => b.oldestDays - a.oldestDays).slice(0, 5)
-  const closing = o?.lastClosing
-  const line = closing?.lines?.[0]
+  const yesterday = presets().yesterday.from
+  const dayClose = useAsync(() => call(client.GET('/api/b/{businessId}/reports/daily-close', { params: { path: { businessId: business.id }, query: { from: yesterday, to: yesterday } } })), [business.id, yesterday])
+  const closed = dayClose.data?.days?.[0]
 
   return (
     <Page title={tc('nav.resumen')} subtitle={t('subtitle', { from: day(range.from), to: day(range.to) })}>
@@ -90,19 +93,19 @@ export default function ResumenPage() {
                 </Link>
               </Card>
               <Card title={t('closing.title')}>
-                {closing && line ? (
+                {dayClose.error && <ErrorNotice error={dayClose.error} onRetry={dayClose.reload} />}
+                {closed && closed.salesCount + closed.cancelledCount > 0 ? (
                   <>
-                    <p>{t('closing.by', { name: closing.name ?? '—', when: line.closedAt ? dateTime(line.closedAt) : '' })}</p>
-                    <div>
-                      <Difference minor={line.differenceMinor} />
-                    </div>
-                    <Link className="section-link" to="/cierres">
-                      {t('closing.link')}
-                    </Link>
+                    {closed.startsAt && closed.endsAt && <p className="muted small">{windowText(closed.startsAt, closed.endsAt, zoneFor(closed.date, business.dayRules, timezone), windowLocale(i18n.language, business.country))}</p>}
+                    <p>{t('closing.sales', { amount: money(closed.salesMinor), count: closed.salesCount })}</p>
+                    <p><strong>{t('closing.expected', { amount: money(closed.expectedCashMinor) })}</strong></p>
                   </>
                 ) : (
-                  <EmptyState>{t('closing.empty')}</EmptyState>
+                  !dayClose.error && <EmptyState>{t('closing.empty')}</EmptyState>
                 )}
+                <Link className="section-link" to="/cierres">
+                  {t('closing.link')}
+                </Link>
               </Card>
             </div>
           </div>

@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Cuadra",
+    "name": "Cuentiva",
     "tagline": "La caja, el fiado, los gastos y el inventario de tu negocio."
   },
   "auth": {
@@ -63,7 +63,12 @@
     "INVALID_RANGE": "La fecha final es anterior a la inicial.",
     "INVALID_EMAIL": "Ese correo no parece válido.",
     "INVITATION_EMAIL_MISMATCH": "Esta invitación es para otra cuenta de Google.",
-    "BUSINESS_SUSPENDED": "Este negocio está suspendido. Contacta a soporte."
+    "BUSINESS_SUSPENDED": "Este negocio está suspendido. Contacta a soporte.",
+    "REASON_REQUIRED": "Escribe un motivo de al menos 5 letras.",
+    "CANNOT_MODIFY_OWNER": "El dueño no se puede modificar desde aquí.",
+    "CANNOT_MODIFY_SELF": "No puedes cambiar tu propio rol ni darte de baja.",
+    "USE_OWNER_TRANSFER": "Para dar la propiedad a otra persona usa «Pasar la propiedad» en Ajustes.",
+    "INVALID_PIN": "El PIN debe tener de 4 a 6 dígitos."
   },
   "support": {
     "email": "Ayuda y contacto"
@@ -77,7 +82,7 @@
     "fiados": "Fiados y clientes",
     "gastos": "Gastos",
     "inventario": "Inventario",
-    "cierres": "Cierres",
+    "cierres": "Cierre del día",
     "reportes": "Reportes",
     "equipo": "Equipo",
     "avisos": "Notificaciones",

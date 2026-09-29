@@ -30,7 +30,7 @@
   "contact": {
     "title": "Contact",
     "email": "You can also write to",
-    "coffeeHint": "If Cuadra helps you and you want to support its development, you can buy me a coffee. It is entirely optional."
+    "coffeeHint": "If Cuentiva helps you and you want to support its development, you can buy me a coffee. It is entirely optional."
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -40,11 +40,11 @@
     },
     "offline": {
       "q": "What happens if the internet goes down?",
-      "a": "Nothing stops: the app keeps selling, recording tabs and expenses, and saves everything on the phone. When the connection returns, whatever is pending is sent by itself, exactly once. Reports on this website catch up when the phones finish syncing."
+      "a": "Nothing stops: the app keeps selling, recording credit sales and expenses, and saves everything on the phone. When the connection returns, whatever is pending is sent by itself, exactly once. Reports on this website catch up when the phones finish syncing."
     },
     "closing": {
-      "q": "How does the cash closing work?",
-      "a": "When the shift opens the starting cash is recorded. At closing you count the cash and the app compares: expected = opening cash + cash sales + cash tab payments + deposits − drawer expenses − withdrawals. Sales by transfer, card or on tab do not count. The difference (short or over) stays in the Closings history."
+      "q": "How does the daily close work?",
+      "a": "The close is automatic: nobody opens or closes anything. Each business day runs from one day's cutoff time (02:00 by default) to the next, so what is sold at 1 a.m. counts for the previous day, and \"yesterday\" is yesterday 02:00 to today 02:00. In Daily close you see, per day, sales by payment method, expenses, withdrawals and the expected cash = cash sales + cash credit payments + cash in − drawer expenses − withdrawals. Transfers, card and credit do not go in the drawer."
     },
     "import": {
       "q": "How do I import my products from a file?",

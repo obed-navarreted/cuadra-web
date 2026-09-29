@@ -6,7 +6,8 @@ export type BusinessView = S['BusinessView']
 export type UpdateBusiness = S['UpdateBusiness']
 
 /** Módulos que el negocio puede encender o esconder (el servidor rechaza cualquier otro). */
-export const MODULES = ['credit', 'expenses', 'inventory', 'shifts', 'catalog', 'team'] as const
+// `shifts` sigue existiendo en la API (y su valor no se toca), pero ya no se ofrece: el cierre es automático por jornada.
+export const MODULES = ['credit', 'expenses', 'inventory', 'catalog', 'team'] as const
 export type ModuleKey = (typeof MODULES)[number]
 
 /** Un módulo sin valor guardado: todos están encendidos salvo inventario y turnos (igual que en el servidor y la app). */
@@ -25,6 +26,7 @@ export type Form = {
   type: string
   defaultLocale: string
   dayCutoff: string
+  timezone: string
   posViews: string[]
   creditRequiresCustomer: boolean
   creditLimitEnforced: boolean
@@ -48,6 +50,7 @@ export function formOf(b: BusinessView): Form {
     type: b.type ?? '',
     defaultLocale: b.defaultLocale ?? 'es',
     dayCutoff: (b.dayCutoff ?? '02:00').slice(0, 5),
+    timezone: b.timezone ?? 'UTC',
     posViews: [...(b.posViews ?? ['TYPE'])],
     creditRequiresCustomer: b.creditRequiresCustomer === true,
     creditLimitEnforced: b.creditLimitEnforced === true,
@@ -89,6 +92,7 @@ export function patchOf(f: Form, b: BusinessView): UpdateBusiness {
   if (f.type.trim() !== cur.type.trim() && f.type.trim()) patch.type = f.type.trim()
   if (f.defaultLocale !== cur.defaultLocale) patch.defaultLocale = f.defaultLocale
   if (f.dayCutoff !== cur.dayCutoff) patch.dayCutoff = f.dayCutoff
+  if (f.timezone && f.timezone !== cur.timezone) patch.timezone = f.timezone
   if (f.posViews.slice().sort().join() !== cur.posViews.slice().sort().join()) patch.posViews = f.posViews
   if (f.creditRequiresCustomer !== cur.creditRequiresCustomer) patch.creditRequiresCustomer = f.creditRequiresCustomer
   if (f.creditLimitEnforced !== cur.creditLimitEnforced) patch.creditLimitEnforced = f.creditLimitEnforced

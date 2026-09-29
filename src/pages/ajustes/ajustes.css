@@ -20,3 +20,7 @@
 .aj-act-detail { overflow-wrap: anywhere; }
 .aj-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .aj-tabs .chip { display: inline-flex; align-items: center; text-decoration: none; }
+.aj-rules { list-style: none; margin: 0; padding: 0; display: grid; }
+.aj-rules li { display: flex; gap: 6px 16px; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.aj-rules li:last-child { border-bottom: 0; }
+.aj-grid .field { min-width: 0; } .aj-grid select { max-width: 100%; min-width: 0; text-overflow: ellipsis; }

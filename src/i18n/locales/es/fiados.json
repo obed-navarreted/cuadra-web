@@ -53,15 +53,15 @@
     "CANCELLED": "Cancelado"
   },
   "newCredit": {
-    "open": "Nuevo fiado",
-    "title": "Nuevo fiado",
-    "hint": "Para anotar una deuda que no viene de una venta, como en el cuaderno.",
+    "open": "Anotar deuda anterior",
+    "title": "Anotar deuda anterior",
+    "hint": "Para deudas de antes o que no vienen de una venta",
     "name": "Nombre del deudor",
     "phone": "Teléfono (opcional)",
     "amount": "Monto",
     "note": "Nota (opcional)",
     "due": "Fecha de vencimiento (opcional)",
-    "save": "Guardar fiado"
+    "save": "Guardar deuda"
   },
   "pager": {
     "prev": "Anterior",

@@ -31,14 +31,15 @@
     "edit": "Edit",
     "resetPin": "Change PIN",
     "resetPinTitle": "Change {{name}}'s PIN",
-    "hint": "People who work at the register sign in with a PIN on the phone. Only the owner manages admins.",
+    "hint": "People who work at the register sign in with a PIN on the phone. The owner manages everyone; an admin manages cashiers and other admins, but not the owner.",
     "new": "New member",
     "newHint": "Create someone who will use the register with a PIN, without a Google account.",
     "create": "Create member",
     "empty": "There are no members yet.",
     "color": "Color",
     "activeLabel": "Can use the register",
-    "disableHint": "A disabled person cannot sign in, but their history is kept."
+    "disableHint": "A disabled person cannot sign in, but their history is kept.",
+    "ownerLocked": "Only the owner can change this account"
   },
   "pin": {
     "label": "PIN (4 to 6 digits)",

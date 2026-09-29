@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "Cuadra",
-    "tagline": "Your business register, tab, expenses and inventory."
+    "name": "Cuentiva",
+    "tagline": "Your business register, credit, expenses and inventory."
   },
   "auth": {
     "continueWithGoogle": "Continue with Google",
@@ -63,7 +63,12 @@
     "INVALID_RANGE": "The end date is before the start date.",
     "INVALID_EMAIL": "That email does not look valid.",
     "INVITATION_EMAIL_MISMATCH": "This invitation is for a different Google account.",
-    "BUSINESS_SUSPENDED": "This business is suspended. Contact support."
+    "BUSINESS_SUSPENDED": "This business is suspended. Contact support.",
+    "REASON_REQUIRED": "Write a reason of at least 5 characters.",
+    "CANNOT_MODIFY_OWNER": "The owner cannot be modified from here.",
+    "CANNOT_MODIFY_SELF": "You cannot change your own role or disable yourself.",
+    "USE_OWNER_TRANSFER": "To hand ownership to someone else use the ownership transfer in Settings.",
+    "INVALID_PIN": "The PIN must be 4 to 6 digits."
   },
   "support": {
     "email": "Help and contact"
@@ -74,10 +79,10 @@
   "nav": {
     "resumen": "Overview",
     "ventas": "Sales",
-    "fiados": "Tabs and customers",
+    "fiados": "Credit and customers",
     "gastos": "Expenses",
     "inventario": "Inventory",
-    "cierres": "Closings",
+    "cierres": "Daily close",
     "reportes": "Reports",
     "equipo": "Team",
     "avisos": "Notifications",

@@ -46,12 +46,14 @@
     "low_other": "{{count}} productos con poco stock o en negativo"
   },
   "closing": {
-    "title": "Último cierre",
-    "by": "{{name}} · {{when}}",
+    "title": "Cierre de ayer",
+    "window": "{{window}}",
+    "sales": "Ventas: {{amount}} ({{count}})",
+    "expected": "Efectivo esperado: {{amount}}",
+    "empty": "Ayer no hubo movimiento.",
+    "link": "Ver cierre del día",
     "balanced": "Cuadró",
     "short": "Faltó {{amount}}",
-    "over": "Sobró {{amount}}",
-    "empty": "Todavía no hay cierres de caja.",
-    "link": "Ver cierres"
+    "over": "Sobró {{amount}}"
   }
 }

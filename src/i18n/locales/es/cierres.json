@@ -1,76 +1,43 @@
 {
-  "title": "Cierres de caja",
-  "subtitle": "Historial de turnos y de sus diferencias.",
-  "empty": "No hay turnos en este periodo.",
-  "status": {
-    "OPEN": "Abierto",
-    "CLOSED": "Cerrado"
+  "title": "Cierre del día",
+  "subtitle": "El cierre es automático: cada jornada va de la hora de corte de un día a la del siguiente. Efectivo esperado = ventas y abonos en efectivo + entradas − gastos del cajón − retiros.",
+  "empty": "No hay jornadas en este periodo.",
+  "total": "Total del periodo ({{count}} días)",
+  "method": {
+    "CASH": "Efectivo",
+    "TRANSFER": "Transferencia",
+    "CARD": "Tarjeta",
+    "CREDIT": "Fiado",
+    "OTHER": "Otro"
   },
-  "filter": {
-    "person": "Persona",
-    "everyone": "Todas"
+  "sales": {
+    "title_one": "{{count}} venta",
+    "title_other": "{{count}} ventas",
+    "count_one": "{{count}} venta",
+    "count_other": "{{count}} ventas"
   },
-  "col": {
-    "register": "Caja",
-    "opened": "Abrió",
-    "closed": "Cerró",
-    "expected": "Debía haber",
-    "counted": "Contado",
-    "difference": "Resultado",
-    "flags": "Avisos"
+  "collected": {
+    "title": "Abonos de fiado cobrados",
+    "none": "Sin abonos"
   },
-  "outcome": {
-    "balanced": "Cuadró",
-    "short": "Falta {{amount}}",
-    "over": "Sobra {{amount}}"
-  },
-  "flag": {
-    "forced": "Cierre forzado",
-    "late_one": "{{count}} operación tardía",
-    "late_other": "{{count}} operaciones tardías",
-    "reopened_one": "Reabierto {{count}} vez",
-    "reopened_other": "Reabierto {{count}} veces"
-  },
-  "kpi": {
-    "closed": "Cierres",
-    "open_one": "{{count}} turno abierto",
-    "open_other": "{{count}} turnos abiertos",
-    "net": "Diferencia neta",
-    "netHint": "faltantes y sobrantes juntos",
-    "absolute": "Diferencia total",
-    "absoluteHint": "sin compensar faltantes con sobrantes",
-    "forced": "Cierres forzados"
-  },
-  "detail": {
-    "title": "Detalle del turno",
-    "register": "Caja",
-    "opened": "Abierto",
-    "closed": "Cerrado",
-    "note": "Nota",
-    "forcedReason": "Motivo del cierre forzado",
-    "breakdown": "Desglose de la caja",
-    "float": "Fondo inicial",
-    "cashSales": "Ventas en efectivo ({{count}})",
-    "creditPayments": "Abonos de fiado en efectivo",
-    "deposits": "Entradas de efectivo",
-    "cashExpenses": "Gastos pagados del cajón",
+  "money": {
+    "title": "Gastos y movimientos",
+    "drawerExpenses": "Gastos pagados del cajón",
+    "otherExpenses": "Otros gastos",
     "withdrawals": "Retiros",
-    "expected": "Debe haber en caja",
-    "expectedNow": "Debe haber ahora (con todo lo recibido)",
-    "expectedAtClose": "Debía haber al cerrar (lo que se firmó)",
-    "counted": "Efectivo contado",
-    "transfer": "Transferencias",
-    "card": "Tarjeta",
-    "other": "Otros medios",
-    "creditNew": "Fiado nuevo",
-    "cancelled": "Ventas eliminadas",
-    "otherHint": "Transferencias, tarjeta y fiado no están en el cajón: no cambian lo que debe haber.",
-    "close": "Cerrar",
-    "reopen": "Reabrir turno"
+    "deposits": "Entradas de efectivo"
   },
-  "reopen": {
-    "title": "Reabrir turno",
-    "body": "El turno vuelve a estar abierto y se puede cerrar de nuevo con otro conteo. Solo el dueño puede hacerlo y queda registrado con el motivo.",
-    "confirm": "Reabrir"
+  "expected": {
+    "label": "Efectivo esperado",
+    "formula": "{{cashSales}} ventas en efectivo + {{cashCollected}} abonos en efectivo + {{deposits}} entradas − {{drawerExpenses}} gastos del cajón − {{withdrawals}} retiros = {{total}}"
+  },
+  "cancelled_one": "{{count}} venta eliminada ({{amount}})",
+  "cancelled_other": "{{count}} ventas eliminadas ({{amount}})",
+  "kpi": {
+    "days": "Jornadas",
+    "sales": "Ventas",
+    "expected": "Efectivo esperado",
+    "expectedHint": "suma de los días",
+    "cancelled": "Ventas eliminadas"
   }
 }

@@ -7,6 +7,7 @@ import { Button, Card, ErrorNotice, Field, Spinner, Tabs, Tag } from '../../comp
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
 import { decimalsOf } from '../../lib/money'
+import { ProductHistory } from './ProductHistory'
 import { deactivateProduct, loadCategories, loadProducts, saveProduct, addMovement } from './api'
 import { errorMessage, newId } from './errors'
 import { draftFromProduct, emptyDraft, marginPercent, needsReview, toProductInput, type Problem, type ProductDraft } from './productDraft'
@@ -68,14 +69,27 @@ export function ProductsTab({ inventory, reloadKey, onChanged }: { inventory: bo
         </div>
       ),
     },
-    { key: 'price', header: t('products.col.price'), align: 'right', cell: (p) => fmt.money(p.priceMinor) },
+    {
+      key: 'price',
+      header: t('products.col.price'),
+      align: 'right',
+      cell: (p) =>
+        p.pricing === 'OPEN' ? (
+          <span>
+            <Tag>{t('products.open')}</Tag>
+            {p.priceMinor > 0 && <div className="muted small">{t('products.suggested', { price: fmt.money(p.priceMinor) })}</div>}
+          </span>
+        ) : (
+          fmt.money(p.priceMinor)
+        ),
+    },
     { key: 'cost', header: t('products.col.cost'), align: 'right', cell: (p) => (p.costMinor == null ? <span className="muted">—</span> : fmt.money(p.costMinor)) },
     {
       key: 'margin',
       header: t('products.col.margin'),
       align: 'right',
       cell: (p) => {
-        const m = marginPercent(p.priceMinor, p.costMinor)
+        const m = p.pricing === 'OPEN' && p.priceMinor <= 0 ? null : marginPercent(p.priceMinor, p.costMinor)
         return m === null ? <span className="muted">—</span> : `${m}%`
       },
     },
@@ -138,7 +152,9 @@ export function ProductsTab({ inventory, reloadKey, onChanged }: { inventory: bo
   )
 }
 
-const PROBLEM_KEY: Record<Problem, string> = { name: 'name', price: 'price', cost: 'cost', minStock: 'minStock', initialStock: 'initialStock' }
+const PRICINGS = ['FIXED', 'BY_WEIGHT', 'OPEN'] as const
+
+const PROBLEM_KEY: Record<Problem, string> = { name: 'name', price: 'price', cost: 'cost', barcode: 'barcode', shortCode: 'shortCode', minStock: 'minStock', initialStock: 'initialStock' }
 
 function ProductModal({ product, inventory, categories, onClose, onSaved }: { product: Product | undefined; inventory: boolean; categories: { id: string; name?: string | null; key?: string | null }[]; onClose: () => void; onSaved: () => void }) {
   const { t } = useTranslation('inventario')
@@ -149,6 +165,7 @@ function ProductModal({ product, inventory, categories, onClose, onSaved }: { pr
   const [error, setError] = useState<unknown>(null)
   const [saving, setSaving] = useState(false)
   const [confirmOff, setConfirmOff] = useState(false)
+  const [view, setView] = useState<'data' | 'history'>('data')
   const set = <K extends keyof ProductDraft>(k: K, v: ProductDraft[K]) => setDraft((d) => ({ ...d, [k]: v }))
   const bad = (p: Problem) => problems.includes(p)
 
@@ -176,18 +193,23 @@ function ProductModal({ product, inventory, categories, onClose, onSaved }: { pr
   const deactivate = async () => {
     if (!product) return
     setSaving(true)
+    setError(null)
     try {
       await deactivateProduct(business.id, product.id)
       onSaved()
     } catch (e) {
       setError(e)
+      setConfirmOff(false)
       setSaving(false)
     }
   }
 
   return (
     <Modal open title={product ? t('form.editTitle') : t('form.newTitle')} onClose={onClose}>
+      {product && <Tabs value={view} onChange={setView} items={[{ key: 'data', label: t('history.tab') }, { key: 'history', label: t('history.title') }]} />}
+      {product && view === 'history' && <ProductHistory productId={product.id} categoryName={(id) => categories.find((c) => c.id === id)?.name ?? undefined} />}
       <form
+        hidden={view === 'history'}
         className="inv-form"
         onSubmit={(e) => {
           e.preventDefault()
@@ -201,7 +223,7 @@ function ProductModal({ product, inventory, categories, onClose, onSaved }: { pr
           <Field label={t('form.variant')}>
             <input value={draft.variant} onChange={(e) => set('variant', e.target.value)} />
           </Field>
-          <Field label={t('form.category')}>
+          <Field label={t('form.category')} hint={categories.length === 0 ? t('form.noCategoriesHint') : undefined}>
             <select value={draft.categoryId} onChange={(e) => set('categoryId', e.target.value)}>
               <option value="">{t('form.noCategory')}</option>
               {categories.map((c) => (
@@ -213,33 +235,45 @@ function ProductModal({ product, inventory, categories, onClose, onSaved }: { pr
           </Field>
         </div>
         <div className="inv-cols">
-          <Field label={t('form.barcode')}>
-            <input value={draft.barcode} onChange={(e) => set('barcode', e.target.value)} inputMode="numeric" />
+          <Field label={t('form.barcode')} hint={bad('barcode') ? t('problems.barcode') : t('form.barcodeHint')}>
+            <input
+              value={draft.barcode}
+              onChange={(e) => set('barcode', e.target.value)}
+              onFocus={(e) => e.currentTarget.select()}
+              maxLength={64}
+              autoComplete="off"
+              inputMode="text"
+              aria-invalid={bad('barcode')}
+            />
           </Field>
-          <Field label={t('form.shortCode')}>
-            <input value={draft.shortCode} onChange={(e) => set('shortCode', e.target.value)} />
-          </Field>
-        </div>
-        <div className="inv-cols">
-          <Field label={t('form.unit')}>
-            <select value={draft.unit} onChange={(e) => set('unit', e.target.value)}>
-              {UNITS.map((u) => (
-                <option key={u} value={u}>
-                  {t(`units.${u}`)}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label={t('form.pricing')}>
-            <select value={draft.pricing} onChange={(e) => set('pricing', e.target.value as ProductDraft['pricing'])}>
-              <option value="FIXED">{t('form.pricingFixed')}</option>
-              <option value="BY_WEIGHT">{t('form.pricingByWeight')}</option>
-            </select>
+          <Field label={t('form.shortCode')} hint={bad('shortCode') ? t('problems.shortCode') : undefined}>
+            <input value={draft.shortCode} onChange={(e) => set('shortCode', e.target.value)} maxLength={16} autoComplete="off" aria-invalid={bad('shortCode')} />
           </Field>
         </div>
+        <Field label={t('form.unit')}>
+          <select value={draft.unit} onChange={(e) => set('unit', e.target.value)}>
+            {UNITS.map((u) => (
+              <option key={u} value={u}>
+                {t(`units.${u}`)}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <fieldset className="inv-pricing">
+          <legend className="field-label">{t('form.pricing')}</legend>
+          {PRICINGS.map((m) => (
+            <label key={m} className="inv-check">
+              <input type="radio" name="pricing" value={m} checked={draft.pricing === m} onChange={() => set('pricing', m)} />
+              <span>
+                <strong>{t(`form.pricingMode.${m}`)}</strong>
+                <span className="muted small"> — {t(`form.pricingHelp.${m}`)}</span>
+              </span>
+            </label>
+          ))}
+        </fieldset>
         <div className="inv-cols">
-          <Field label={t('form.price')} hint={bad('price') ? t('problems.amount') : undefined}>
-            <input value={draft.price} onChange={(e) => set('price', e.target.value)} inputMode="decimal" aria-invalid={bad('price')} required />
+          <Field label={draft.pricing === 'OPEN' ? t('form.priceSuggested') : t('form.price')} hint={bad('price') ? t('problems.amount') : draft.pricing === 'OPEN' ? t('form.priceSuggestedHint') : undefined}>
+            <input value={draft.price} onChange={(e) => set('price', e.target.value)} inputMode="decimal" aria-invalid={bad('price')} required={draft.pricing !== 'OPEN'} />
           </Field>
           <Field label={t('form.cost')} hint={bad('cost') ? t('problems.amount') : t('form.costHint')}>
             <input value={draft.cost} onChange={(e) => set('cost', e.target.value)} inputMode="decimal" aria-invalid={bad('cost')} />

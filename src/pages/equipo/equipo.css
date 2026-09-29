@@ -42,3 +42,4 @@
 }
 
 .equipo-page dialog.modal:focus { outline: none; }
+.equipo-page .lock { display: inline-flex; align-items: center; max-width: 220px; text-align: right; }

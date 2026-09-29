@@ -30,7 +30,7 @@
   "contact": {
     "title": "Contacto",
     "email": "También puedes escribir a",
-    "coffeeHint": "Si Cuadra te sirve y quieres apoyar su desarrollo, puedes invitarme un café. Es totalmente opcional."
+    "coffeeHint": "Si Cuentiva te sirve y quieres apoyar su desarrollo, puedes invitarme un café. Es totalmente opcional."
   },
   "faq": {
     "title": "Preguntas frecuentes",
@@ -43,8 +43,8 @@
       "a": "Nada se detiene: la app sigue vendiendo, fiando y anotando gastos, y guarda todo en el teléfono. Cuando vuelve la conexión, lo pendiente se envía solo y una sola vez. Los reportes de esta web se ponen al día cuando los teléfonos terminan de sincronizar."
     },
     "closing": {
-      "q": "¿Cómo funciona el cierre de caja?",
-      "a": "Al abrir el turno se anota el efectivo inicial. Al cerrar, cuentas el efectivo y la app compara: debe haber = fondo inicial + ventas en efectivo + abonos en efectivo + entradas − gastos del cajón − retiros. Las ventas por transferencia, tarjeta o fiado no entran. La diferencia (falta o sobra) queda en el historial de Cierres."
+      "q": "¿Cómo funciona el cierre del día?",
+      "a": "El cierre es automático: nadie abre ni cierra nada. Cada jornada va de la hora de corte de un día (02:00 por defecto) a la del siguiente, así que lo vendido a la 1 a. m. cuenta para el día anterior, y «ayer» es de ayer 02:00 a hoy 02:00. En Cierre del día ves, por jornada, las ventas por método de pago, los gastos, los retiros y el efectivo esperado = ventas en efectivo + abonos en efectivo + entradas − gastos del cajón − retiros. Transferencias, tarjeta y fiado no entran al cajón."
     },
     "import": {
       "q": "¿Cómo importo mis productos desde un archivo?",

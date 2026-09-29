@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuth, useBusiness } from '../../auth/context'
+import { useBusiness } from '../../auth/context'
 import { DataTable, type Column } from '../../components/DataTable'
 import { Modal } from '../../components/Modal'
 import { Button, ErrorNotice, Field, Spinner, Tag } from '../../components/ui'
@@ -16,7 +16,7 @@ function RoleTag({ role }: { role: string }) {
 export function MembersView() {
   const { t } = useTranslation('equipo')
   const { business, membership } = useBusiness()
-  const { isOwner } = useAuth()
+  const viewerRole = membership.role
   const members = useAsync(() => listMembers(business.id), [business.id])
   const [dialog, setDialog] = useState<{ kind: 'new' } | { kind: 'edit'; member: Member } | { kind: 'pin'; member: Member } | null>(null)
 
@@ -54,19 +54,20 @@ export function MembersView() {
       header: '',
       cell: (m) => {
         const self = m.id === membership.memberId
-        const manageable = canManage(isOwner, m.role)
+        const can = canManage(viewerRole, self, m.role)
         return (
           <div className="row-actions">
-            {(self || manageable) && (
+            {can.edit && (
               <Button small onClick={() => setDialog({ kind: 'edit', member: m })}>
                 {t('members.edit')}
               </Button>
             )}
-            {(self || manageable) && (
+            {can.resetPin && (
               <Button small onClick={() => setDialog({ kind: 'pin', member: m })}>
                 {t('members.resetPin')}
               </Button>
             )}
+            {m.role === 'OWNER' && !self && <span className="muted small lock">{t('members.ownerLocked')}</span>}
           </div>
         )
       },
@@ -83,8 +84,8 @@ export function MembersView() {
       </div>
       {members.error && <ErrorNotice error={members.error} onRetry={members.reload} />}
       {members.loading && !members.data ? <Spinner /> : <DataTable columns={columns} rows={members.data ?? []} rowKey={(m) => m.id} empty={t('members.empty')} />}
-      {dialog?.kind === 'new' && <NewMemberDialog onClose={() => setDialog(null)} onDone={done} />}
-      {dialog?.kind === 'edit' && <EditMemberDialog member={dialog.member} self={dialog.member.id === membership.memberId} onClose={() => setDialog(null)} onDone={done} />}
+      {dialog?.kind === 'new' && <NewMemberDialog viewerRole={viewerRole} onClose={() => setDialog(null)} onDone={done} />}
+      {dialog?.kind === 'edit' && <EditMemberDialog member={dialog.member} self={dialog.member.id === membership.memberId} viewerRole={viewerRole} onClose={() => setDialog(null)} onDone={done} />}
       {dialog?.kind === 'pin' && <PinDialog member={dialog.member} onClose={() => setDialog(null)} onDone={done} />}
     </div>
   )
@@ -125,10 +126,9 @@ function PinShown({ name, pin, onClose }: { name: string; pin: string; onClose: 
   )
 }
 
-function NewMemberDialog({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
+function NewMemberDialog({ viewerRole, onClose, onDone }: { viewerRole: string | null | undefined; onClose: () => void; onDone: () => void }) {
   const { t } = useTranslation('equipo')
   const { business } = useBusiness()
-  const { isOwner } = useAuth()
   const [name, setName] = useState('')
   const [role, setRole] = useState<Role>('CASHIER')
   const [pin, setPin] = useState('')
@@ -162,7 +162,7 @@ function NewMemberDialog({ onClose, onDone }: { onClose: () => void; onDone: () 
         </Field>
         <Field label={t('members.col.role')}>
           <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
-            {assignableRoles(isOwner).map((r) => (
+            {assignableRoles(viewerRole).map((r) => (
               <option key={r} value={r}>
                 {t(`role.${r}`)}
               </option>
@@ -182,10 +182,9 @@ function NewMemberDialog({ onClose, onDone }: { onClose: () => void; onDone: () 
   )
 }
 
-function EditMemberDialog({ member, self, onClose, onDone }: { member: Member; self: boolean; onClose: () => void; onDone: () => void }) {
+function EditMemberDialog({ member, self, viewerRole, onClose, onDone }: { member: Member; self: boolean; viewerRole: string | null | undefined; onClose: () => void; onDone: () => void }) {
   const { t } = useTranslation('equipo')
   const { business } = useBusiness()
-  const { isOwner } = useAuth()
   const [name, setName] = useState(member.displayName ?? '')
   const [color, setColor] = useState(member.color ?? '')
   const [role, setRole] = useState<Role>(member.role === 'ADMIN' ? 'ADMIN' : 'CASHIER')
@@ -193,7 +192,8 @@ function EditMemberDialog({ member, self, onClose, onDone }: { member: Member; s
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<unknown>(null)
   // Uno mismo y el dueño no cambian de rol ni de estado; el servidor lo prohíbe igual.
-  const canRoleAndStatus = !self && member.role !== 'OWNER'
+  const can = canManage(viewerRole, self, member.role)
+  const canRoleAndStatus = can.changeRole && can.disable
 
   async function submit(e: FormEvent) {
     e.preventDefault()
@@ -231,7 +231,7 @@ function EditMemberDialog({ member, self, onClose, onDone }: { member: Member; s
           <>
             <Field label={t('members.col.role')}>
               <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
-                {assignableRoles(isOwner).map((r) => (
+                {assignableRoles(viewerRole).map((r) => (
                   <option key={r} value={r}>
                     {t(`role.${r}`)}
                   </option>

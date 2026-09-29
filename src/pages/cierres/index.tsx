@@ -1,116 +1,64 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
 import { call, client } from '../../api/http'
 import { useBusiness } from '../../auth/context'
-import { DataTable, type Column } from '../../components/DataTable'
 import { RangePicker } from '../../components/RangePicker'
-import { ReasonDialog } from '../../components/ReasonDialog'
-import { ErrorNotice, Field, Kpi, Page, Spinner, Tag } from '../../components/ui'
+import { ErrorNotice, Kpi, Page, Spinner } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
 import type { DateRange } from '../../lib/dates'
-import { summarize, type Shift } from './logic'
-import { OutcomeTag } from './OutcomeTag'
-import { ShiftDetail } from './ShiftDetail'
+import { DayCard } from './DayCard'
+import { isEmptyDay, totals, windowLocale, windowText, zoneFor, type DayClose } from './logic'
 import './cierres.css'
 
-const PAGE = 100
-const MAX_PAGES = 10
-
+/**
+ * Cierre del día: el cierre es automático por jornada del negocio (de la hora de corte de un día a la del siguiente). Una tarjeta por día con su
+ * ventana exacta y lo que debe haber en efectivo; nada se abre, se cuenta ni se cierra a mano.
+ */
 export default function CierresPage() {
-  const { t } = useTranslation('cierres')
+  const { t, i18n } = useTranslation('cierres')
   const { business } = useBusiness()
   const businessId = business.id
-  const { money, dateTime, today } = useFormat()
-  const navigate = useNavigate()
-  const openId = useParams()['*'] || null
+  const { money, day, today, timezone } = useFormat()
   const [range, setRange] = useState<DateRange>(() => ({ from: today(), to: today() }))
-  const [person, setPerson] = useState('')
-  const [toReopen, setToReopen] = useState<Shift | null>(null)
 
-  const members = useAsync(() => call(client.GET('/api/b/{businessId}/members', { params: { path: { businessId } } })), [businessId])
-  // El servidor filtra por jornada de apertura y por persona (quien lo abrió o lo cerró); solo se piden páginas hasta la última.
-  const shifts = useAsync(async () => {
-    const all: Shift[] = []
-    for (let page = 0; page < MAX_PAGES; page++) {
-      const res = await call(client.GET('/api/b/{businessId}/shifts', { params: { path: { businessId }, query: { page, size: PAGE, from: range.from, to: range.to, member: person || undefined } } }))
-      all.push(...((res.items ?? []) as Shift[]))
-      if (res.last) break
-    }
-    return all
-  }, [businessId, range.from, range.to, person])
+  const state = useAsync(() => call(client.GET('/api/b/{businessId}/reports/daily-close', { params: { path: { businessId }, query: { from: range.from, to: range.to } } })), [businessId, range.from, range.to])
 
-  const detail = useAsync(async () => (openId ? await call(client.GET('/api/b/{businessId}/shifts/{shiftId}', { params: { path: { businessId, shiftId: openId } } })) : undefined), [businessId, openId])
-
-  const rows = useMemo(() => shifts.data ?? [], [shifts.data])
-  const sum = useMemo(() => summarize(rows), [rows])
-
-  const columns: Column<Shift>[] = [
-    { key: 'register', header: t('col.register'), cell: (s) => s.registerName ?? '—' },
-    { key: 'opened', header: t('col.opened'), className: 'nowrap', cell: (s) => (<><div>{s.openedAt ? dateTime(s.openedAt) : '—'}</div><span className="muted small">{s.openedBy?.name}</span></>) },
-    { key: 'closed', header: t('col.closed'), className: 'nowrap', cell: (s) => (s.closedAt ? (<><div>{dateTime(s.closedAt)}</div><span className="muted small">{s.closedBy?.name}</span></>) : <Tag tone="green">{t('status.OPEN')}</Tag>) },
-    { key: 'expected', header: t('col.expected'), align: 'right', cell: (s) => (s.expectedAtCloseMinor == null ? '—' : money(s.expectedAtCloseMinor)) },
-    { key: 'counted', header: t('col.counted'), align: 'right', cell: (s) => (s.countedMinor == null ? '—' : money(s.countedMinor)) },
-    { key: 'diff', header: t('col.difference'), cell: (s) => <OutcomeTag differenceMinor={s.differenceMinor} /> },
-    {
-      key: 'flags',
-      header: t('col.flags'),
-      cell: (s) => (
-        <span className="flags">
-          {s.forcedReason && <Tag tone="orange">{t('flag.forced')}</Tag>}
-          {s.lateOps > 0 && <Tag tone="orange">{t('flag.late', { count: s.lateOps })}</Tag>}
-          {s.reopenedCount > 0 && <Tag>{t('flag.reopened', { count: s.reopenedCount })}</Tag>}
-        </span>
-      ),
-    },
-  ]
+  // Lo más reciente primero.
+  const days = useMemo<DayClose[]>(() => [...(state.data?.days ?? [])].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '')), [state.data])
+  const sum = useMemo(() => totals(days), [days])
 
   return (
     <Page title={t('title')} subtitle={t('subtitle')}>
       <div className="cierres-filters">
         <RangePicker value={range} onChange={setRange} />
-        <div className="selects">
-          <Field label={t('filter.person')}>
-            <select value={person} onChange={(e) => setPerson(e.target.value)}>
-              <option value="">{t('filter.everyone')}</option>
-              {(members.data ?? []).map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.displayName}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
       </div>
-      <div className="kpis compact">
-        <Kpi label={t('kpi.closed')} value={sum.closed} hint={sum.open > 0 ? t('kpi.open', { count: sum.open }) : undefined} />
-        <Kpi label={t('kpi.net')} value={money(sum.net)} tone={sum.net < 0 ? 'red' : undefined} hint={t('kpi.netHint')} />
-        <Kpi label={t('kpi.absolute')} value={money(sum.absolute)} hint={t('kpi.absoluteHint')} />
-        <Kpi label={t('kpi.forced')} value={sum.forced} tone={sum.forced > 0 ? 'orange' : undefined} />
-      </div>
-      {shifts.error ? (
-        <ErrorNotice error={shifts.error} onRetry={shifts.reload} />
-      ) : shifts.loading && !shifts.data ? (
+      {state.error ? (
+        <ErrorNotice error={state.error} onRetry={state.reload} />
+      ) : state.loading && !state.data ? (
         <Spinner />
+      ) : days.length === 0 ? (
+        <p className="muted">{t('empty')}</p>
       ) : (
-        <DataTable columns={columns} rows={rows} rowKey={(s) => s.id} empty={t('empty')} onRowClick={(s) => navigate(`/cierres/${s.id}`)} />
+        <>
+          <div className="kpis compact">
+            <Kpi label={t('kpi.days')} value={sum.days} />
+            <Kpi label={t('kpi.sales')} value={money(sum.salesMinor)} hint={t('sales.count', { count: sum.salesCount })} />
+            <Kpi label={t('kpi.expected')} value={money(sum.expectedCashMinor)} hint={t('kpi.expectedHint')} />
+            <Kpi label={t('kpi.cancelled')} value={sum.cancelledCount} tone={sum.cancelledCount > 0 ? 'orange' : undefined} hint={sum.cancelledCount > 0 ? money(sum.cancelledMinor) : undefined} />
+          </div>
+          {days.length > 1 && <DayCard title={t('total', { count: days.length })} figures={sum} />}
+          {days.map((d) => (
+            <DayCard
+              key={d.date}
+              title={d.date ? day(d.date) : '—'}
+              window={d.startsAt && d.endsAt ? windowText(d.startsAt, d.endsAt, zoneFor(d.date, business.dayRules, timezone), windowLocale(i18n.language, business.country)) : undefined}
+              figures={d}
+              muted={isEmptyDay(d)}
+            />
+          ))}
+        </>
       )}
-      {openId && <ShiftDetail shift={detail.data} loading={detail.loading} error={detail.error} onRetry={detail.reload} onClose={() => navigate('/cierres')} onReopen={setToReopen} />}
-      <ReasonDialog
-        open={toReopen !== null}
-        title={t('reopen.title')}
-        body={t('reopen.body')}
-        confirmLabel={t('reopen.confirm')}
-        required
-        onClose={() => setToReopen(null)}
-        onConfirm={async (reason) => {
-          if (!toReopen) return
-          await call(client.POST('/api/b/{businessId}/shifts/{shiftId}/reopen', { params: { path: { businessId, shiftId: toReopen.id } }, body: { reason } }))
-          navigate('/cierres')
-          shifts.reload()
-        }}
-      />
     </Page>
   )
 }

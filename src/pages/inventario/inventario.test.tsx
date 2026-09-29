@@ -112,6 +112,39 @@ describe('ProductsTab', () => {
     expect(screen.queryByRole('tab', { name: 'Con control' })).not.toBeInTheDocument()
   })
 
+  it('dar de baja pide confirmación y un FORBIDDEN se explica con el texto del área', async () => {
+    const { ApiError } = await import('../../api/http')
+    vi.mocked(api.loadProducts).mockResolvedValue([product({ id: 'a', name: 'Queso' })])
+    vi.mocked(api.loadCategories).mockResolvedValue([])
+    vi.mocked(api.deactivateProduct).mockRejectedValue(new ApiError(403, 'FORBIDDEN', 'x'))
+    render(<ProductsTab inventory reloadKey={0} onChanged={() => {}} />)
+    fireEvent.click(await screen.findByText('Queso'))
+    fireEvent.click(await screen.findByRole('button', { name: 'Dar de baja el producto' }))
+    expect(api.deactivateProduct).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Confirmar: dar de baja' }))
+    expect(await screen.findByText(/Solo un administrador o el dueño/)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Dar de baja el producto' })).toBeInTheDocument()
+  })
+
+  it('el historial muestra quién, cuándo y una frase por cambio; y el error se puede reintentar', async () => {
+    const { ApiError } = await import('../../api/http')
+    vi.mocked(api.loadProducts).mockResolvedValue([product({ id: 'a', name: 'Queso' })])
+    vi.mocked(api.loadCategories).mockResolvedValue([])
+    vi.mocked(api.loadProductHistory)
+      .mockRejectedValueOnce(new ApiError(500, 'generic', 'x'))
+      .mockResolvedValue([
+        { id: 2, action: 'product.update', actorName: 'Ana', actorRole: 'ADMIN', at: '2026-01-02T15:00:00Z', changes: { priceMinor: { from: 2500, to: 3000 } } },
+        { id: 1, action: 'product.create', actorName: 'Luis', actorRole: 'CASHIER', at: '2026-01-01T15:00:00Z', changes: { priceMinor: { from: null, to: 2500 } } },
+      ])
+    render(<ProductsTab inventory reloadKey={0} onChanged={() => {}} />)
+    fireEvent.click(await screen.findByText('Queso'))
+    fireEvent.click(await screen.findByRole('tab', { name: 'Historial' }))
+    fireEvent.click(await screen.findByRole('button', { name: /Reintentar/ }))
+    expect(await screen.findByText(/Precio: C\$\s?25\.00 → C\$\s?30\.00/)).toBeInTheDocument()
+    expect(screen.getByText(/Creado por Luis con precio/)).toBeInTheDocument()
+    expect(screen.getByText('Administrador')).toBeInTheDocument()
+  })
+
   it('un código de barras repetido se explica en lenguaje simple', async () => {
     const { ApiError } = await import('../../api/http')
     vi.mocked(api.loadProducts).mockResolvedValue([])

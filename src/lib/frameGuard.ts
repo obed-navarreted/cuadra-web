@@ -25,7 +25,7 @@ export function guardFraming(win: Window = window, doc: Document = document): bo
   link.rel = 'noopener'
   link.textContent = win.location.href
   const p = doc.createElement('p')
-  p.textContent = 'Por seguridad, Cuadra no se puede usar dentro de otra página. Ábrelo directamente / For security, Cuadra cannot be used inside another page. Open it directly: '
+  p.textContent = 'Por seguridad, Cuentiva no se puede usar dentro de otra página. Ábrelo directamente / For security, Cuentiva cannot be used inside another page. Open it directly: '
   p.appendChild(link)
   notice.appendChild(p)
   doc.body.appendChild(notice)

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { call, client, downloadFile } from '../../api/http'
+import { ApiError, call, client, downloadFile } from '../../api/http'
 import { useBusiness } from '../../auth/context'
 import { DataTable, type Column } from '../../components/DataTable'
 import { Pager } from '../../components/Pager'
@@ -14,10 +14,11 @@ import { canExport } from '../../plan/logic'
 import { ProTag } from '../../plan/ProTag'
 import type { DateRange } from '../../lib/dates'
 import { SaleDetail } from './SaleDetail'
-import { distinctMethods, METHODS, saleInstant, type SaleRow } from './types'
+import { distinctMethods, METHODS, MIN_REASON, saleInstant, type SaleRow } from './types'
 import './ventas.css'
 
 const PAGE_SIZE = 25
+type StatusFilter = 'COMPLETED' | 'CANCELLED' | 'ALL'
 
 export default function VentasPage() {
   const { t, i18n } = useTranslation('ventas')
@@ -25,7 +26,7 @@ export default function VentasPage() {
   const businessId = business.id
   const { money, dateTime, today } = useFormat()
   const [range, setRange] = useState<DateRange>(() => ({ from: today(), to: today() }))
-  const [status, setStatus] = useState<'COMPLETED' | 'CANCELLED'>('COMPLETED')
+  const [status, setStatus] = useState<StatusFilter>('COMPLETED')
   const [method, setMethod] = useState('')
   const [member, setMember] = useState('')
   const [page, setPage] = useState(0)
@@ -38,7 +39,7 @@ export default function VentasPage() {
     () =>
       call(
         client.GET('/api/b/{businessId}/sales', {
-          params: { path: { businessId }, query: { status, from: range.from, to: range.to, byMember: member || undefined, method: method || undefined, page, size: PAGE_SIZE } },
+          params: { path: { businessId }, query: { status: status === 'ALL' ? undefined : status, from: range.from, to: range.to, byMember: member || undefined, method: method || undefined, page, size: PAGE_SIZE } },
         }),
       ),
     [businessId, status, range.from, range.to, member, method, page],
@@ -49,7 +50,8 @@ export default function VentasPage() {
     [businessId, range.from, range.to],
   )
 
-  const rows = list.data?.items ?? []
+  // "Todas" trae cobradas y eliminadas; las ventas en curso o aparcadas no son ventas todavía y no se listan.
+  const rows = (list.data?.items ?? []).filter((r) => status !== 'ALL' || r.status === 'COMPLETED' || r.status === 'CANCELLED')
   const columns = useMemo<Column<SaleRow>[]>(
     () => [
       { key: 'date', header: t('col.date'), className: 'nowrap', cell: (s) => (saleInstant(s) ? dateTime(saleInstant(s) as string) : '—') },
@@ -67,8 +69,20 @@ export default function VentasPage() {
           </span>
         ),
       },
-      { key: 'state', header: t('col.status'), cell: (s) => (s.status === 'CANCELLED' ? <Tag tone="red">{t('status.CANCELLED')}</Tag> : <Tag tone="green">{t('status.COMPLETED')}</Tag>) },
-      { key: 'total', header: t('col.total'), align: 'right', cell: (s) => <strong>{money(s.totalMinor)}</strong> },
+      {
+        key: 'state',
+        header: t('col.status'),
+        cell: (s) =>
+          s.status === 'CANCELLED' ? (
+            <>
+              <Tag tone="red">{t('status.CANCELLED')}</Tag>
+              {s.cancelledBy?.name && <div className="muted small">{t('list.cancelledBy', { name: s.cancelledBy.name })}</div>}
+            </>
+          ) : (
+            <Tag tone="green">{t('status.COMPLETED')}</Tag>
+          ),
+      },
+      { key: 'total', header: t('col.total'), align: 'right', cell: (s) => (s.status === 'CANCELLED' ? <strong className="struck">{money(s.totalMinor)}</strong> : <strong>{money(s.totalMinor)}</strong>) },
     ],
     [t, money, dateTime],
   )
@@ -108,9 +122,10 @@ export default function VentasPage() {
         <RangePicker value={range} onChange={reset(setRange)} />
         <div className="selects">
           <Field label={t('filter.status')}>
-            <select value={status} onChange={(e) => reset(setStatus)(e.target.value as 'COMPLETED' | 'CANCELLED')}>
+            <select value={status} onChange={(e) => reset(setStatus)(e.target.value as StatusFilter)}>
               <option value="COMPLETED">{t('status.COMPLETED')}</option>
               <option value="CANCELLED">{t('status.CANCELLED')}</option>
+              <option value="ALL">{t('status.ALL')}</option>
             </select>
           </Field>
           <Field label={t('filter.method')}>
@@ -164,7 +179,7 @@ export default function VentasPage() {
         <Spinner />
       ) : (
         <>
-          <DataTable columns={columns} rows={rows} rowKey={(r) => r.id} empty={t('empty')} onRowClick={setSelected} />
+          <DataTable columns={columns} rows={rows} rowKey={(r) => r.id} empty={t('empty')} onRowClick={setSelected} rowClassName={(r) => (r.status === 'CANCELLED' ? 'row-cancelled' : undefined)} />
           <Pager page={page} size={PAGE_SIZE} total={list.data?.total ?? 0} onChange={setPage} />
         </>
       )}
@@ -175,10 +190,13 @@ export default function VentasPage() {
         title={t('cancel.title')}
         body={t('cancel.body', { total: toCancel ? money(toCancel.totalMinor) : '' })}
         confirmLabel={t('cancel.confirm')}
+        minLength={MIN_REASON}
+        hint={t('cancel.hint', { min: MIN_REASON })}
+        describe={(e) => (e instanceof ApiError && e.code === 'REASON_REQUIRED' ? t('cancel.reasonRequired', { min: MIN_REASON }) : null)}
         onClose={() => setToCancel(null)}
         onConfirm={async (reason) => {
           if (!toCancel) return
-          await call(client.POST('/api/b/{businessId}/sales/{saleId}/cancel', { params: { path: { businessId, saleId: toCancel.id } }, body: { reason: reason || undefined } }))
+          await call(client.POST('/api/b/{businessId}/sales/{saleId}/cancel', { params: { path: { businessId, saleId: toCancel.id } }, body: { reason } }))
           setSelected(null)
           list.reload()
           report.reload()

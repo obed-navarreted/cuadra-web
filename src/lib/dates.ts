@@ -60,3 +60,19 @@ export function formatDay(iso: string, language: string): string {
 export function formatDateTime(instant: string, timeZone: string, language: string): string {
   return new Intl.DateTimeFormat(language, { timeZone, dateStyle: 'medium', timeStyle: 'short' }).format(new Date(instant))
 }
+
+export type DayRuleLike = { from?: string | null; timezone?: string | null; dayCutoff?: string | null }
+export type ActiveRule = { timezone: string; cutoff: string }
+
+/**
+ * La regla de jornada VIGENTE en `now`: la de mayor `from` cuyo primer día ya empezó (según su propia zona y corte, como en el servidor: ADR 0011).
+ * Una regla pendiente (su `from` aún no llega) no rige todavía. Sin reglas, cae a la zona y el corte del negocio.
+ */
+export function activeRule(rules: DayRuleLike[] | null | undefined, now: Date, fallback: { timezone?: string | null; dayCutoff?: string | null } = {}): ActiveRule {
+  const sorted = [...(rules ?? [])].filter((r) => r.from && r.timezone && r.dayCutoff).sort((a, b) => (b.from ?? '').localeCompare(a.from ?? ''))
+  for (const r of sorted) {
+    const cutoff = (r.dayCutoff as string).slice(0, 5)
+    if (businessDate(now, r.timezone as string, cutoff) >= (r.from as string)) return { timezone: r.timezone as string, cutoff }
+  }
+  return { timezone: fallback.timezone ?? 'UTC', cutoff: fallback.dayCutoff?.slice(0, 5) ?? '02:00' }
+}

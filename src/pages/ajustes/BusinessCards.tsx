@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { ApiError, call, client } from '../../api/http'
 import { useAuth, useBusiness } from '../../auth/context'
 import { Button, Card, Field } from '../../components/ui'
+import { useFormat } from '../../hooks/useFormat'
 import { errorText } from '../../lib/errors'
+import { dstCutoffTip, sinceForever, timezoneOptions } from './dayRule'
 import { formOf, moduleOn, MODULES, patchOf, POS_VIEWS, validateForm, type Form, type UpdateBusiness } from './settings'
 
 /** Guarda un cambio parcial del negocio y recarga el negocio para que todo el panel vea lo nuevo. */
@@ -69,6 +71,7 @@ export function BusinessCards() {
   const { t } = useTranslation('ajustes')
   const { isOwner } = useAuth()
   const { business } = useBusiness()
+  const { day } = useFormat()
   const currency = business.currency ?? 'USD'
   const [form, setForm] = useState<Form>(() => formOf(business))
   const [tried, setTried] = useState(false)
@@ -77,6 +80,10 @@ export function BusinessCards() {
   const error = validateForm(form, currency)
   const patch = patchOf(form, business)
   const dirty = Object.keys(patch).length > 0
+  const dayRuleChanged = isOwner && (patch.timezone !== undefined || patch.dayCutoff !== undefined)
+  const dstTip = isOwner && dstCutoffTip(form.timezone, form.dayCutoff)
+  const rules = [...(business.dayRules ?? [])].sort((a, b) => (b.from ?? '').localeCompare(a.from ?? ''))
+  const pending = business.dayRuleEffectiveFrom ? rules.find((r) => r.from === business.dayRuleEffectiveFrom) : undefined
   const set = (p: Partial<Form>) => (data.clear(), setTried(false), setForm((f) => ({ ...f, ...p })))
 
   async function submit() {
@@ -122,15 +129,54 @@ export function BusinessCards() {
               <option value="en">{t('common:language.en')}</option>
             </select>
           </Field>
+          <Field label={t('business.timezone')}>
+            <select value={form.timezone} disabled={!isOwner} onChange={(e) => set({ timezone: e.target.value })}>
+              {timezoneOptions(form.timezone).map((z) => (
+                <option key={z} value={z}>
+                  {z}
+                </option>
+              ))}
+            </select>
+          </Field>
           <Field label={t('business.cutoff')} hint={t('business.cutoffHint')}>
             <input type="time" value={form.dayCutoff} disabled={!isOwner} onChange={(e) => set({ dayCutoff: e.target.value })} />
           </Field>
           <Readonly label={t('business.country')}>{business.country}</Readonly>
           <Readonly label={t('business.currency')}>{currency}</Readonly>
-          <Readonly label={t('business.timezone')}>{business.timezone}</Readonly>
         </div>
+        {dayRuleChanged && (
+          <p className="notice warn" role="status">
+            {t('dayRule.beforeSave')}
+          </p>
+        )}
+        {dstTip && (
+          <p className="notice warn" role="note">
+            {t('dayRule.dstTip')}
+          </p>
+        )}
+        {pending && (
+          <p className="notice aj-ok" role="status">
+            {t('dayRule.pending', { date: business.dayRuleEffectiveFrom ? day(business.dayRuleEffectiveFrom) : '' })}
+            {pending.timezone && pending.dayCutoff ? ` (${pending.timezone}, ${pending.dayCutoff.slice(0, 5)})` : ''}
+          </p>
+        )}
         <p className="muted small">{t('business.fixedHint')}</p>
       </Card>
+
+      {rules.length > 0 && (
+        <Card title={t('dayRule.historyTitle')}>
+          <p className="muted small">{t('dayRule.historyHint')}</p>
+          <ul className="aj-rules">
+            {rules.map((r, i) => (
+              <li key={`${r.from}-${i}`}>
+                <strong>{sinceForever(r.from) ? t('dayRule.always') : t('dayRule.from', { date: r.from ? day(r.from) : '—' })}</strong>
+                <span>{r.timezone}</span>
+                <span>{t('dayRule.cutoff', { time: (r.dayCutoff ?? '').slice(0, 5) })}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
 
       <Card title={t('modules.title')}>
         <p className="muted">{t('modules.hint')}</p>
@@ -178,12 +224,15 @@ export function BusinessCards() {
         </div>
       </Card>
 
+      {/* Los turnos manuales ya no se ofrecen: esta tarjeta solo aparece si el negocio aún los exige, para poder apagarlo. */}
+      {business.shiftRequired && (
       <Card title={t('shifts.title')}>
         <Switch label={t('shifts.required')} hint={t('shifts.requiredHint')} checked={form.shiftRequired} disabled={!isOwner} onChange={(v) => set({ shiftRequired: v })} />
         <Field label={t('shifts.note', { currency })} hint={t('shifts.noteHint')}>
           <input inputMode="decimal" value={form.shiftNote} disabled={!isOwner} onChange={(e) => set({ shiftNote: e.target.value })} />
         </Field>
       </Card>
+      )}
       {saveBar}
     </>
   )

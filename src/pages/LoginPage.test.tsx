@@ -22,7 +22,7 @@ describe('LoginPage', () => {
         </AuthProvider>
       </MemoryRouter>,
     )
-    expect(screen.getByRole('heading', { name: 'Cuadra' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Cuentiva' })).toBeInTheDocument()
     expect(screen.getByText(/La caja, el fiado, los gastos/)).toBeInTheDocument()
   })
 
@@ -37,7 +37,7 @@ describe('LoginPage', () => {
     await act(async () => {
       await setLocale('en')
     })
-    expect(screen.getByText(/Your business register, tab/)).toBeInTheDocument()
+    expect(screen.getByText(/Your business register, credit/)).toBeInTheDocument()
     expect(localStorage.getItem('cuadra.locale')).toBe('en')
     expect(i18n.language).toBe('en')
   })

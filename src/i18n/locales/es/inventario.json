@@ -47,7 +47,9 @@
     "lines": "Agrega al menos un producto a la compra.",
     "line": "Revisa las líneas marcadas: falta el producto o el nombre, la cantidad o el costo.",
     "paid": "Lo pagado no puede ser más que el total.",
-    "summary": "Revisa: {{fields}}."
+    "summary": "Revisa: {{fields}}.",
+    "barcode": "El código de barras admite hasta 64 caracteres.",
+    "shortCode": "El código corto admite hasta 16 caracteres."
   },
   "errors": {
     "BARCODE_IN_USE": "Ese código de barras ya lo usa otro producto.",
@@ -62,7 +64,8 @@
     "INVALID_LINES": "Una compra necesita entre 1 y 200 líneas.",
     "INVALID_PRODUCT": "Ese producto ya no existe.",
     "INVALID_SUPPLIER": "Ese proveedor ya no existe.",
-    "INVALID_CATEGORY": "Esa categoría ya no existe."
+    "INVALID_CATEGORY": "Esa categoría ya no existe.",
+    "FORBIDDEN": "Solo un administrador o el dueño puede dar de baja productos."
   },
   "products": {
     "search": "Buscar por nombre o código",
@@ -84,24 +87,24 @@
       "cost": "Costo",
       "margin": "Margen",
       "stock": "Existencia"
-    }
+    },
+    "open": "Abierto",
+    "suggested": "sugerido {{price}}"
   },
   "form": {
     "newTitle": "Nuevo producto",
     "editTitle": "Editar producto",
     "name": "Nombre",
     "variant": "Variante (opcional)",
-    "category": "Categoría",
+    "category": "Categoría (opcional)",
     "noCategory": "Sin categoría",
-    "barcode": "Código de barras",
-    "shortCode": "Código corto",
+    "barcode": "Código de barras (opcional)",
+    "shortCode": "Código corto (opcional)",
     "unit": "Unidad",
-    "pricing": "Cómo se vende",
-    "pricingFixed": "Precio fijo",
-    "pricingByWeight": "Por peso (el precio es por unidad de peso)",
+    "pricing": "Cómo se cobra",
     "price": "Precio de venta",
-    "cost": "Costo",
-    "costHint": "Opcional; sirve para calcular la ganancia.",
+    "cost": "Costo (opcional)",
+    "costHint": "Déjalo vacío si no lo sabes; sirve para calcular la ganancia.",
     "quick": "Mostrar en los productos rápidos de la caja",
     "track": "Llevar control de existencia",
     "trackHint": "descuenta cada venta y avisa cuando queda poco",
@@ -109,7 +112,21 @@
     "initialStock": "Existencia actual",
     "initialStockHint": "Opcional: se guarda como conteo inicial.",
     "deactivate": "Dar de baja el producto",
-    "deactivateConfirm": "Confirmar: dar de baja"
+    "deactivateConfirm": "Confirmar: dar de baja",
+    "barcodeHint": "Escanéalo o escríbelo; máximo 64 caracteres.",
+    "priceSuggested": "Precio sugerido (opcional)",
+    "priceSuggestedHint": "Se propone al vender; se puede cambiar en cada venta.",
+    "noCategoriesHint": "Aún no hay categorías; se crean desde la caja o Ajustes.",
+    "pricingMode": {
+      "FIXED": "Precio fijo",
+      "BY_WEIGHT": "Por peso",
+      "OPEN": "Precio abierto (se pregunta al vender)"
+    },
+    "pricingHelp": {
+      "FIXED": "Siempre se cobra el mismo precio.",
+      "BY_WEIGHT": "El precio es por unidad de peso y se multiplica por lo pesado.",
+      "OPEN": "No tiene precio fijo: el precio se pide en cada venta."
+    }
   },
   "stock": {
     "title": "Productos con control",
@@ -302,5 +319,43 @@
     "newTitle": "Nuevo proveedor",
     "notes": "Notas",
     "active": "Activo"
+  },
+  "history": {
+    "title": "Historial",
+    "tab": "Datos",
+    "empty": "Este producto aún no tiene cambios registrados.",
+    "none": "—",
+    "yes": "Sí",
+    "no": "No",
+    "someone": "Alguien",
+    "otherCategory": "otra categoría",
+    "deactivated": "Dado de baja",
+    "reactivated": "Reactivado",
+    "noChanges": "Sin cambios de datos",
+    "created": "Creado por {{who}} con precio {{price}}",
+    "createdNoPrice": "Creado por {{who}}",
+    "change": "{{field}}: {{from}} → {{to}}",
+    "pricing": {
+      "FIXED": "Precio fijo",
+      "BY_WEIGHT": "Por peso",
+      "OPEN": "Precio abierto"
+    },
+    "field": {
+      "name": "Nombre",
+      "variant": "Variante",
+      "barcode": "Código de barras",
+      "shortCode": "Código corto",
+      "categoryId": "Categoría",
+      "unit": "Unidad",
+      "pricing": "Cómo se vende",
+      "priceMinor": "Precio",
+      "costMinor": "Costo",
+      "isQuick": "Producto rápido",
+      "quickPosition": "Posición rápida",
+      "color": "Color",
+      "trackStock": "Control de existencia",
+      "minStockMilli": "Mínimo de existencia",
+      "active": "Activo"
+    }
   }
 }
