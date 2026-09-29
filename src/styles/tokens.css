@@ -1,0 +1,44 @@
+/* Tokens del diseño (PLAN.md 11.5). Una sola fuente de color para toda la web. */
+:root {
+  --bg: #f4f1ea;
+  --surface: #ffffff;
+  --ink: #1a1916;
+  --ink-2: #4a463e;
+  --muted: #5e594f;
+  --line: #e6e1d6;
+  --line-2: #d6cfc1;
+  --soft: #efebe2;
+  --green: #1d6a4c;
+  --green-soft: #e3efe8;
+  --orange: #a8460f;
+  --orange-soft: #f8e7da;
+  --red: #9c2f22;
+  --red-soft: #f6e1dd;
+  --wa: #1b7f4b;
+  /* Series de gráficos: validadas para daltonismo (ver PLAN.md 11.4). */
+  --series-sales: #1f7a55;
+  --series-expenses: #c9793a;
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.5px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 20px; border-radius: 14px; border: 1px solid var(--line-2);
+  background: var(--surface); color: var(--ink); font: 700 15px var(--font-body); cursor: pointer;
+}
+.btn.dark { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }

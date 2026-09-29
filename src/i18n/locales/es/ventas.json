@@ -1,0 +1,74 @@
+{
+  "title": "Ventas",
+  "empty": "No hay ventas con estos filtros.",
+  "status": {
+    "COMPLETED": "Cobradas",
+    "CANCELLED": "Eliminadas"
+  },
+  "method": {
+    "CASH": "Efectivo",
+    "TRANSFER": "Transferencia",
+    "CARD": "Tarjeta",
+    "CREDIT": "Fiado",
+    "OTHER": "Otro"
+  },
+  "filter": {
+    "status": "Estado",
+    "method": "Método de pago",
+    "person": "Persona",
+    "all": "Todos",
+    "everyone": "Todas"
+  },
+  "col": {
+    "date": "Fecha",
+    "by": "Persona",
+    "payments": "Pagos",
+    "status": "Estado",
+    "total": "Total"
+  },
+  "kpi": {
+    "sales": "Ventas del periodo",
+    "count_one": "{{count}} venta",
+    "count_other": "{{count}} ventas",
+    "ticket": "Ticket promedio",
+    "discounts": "Descuentos",
+    "cancelled": "Ventas eliminadas"
+  },
+  "byMethod": "Por método de pago",
+  "export": {
+    "sales": "Exportar ventas (CSV)",
+    "items": "Exportar líneas (CSV)"
+  },
+  "detail": {
+    "title": "Detalle de la venta",
+    "product": "Producto",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "cost": "Costo",
+    "lineTotal": "Total",
+    "method": "Método",
+    "amount": "Monto",
+    "note": "Detalle",
+    "creditTo": "Fiado a {{name}}",
+    "change": "Pagó con {{tendered}}, vuelto {{change}}",
+    "date": "Fecha",
+    "by": "Atendió",
+    "cancelledBy": "Eliminó",
+    "reason": "Motivo",
+    "edited": "Editada",
+    "noItems": "Sin líneas.",
+    "noPayments": "Sin pagos.",
+    "subtotal": "Subtotal",
+    "discount": "Descuento",
+    "total": "Total",
+    "costOfGoods": "Costo de lo vendido",
+    "costCoverage": "Solo {{percent}}% de la venta tiene costo anotado: la ganancia sería mayor a la real.",
+    "close": "Cerrar",
+    "cancel": "Eliminar venta"
+  },
+  "cancel": {
+    "title": "Eliminar venta",
+    "body": "Se elimina esta venta de {{total}}: sale de los reportes, devuelve las existencias y anula el fiado que generó. Queda registrado quién la eliminó.",
+    "confirm": "Eliminar"
+  }
+}

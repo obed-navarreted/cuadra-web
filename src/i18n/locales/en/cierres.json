@@ -1,0 +1,76 @@
+{
+  "title": "Cash closings",
+  "subtitle": "History of shifts and their differences.",
+  "empty": "There are no shifts in this period.",
+  "status": {
+    "OPEN": "Open",
+    "CLOSED": "Closed"
+  },
+  "filter": {
+    "person": "Person",
+    "everyone": "Everyone"
+  },
+  "col": {
+    "register": "Register",
+    "opened": "Opened",
+    "closed": "Closed",
+    "expected": "Expected",
+    "counted": "Counted",
+    "difference": "Result",
+    "flags": "Flags"
+  },
+  "outcome": {
+    "balanced": "Balanced",
+    "short": "Short {{amount}}",
+    "over": "Over {{amount}}"
+  },
+  "flag": {
+    "forced": "Forced closing",
+    "late_one": "{{count}} late operation",
+    "late_other": "{{count}} late operations",
+    "reopened_one": "Reopened {{count}} time",
+    "reopened_other": "Reopened {{count}} times"
+  },
+  "kpi": {
+    "closed": "Closings",
+    "open_one": "{{count}} open shift",
+    "open_other": "{{count}} open shifts",
+    "net": "Net difference",
+    "netHint": "shortages and overages together",
+    "absolute": "Total difference",
+    "absoluteHint": "without offsetting shortages with overages",
+    "forced": "Forced closings"
+  },
+  "detail": {
+    "title": "Shift detail",
+    "register": "Register",
+    "opened": "Opened",
+    "closed": "Closed",
+    "note": "Note",
+    "forcedReason": "Reason for the forced closing",
+    "breakdown": "Register breakdown",
+    "float": "Opening float",
+    "cashSales": "Cash sales ({{count}})",
+    "creditPayments": "Cash tab payments",
+    "deposits": "Cash in",
+    "cashExpenses": "Expenses paid from the drawer",
+    "withdrawals": "Withdrawals",
+    "expected": "Expected in the drawer",
+    "expectedNow": "Expected now (with everything received)",
+    "expectedAtClose": "Expected at closing (what was signed)",
+    "counted": "Counted cash",
+    "transfer": "Transfers",
+    "card": "Card",
+    "other": "Other methods",
+    "creditNew": "New tabs",
+    "cancelled": "Deleted sales",
+    "otherHint": "Transfers, card and tabs are not in the drawer: they do not change what should be there.",
+    "close": "Close",
+    "reopen": "Reopen shift"
+  },
+  "reopen": {
+    "title": "Reopen shift",
+    "body": "The shift becomes open again and can be closed with a new count. Only the owner can do it and it is recorded with the reason.",
+    "confirm": "Reopen"
+  }
+}

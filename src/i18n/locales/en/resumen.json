@@ -1,0 +1,57 @@
+{
+  "subtitle": "{{from}} – {{to}} · all registers",
+  "kpi": {
+    "sales": "Sales",
+    "expenses": "Operating expenses",
+    "expensesHint": "Merchandise purchases separately: {{amount}}",
+    "expensesHintNone": "Without merchandise purchases",
+    "profit": "Estimated profit",
+    "profitHint": "sales − cost − expenses",
+    "coverage": "Cost is recorded for {{percent}} % of what was sold: the real profit may be lower.",
+    "receivable": "Receivable (tabs)",
+    "salesHint_one": "{{count}} sale · ticket {{ticket}}",
+    "salesHint_other": "{{count}} sales · ticket {{ticket}}",
+    "receivableHint_one": "{{count}} pending",
+    "receivableHint_other": "{{count}} pending"
+  },
+  "chart": {
+    "title": "Sales and expenses per day",
+    "sales": "Sales",
+    "expenses": "Expenses",
+    "asTable": "View as table",
+    "asChart": "View chart",
+    "day": "Day",
+    "aria": "Sales and expenses for each day in the range. Use the table view to read the values.",
+    "point": "{{day}}: sales {{sales}}, expenses {{expenses}}",
+    "empty": "There are no sales or expenses in this range."
+  },
+  "top": {
+    "title": "Best sellers by revenue",
+    "legend": "revenue · profit",
+    "noCost": "no cost",
+    "empty": "No sales in this range yet."
+  },
+  "oldest": {
+    "title": "Oldest tabs",
+    "empty": "There are no pending tabs.",
+    "all": "View report",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
+  },
+  "stock": {
+    "title": "Inventory",
+    "ok": "Nothing to review.",
+    "link": "Go to inventory",
+    "low_one": "{{count}} product low on stock or negative",
+    "low_other": "{{count}} products low on stock or negative"
+  },
+  "closing": {
+    "title": "Latest closing",
+    "by": "{{name}} · {{when}}",
+    "balanced": "Balanced",
+    "short": "Short {{amount}}",
+    "over": "Over {{amount}}",
+    "empty": "There are no cash closings yet.",
+    "link": "View closings"
+  }
+}

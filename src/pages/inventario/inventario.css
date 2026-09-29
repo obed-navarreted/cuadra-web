@@ -1,0 +1,29 @@
+/* Estilos propios de Inventario. */
+.inv-stack { display: grid; gap: 14px; min-width: 0; }
+.inv-stack .card { overflow: hidden; }
+.inv-stack input:not([type='checkbox']), .inv-stack select, .inv-stack textarea { width: 100%; max-width: 100%; min-width: 0; }
+.inv-stack input[type='file'] { padding: 8px 10px; }
+.inv-toolbar { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.inv-toolbar .field { flex: 1 1 220px; }
+.inv-form { display: grid; gap: 12px; min-width: 0; }
+.inv-form input, .inv-form select, .inv-form textarea { width: 100%; }
+.inv-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .inv-cols { grid-template-columns: minmax(0, 1fr); } }
+.inv-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.inv-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 8px 0; cursor: pointer; }
+.inv-check input { width: 22px; height: 22px; min-height: 22px; flex: none; margin: 0; accent-color: var(--green); }
+.inv-negative { color: var(--red); font-weight: 800; }
+.inv-low { color: var(--orange); font-weight: 800; }
+.inv-positive { color: var(--green); font-weight: 800; }
+.inv-struck { text-decoration: line-through; color: var(--muted); }
+.inv-h3 { font: 800 15px var(--font-display); margin: 6px 0 0; }
+.inv-totals { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 10px 14px; border-radius: 14px; background: var(--soft); }
+.inv-totals strong { text-align: right; }
+.inv-line { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.inv-line.bad { border-color: var(--red); }
+.inv-line-foot { display: flex; align-items: center; gap: 10px; }
+.inv-map { display: grid; gap: 10px; }
+.inv-map-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; }
+.inv-map-row .field { flex: 0 1 220px; }
+.inv-sample { overflow-wrap: anywhere; }
+.inv-form textarea { font-family: var(--font-body); }

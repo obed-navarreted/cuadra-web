@@ -1,0 +1,165 @@
+{
+  "title": "Fiados y clientes",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "close": "Cerrar",
+  "tabs": {
+    "credits": "Fiados",
+    "customers": "Clientes"
+  },
+  "summary": {
+    "open": "Por cobrar",
+    "overdue": "Con más de {{days}} días",
+    "openCount_one": "{{count}} fiado abierto",
+    "openCount_other": "{{count}} fiados abiertos",
+    "customers_one": "{{count}} cliente",
+    "customers_other": "{{count}} clientes",
+    "overdueCount_one": "{{count}} fiado viejo",
+    "overdueCount_other": "{{count}} fiados viejos"
+  },
+  "filters": {
+    "status": "Estado",
+    "linked": "Cliente",
+    "search": "Buscar por nombre, nota o teléfono",
+    "sort": "Ordenar",
+    "status_OPEN": "Abiertos",
+    "status_PAID": "Pagados",
+    "status_ALL": "Todos",
+    "linked_ALL": "Todos",
+    "linked_WITH": "Con cliente",
+    "linked_WITHOUT": "Solo nombre",
+    "old": "+{{days}} días",
+    "sort_OLDEST": "Más viejos primero",
+    "sort_AMOUNT": "Mayor saldo",
+    "sort_RECENT": "Más recientes"
+  },
+  "credits": {
+    "col": {
+      "who": "Deudor",
+      "amount": "Monto",
+      "balance": "Saldo",
+      "age": "Antigüedad",
+      "status": "Estado"
+    },
+    "noCustomer": "solo nombre",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días",
+    "empty": "No hay fiados con estos filtros."
+  },
+  "status": {
+    "OPEN": "Abierto",
+    "PAID": "Pagado",
+    "WRITTEN_OFF": "Condonado",
+    "CANCELLED": "Cancelado"
+  },
+  "newCredit": {
+    "open": "Nuevo fiado",
+    "title": "Nuevo fiado",
+    "hint": "Para anotar una deuda que no viene de una venta, como en el cuaderno.",
+    "name": "Nombre del deudor",
+    "phone": "Teléfono (opcional)",
+    "amount": "Monto",
+    "note": "Nota (opcional)",
+    "due": "Fecha de vencimiento (opcional)",
+    "save": "Guardar fiado"
+  },
+  "pager": {
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{page}} de {{pages}}"
+  },
+  "credit": {
+    "paid": "Abonado",
+    "created": "Fecha",
+    "due": "Vence",
+    "note": "Nota",
+    "phone": "Teléfono",
+    "openCustomer": "Ver cliente"
+  },
+  "link": {
+    "open": "Vincular a un cliente",
+    "title": "Vincular a un cliente",
+    "hint": "“{{name}}” es un fiado anotado solo con nombre. Elige el cliente al que pertenece; los montos y las fechas no cambian.",
+    "search": "Buscar cliente",
+    "none": "No hay clientes con ese nombre.",
+    "createNew": "Crear cliente “{{name}}”"
+  },
+  "writeOff": {
+    "open": "Condonar",
+    "title": "Condonar deuda",
+    "hint": "Se cierra la deuda de {{amount}} sin cobrarla. No suma a la caja y queda registrada.",
+    "confirm": "Condonar"
+  },
+  "pay": {
+    "open": "Registrar abono",
+    "openCustomer": "Registrar abono",
+    "title": "Registrar abono",
+    "owes": "debe {{amount}}",
+    "fifo": "El abono se reparte del fiado más viejo al más nuevo.",
+    "amount": "Monto del abono",
+    "over": "Es {{amount}} más de lo que se debe. Se registra igual y queda marcado para revisar.",
+    "method": "Método de pago",
+    "reference": "Referencia (opcional)",
+    "referenceHint": "Por ejemplo, el número de la transferencia.",
+    "confirm": "Registrar {{amount}}",
+    "confirmEmpty": "Registrar abono"
+  },
+  "method": {
+    "CASH": "Efectivo",
+    "TRANSFER": "Transferencia",
+    "CARD": "Tarjeta",
+    "OTHER": "Otro"
+  },
+  "reason": {
+    "required": "Motivo (obligatorio)",
+    "optional": "Motivo (opcional)"
+  },
+  "customers": {
+    "col": {
+      "name": "Cliente",
+      "phone": "Teléfono",
+      "balance": "Saldo",
+      "oldest": "Fiado más viejo"
+    },
+    "archived": "Archivado",
+    "debtOnly": "Solo con deuda",
+    "showArchived": "Mostrar archivados",
+    "new": "Nuevo cliente",
+    "empty": "No hay clientes con estos filtros."
+  },
+  "customer": {
+    "name": "Nombre",
+    "phone": "Teléfono",
+    "limit": "Límite de crédito (opcional)",
+    "limitHint": "Vacío = sin límite. La app avisa al fiar de más.",
+    "notes": "Notas",
+    "edit": "Editar datos",
+    "loading": "Cliente",
+    "limitValue": "Límite: {{amount}}",
+    "archive": "Archivar",
+    "unarchive": "Restaurar",
+    "archiveTitle": "Archivar cliente",
+    "unarchiveTitle": "Restaurar cliente",
+    "archiveHint": "Deja de aparecer en las listas. Su historial y su deuda se conservan.",
+    "unarchiveHint": "Vuelve a aparecer en las listas."
+  },
+  "void": {
+    "open": "Anular",
+    "title": "Anular abono",
+    "hint": "El abono de {{amount}} deja de contar y el saldo vuelve a subir.",
+    "confirm": "Anular abono"
+  },
+  "statement": {
+    "col": {
+      "date": "Fecha",
+      "what": "Movimiento",
+      "amount": "Monto",
+      "by": "Registró"
+    },
+    "kind_CREDIT": "Fiado",
+    "kind_PAYMENT": "Abono",
+    "kind_WRITE_OFF": "Condonado",
+    "voided": "Anulado",
+    "empty": "Este cliente todavía no tiene movimientos."
+  }
+}

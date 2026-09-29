@@ -1,0 +1,168 @@
+{
+  "title": "Reports",
+  "subtitle": "{{from}} – {{to}}",
+  "tabs": {
+    "sales": "Sales",
+    "profit": "Profit",
+    "products": "Products",
+    "receivables": "Receivable",
+    "expenses": "Expenses",
+    "closings": "Closings",
+    "inventory": "Inventory"
+  },
+  "notRanged": "This report shows how things stand today; it does not depend on the date range.",
+  "csv": {
+    "download": "Download CSV",
+    "downloading": "Downloading…",
+    "sales": "Sales (CSV)",
+    "items": "Sold lines (CSV)",
+    "breakdown": "This table (CSV)",
+    "error": "The file could not be downloaded."
+  },
+  "methods": {
+    "CASH": "Cash",
+    "TRANSFER": "Transfer",
+    "CARD": "Card",
+    "CREDIT": "Tab",
+    "OTHER": "Other"
+  },
+  "units": {
+    "UNIT": "units",
+    "LB": "lb",
+    "KG": "kg",
+    "L": "L",
+    "M": "m"
+  },
+  "sales": {
+    "count": "Sales",
+    "total": "Total sold",
+    "discount": "Discounts",
+    "ticket": "Average ticket",
+    "cancelled": "Deleted sales",
+    "by": {
+      "member": "By person",
+      "register": "By register",
+      "method": "By payment method",
+      "hour": "By hour",
+      "day": "By day"
+    },
+    "group": "Group",
+    "salesCount": "Sales",
+    "amount": "Total",
+    "share": "% of total",
+    "empty": "There are no sales in this range.",
+    "methodNote": "A mixed payment counts under every method it used, so sale counts may add up to more than the total."
+  },
+  "profit": {
+    "formula": "profit = sales − cost of goods sold − operating expenses (excluding merchandise purchases and cash withdrawals)",
+    "sales": "Sales",
+    "cost": "Cost of goods sold",
+    "expenses": "Operating expenses",
+    "profit": "Estimated profit",
+    "excluded": "Merchandise purchases not included",
+    "excludedHint": "They are already reflected in the cost of goods sold; counting them again would subtract twice.",
+    "coverage": "Cost coverage",
+    "coverageHint": "Share of what was sold with a recorded cost. Below 100 %, the real profit may be lower.",
+    "explainTitle": "How it is calculated",
+    "explain": "Tab sales count when they are sold, not when they are collected. Cash withdrawals are never expenses.",
+    "csvConcept": "concept",
+    "csvAmount": "amount"
+  },
+  "products": {
+    "sort": {
+      "revenue": "By revenue",
+      "quantity": "By quantity",
+      "profit": "By profit"
+    },
+    "name": "Product",
+    "quantity": "Quantity",
+    "revenue": "Revenue",
+    "cost": "Cost",
+    "profit": "Profit",
+    "noCost": "cost missing on some sales",
+    "empty": "No products were sold in this range."
+  },
+  "receivables": {
+    "total": "Receivable",
+    "aging": "Aging",
+    "bucket": {
+      "0-15": "0–15 days",
+      "16-30": "16–30 days",
+      "31-60": "31–60 days",
+      "60+": "Over 60 days"
+    },
+    "worst": "Who owes the most",
+    "best": "Best payers (last 90 days)",
+    "name": "Customer",
+    "owes": "Owes",
+    "oldest": "Oldest tab",
+    "paid": "Paid in 90 days",
+    "empty": "There are no pending tabs.",
+    "noPayers": "No payments in the last 90 days yet.",
+    "count_one": "{{count}} open tab",
+    "count_other": "{{count}} open tabs",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "bucketCount_one": "{{count}} tab",
+    "bucketCount_other": "{{count}} tabs"
+  },
+  "expenses": {
+    "operating": "Operating expenses",
+    "purchases": "Merchandise purchases",
+    "drawer": "Paid from the drawer",
+    "other": "Other methods",
+    "purchasesHint": "Not counted in profit: already in the cost.",
+    "category": "Category",
+    "amount": "Amount",
+    "share": "% of total",
+    "uncategorized": "Uncategorized",
+    "empty": "There are no expenses in this range.",
+    "cat": {
+      "goods": "Merchandise",
+      "utilities": "Utilities",
+      "payroll": "Payroll",
+      "rent": "Rent",
+      "transport": "Transport",
+      "supplies": "Supplies",
+      "maintenance": "Maintenance",
+      "other": "Other"
+    }
+  },
+  "closings": {
+    "person": "Person",
+    "shifts": "Closings",
+    "net": "Net difference",
+    "absolute": "Total difference (unsigned)",
+    "register": "Register",
+    "closedAt": "Closed",
+    "expected": "Expected",
+    "counted": "Counted",
+    "difference": "Difference",
+    "balanced": "Balanced",
+    "short": "Short",
+    "over": "Over",
+    "empty": "There are no closings in this range.",
+    "detail_one": "View the closing",
+    "detail_other": "View the {{count}} closings"
+  },
+  "inventory": {
+    "value": "Value at cost",
+    "valueHint": "Only products with a cost and positive stock.",
+    "tracked": "Tracked products",
+    "noCost": "Without a recorded cost",
+    "noCostHint": "They are not in the value: record their cost to include them.",
+    "low": "Low or negative stock",
+    "idle": "No movement in 30 days",
+    "name": "Product",
+    "stock": "Stock",
+    "min": "Minimum",
+    "cost": "Cost",
+    "lastSale": "Last sale",
+    "never": "never",
+    "negative": "negative",
+    "emptyLow": "Nothing to review.",
+    "emptyIdle": "Everything moved in the last month.",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago"
+  }
+}

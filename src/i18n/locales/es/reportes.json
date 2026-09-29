@@ -1,0 +1,168 @@
+{
+  "title": "Reportes",
+  "subtitle": "{{from}} – {{to}}",
+  "tabs": {
+    "sales": "Ventas",
+    "profit": "Ganancia",
+    "products": "Productos",
+    "receivables": "Por cobrar",
+    "expenses": "Gastos",
+    "closings": "Cierres",
+    "inventory": "Inventario"
+  },
+  "notRanged": "Este reporte muestra cómo está hoy; no depende del rango de fechas.",
+  "csv": {
+    "download": "Descargar CSV",
+    "downloading": "Descargando…",
+    "sales": "Ventas (CSV)",
+    "items": "Líneas vendidas (CSV)",
+    "breakdown": "Esta tabla (CSV)",
+    "error": "No se pudo descargar el archivo."
+  },
+  "methods": {
+    "CASH": "Efectivo",
+    "TRANSFER": "Transferencia",
+    "CARD": "Tarjeta",
+    "CREDIT": "Fiado",
+    "OTHER": "Otro"
+  },
+  "units": {
+    "UNIT": "unid.",
+    "LB": "lb",
+    "KG": "kg",
+    "L": "L",
+    "M": "m"
+  },
+  "sales": {
+    "count": "Ventas",
+    "total": "Total vendido",
+    "discount": "Descuentos",
+    "ticket": "Ticket promedio",
+    "cancelled": "Ventas eliminadas",
+    "by": {
+      "member": "Por persona",
+      "register": "Por caja",
+      "method": "Por método de pago",
+      "hour": "Por hora",
+      "day": "Por día"
+    },
+    "group": "Grupo",
+    "salesCount": "Ventas",
+    "amount": "Total",
+    "share": "% del total",
+    "empty": "No hay ventas en este rango.",
+    "methodNote": "Un mismo pago mixto cuenta en cada método que usó, por lo que las ventas pueden sumar más que el total."
+  },
+  "profit": {
+    "formula": "ganancia = ventas − costo de lo vendido − gastos operativos (sin compras de mercadería ni retiros de caja)",
+    "sales": "Ventas",
+    "cost": "Costo de lo vendido",
+    "expenses": "Gastos operativos",
+    "profit": "Ganancia estimada",
+    "excluded": "Compras de mercadería no incluidas",
+    "excludedHint": "Ya se reflejan en el costo de lo vendido; contarlas otra vez restaría dos veces.",
+    "coverage": "Cobertura de costo",
+    "coverageHint": "Parte de lo vendido cuyo costo estaba anotado. Si es menor a 100 %, la ganancia real puede ser menor.",
+    "explainTitle": "Cómo se calcula",
+    "explain": "Las ventas a fiado cuentan cuando se venden, no cuando se cobran. Los retiros de caja nunca son gastos.",
+    "csvConcept": "concepto",
+    "csvAmount": "monto"
+  },
+  "products": {
+    "sort": {
+      "revenue": "Por ingreso",
+      "quantity": "Por cantidad",
+      "profit": "Por ganancia"
+    },
+    "name": "Producto",
+    "quantity": "Cantidad",
+    "revenue": "Ingreso",
+    "cost": "Costo",
+    "profit": "Ganancia",
+    "noCost": "sin costo en algunas ventas",
+    "empty": "No hay productos vendidos en este rango."
+  },
+  "receivables": {
+    "total": "Por cobrar",
+    "aging": "Antigüedad",
+    "bucket": {
+      "0-15": "0–15 días",
+      "16-30": "16–30 días",
+      "31-60": "31–60 días",
+      "60+": "Más de 60 días"
+    },
+    "worst": "Quienes más deben",
+    "best": "Mejores pagadores (últimos 90 días)",
+    "name": "Cliente",
+    "owes": "Debe",
+    "oldest": "Fiado más viejo",
+    "paid": "Pagó en 90 días",
+    "empty": "No hay fiados pendientes.",
+    "noPayers": "Todavía no hay abonos en los últimos 90 días.",
+    "count_one": "{{count}} fiado abierto",
+    "count_other": "{{count}} fiados abiertos",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días",
+    "bucketCount_one": "{{count}} fiado",
+    "bucketCount_other": "{{count}} fiados"
+  },
+  "expenses": {
+    "operating": "Gastos operativos",
+    "purchases": "Compras de mercadería",
+    "drawer": "Salió del cajón",
+    "other": "Otros medios",
+    "purchasesHint": "No cuentan en la ganancia: ya están en el costo.",
+    "category": "Categoría",
+    "amount": "Monto",
+    "share": "% del total",
+    "uncategorized": "Sin categoría",
+    "empty": "No hay gastos en este rango.",
+    "cat": {
+      "goods": "Mercadería",
+      "utilities": "Servicios",
+      "payroll": "Sueldos",
+      "rent": "Alquiler",
+      "transport": "Transporte",
+      "supplies": "Insumos",
+      "maintenance": "Mantenimiento",
+      "other": "Otros"
+    }
+  },
+  "closings": {
+    "person": "Persona",
+    "shifts": "Cierres",
+    "net": "Diferencia neta",
+    "absolute": "Diferencia total (sin signo)",
+    "register": "Caja",
+    "closedAt": "Cierre",
+    "expected": "Esperado",
+    "counted": "Contado",
+    "difference": "Diferencia",
+    "balanced": "Cuadró",
+    "short": "Faltó",
+    "over": "Sobró",
+    "empty": "No hay cierres en este rango.",
+    "detail_one": "Ver el cierre",
+    "detail_other": "Ver los {{count}} cierres"
+  },
+  "inventory": {
+    "value": "Valor al costo",
+    "valueHint": "Solo productos con costo y existencia positiva.",
+    "tracked": "Productos con control",
+    "noCost": "Sin costo anotado",
+    "noCostHint": "No suman al valor: anota su costo para incluirlos.",
+    "low": "Stock bajo o negativo",
+    "idle": "Sin movimiento en 30 días",
+    "name": "Producto",
+    "stock": "Existencia",
+    "min": "Mínimo",
+    "cost": "Costo",
+    "lastSale": "Última venta",
+    "never": "nunca",
+    "negative": "negativo",
+    "emptyLow": "Nada por revisar.",
+    "emptyIdle": "Todo se ha movido en el último mes.",
+    "daysAgo_one": "hace {{count}} día",
+    "daysAgo_other": "hace {{count}} días"
+  }
+}

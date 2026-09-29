@@ -1,0 +1,28 @@
+/* Piezas compartidas por Resumen y Reportes. */
+.bar { display: block; height: 8px; border-radius: 4px; background: var(--soft); overflow: hidden; min-width: 40px; }
+.bar > span { display: block; height: 100%; border-radius: 4px; background: var(--series-sales); }
+.bar.orange > span { background: var(--series-expenses); }
+.list-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.list-row:last-child { border-bottom: 0; }
+.list-row .bar { grid-column: 1 / -1; }
+.list-row .amounts { text-align: right; font-weight: 800; white-space: nowrap; }
+.list-row .amounts small { display: block; font-weight: 600; color: var(--muted); }
+table.data td.name-cell { min-width: 150px; overflow-wrap: break-word; }
+.name-cell { overflow-wrap: anywhere; }
+.report-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.report-note { font-size: 13px; color: var(--muted); }
+.formula { padding: 12px 14px; border-radius: 14px; background: var(--soft); font-weight: 700; line-height: 1.4; }
+.money-line { display: flex; gap: 12px; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.money-line:last-child { border-bottom: 0; }
+.money-line.total { font-size: 18px; font-weight: 800; }
+.money-line .v { font-weight: 800; white-space: nowrap; }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.report { display: grid; gap: 14px; min-width: 0; }
+.grid-cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.share-cell { display: grid; grid-template-columns: minmax(50px, 1fr) 40px; gap: 8px; align-items: center; min-width: 110px; }
+.share-cell > span:last-child { text-align: right; font-size: 13px; color: var(--muted); }
+.closing-detail { border-top: 1px solid var(--line); padding-top: 10px; }
+.closing-detail summary { cursor: pointer; min-height: 40px; display: flex; align-items: center; gap: 6px; }
+.closing-detail summary:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+.closing-detail .table-wrap { margin-top: 8px; }

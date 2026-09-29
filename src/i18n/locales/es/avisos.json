@@ -1,0 +1,249 @@
+{
+  "tab": {
+    "inbox": "Bandeja",
+    "schedules": "Programadas",
+    "preferences": "Preferencias"
+  },
+  "inbox": {
+    "all": "Todas",
+    "unread": "Sin leer",
+    "markAll": "Marcar todas como leídas",
+    "empty": "No tienes notificaciones.",
+    "emptyUnread": "No tienes notificaciones sin leer.",
+    "new": "Nueva",
+    "open": "Abrir",
+    "more": "Ver más"
+  },
+  "result": {
+    "balanced": "Cuadró",
+    "short": "Faltó {{amount}}",
+    "over": "Sobró {{amount}}"
+  },
+  "text": {
+    "LOW_STOCK": {
+      "title": "Queda poco {{productName}}",
+      "body": "Quedan {{stock}}. Conviene comprar más."
+    },
+    "OUT_OF_STOCK": {
+      "title": "Se agotó {{productName}}",
+      "body": "Ya no hay existencia registrada."
+    },
+    "SHIFT_CLOSED": {
+      "title": "Cierre de caja",
+      "body": "{{memberName}} cerró la caja. {{result}}."
+    },
+    "SHIFT_DIFFERENCE": {
+      "title": "Diferencia en el cierre",
+      "body": "{{memberName}} cerró con una diferencia de {{amount}}."
+    },
+    "SHIFT_NOT_CLOSED": {
+      "title": "Caja sin cerrar",
+      "body": "El turno de {{memberName}} sigue abierto."
+    },
+    "SALE_DELETED": {
+      "title": "Venta eliminada",
+      "body": "{{memberName}} eliminó una venta de {{total}}."
+    },
+    "DEVICE_STALE": {
+      "title": "Un teléfono no ha sincronizado",
+      "body": "{{deviceName}} tiene {{pending}} operaciones sin enviar."
+    },
+    "PIN_LOCKOUT": {
+      "title": "PIN bloqueado",
+      "body": "{{memberName}} se equivocó varias veces con el PIN."
+    },
+    "MEMBER_JOINED": {
+      "title": "Se unió alguien al equipo",
+      "body": "{{memberName}} aceptó tu invitación."
+    },
+    "DAILY_SUMMARY": {
+      "title": "Resumen del día",
+      "body": "{{salesCount}} ventas por {{total}}. Gastos: {{expenses}}."
+    },
+    "SCHEDULED": {
+      "title": "Aviso programado",
+      "body": "Aviso programado"
+    }
+  },
+  "unit": {
+    "LB": "lb",
+    "KG": "kg",
+    "L": "L",
+    "M": "m"
+  },
+  "prefs": {
+    "title": "Qué avisos recibir",
+    "hint": "Apaga los que no necesites. Solo cambia lo tuyo, no lo del resto del equipo.",
+    "type": {
+      "LOW_STOCK": "Queda poco de un producto",
+      "OUT_OF_STOCK": "Se agotó un producto",
+      "SHIFT_CLOSED": "Cierres de caja",
+      "SHIFT_DIFFERENCE": "Diferencia en un cierre",
+      "SHIFT_NOT_CLOSED": "Caja sin cerrar",
+      "SALE_DELETED": "Venta eliminada",
+      "DEVICE_STALE": "Teléfono sin sincronizar",
+      "PIN_LOCKOUT": "PIN bloqueado",
+      "MEMBER_JOINED": "Alguien se unió al equipo",
+      "DAILY_SUMMARY": "Resumen del día",
+      "SCHEDULED": "Avisos programados"
+    }
+  },
+  "biz": {
+    "title": "Reglas de avisos del negocio",
+    "hint": "Horas en la zona horaria del negocio ({{zone}}). Estas reglas valen para todo el equipo.",
+    "ownerOnly": "Solo el dueño cambia estas reglas.",
+    "quietStart": "Silencio desde",
+    "quietEnd": "Silencio hasta",
+    "quietHint": "En horas de silencio los avisos normales solo quedan en la bandeja; los críticos y los programados sí suenan.",
+    "summary": "Enviar resumen del día al dueño",
+    "summaryTime": "Hora del resumen",
+    "reminder": "Avisar cuando un turno sigue abierto",
+    "reminderTime": "Hora del recordatorio",
+    "stale": "Horas para avisar de un teléfono sin sincronizar",
+    "staleHint": "Entre 1 y 720.",
+    "invalid": "Revisa las horas (HH:MM) y que las horas de espera estén entre 1 y 720.",
+    "saved": "Cambios guardados."
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "sendNow": "Enviar ahora",
+    "schedule": "Programar",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "edit": "Editar",
+    "duplicate": "Duplicar",
+    "history": "Historial",
+    "delete": "Eliminar",
+    "close": "Cerrar"
+  },
+  "sched": {
+    "hint": "Recordatorios que el sistema envía a tu equipo a la hora que elijas.",
+    "new": "Nueva programación",
+    "empty": "Todavía no hay avisos programados.",
+    "sentTag": "Enviada",
+    "ended": "Terminada",
+    "paused": "Pausada",
+    "next": "Próximo envío: {{when}}",
+    "counts": "Enviados {{sent}} · Leídos {{read}}",
+    "copySuffix": "(copia)"
+  },
+  "editor": {
+    "newTitle": "Nueva programación",
+    "editTitle": "Editar programación",
+    "templates": "Plantillas rápidas",
+    "title": "Título",
+    "counter": "{{n}}/{{max}} recomendado",
+    "body": "Mensaje",
+    "audience": "¿Quién lo recibe?",
+    "link": "Al tocar el aviso abre…",
+    "when": "¿Cuándo?",
+    "zone": "Las horas usan la zona horaria del negocio ({{zone}}).",
+    "date": "Fecha",
+    "time": "Hora",
+    "days": "Días de la semana",
+    "dayOfMonth": "Día del mes",
+    "everyDays": "Cada cuántos días",
+    "endDate": "Termina el (opcional)",
+    "endHint": "Sin fecha, se repite hasta que lo pauses.",
+    "preview": "Vista previa",
+    "previewTitle": "Título del aviso",
+    "previewBody": "Mensaje del aviso"
+  },
+  "template": {
+    "float": {
+      "title": "Recuerda contar el fondo al abrir",
+      "body": "Antes de vender, cuenta el efectivo con el que empieza la caja y anótalo al abrir el turno."
+    },
+    "closing": {
+      "title": "Cierre de caja a las 9 p. m.",
+      "body": "Es hora de contar el efectivo y cerrar la caja del día."
+    },
+    "supplier": {
+      "title": "Hoy llega el proveedor",
+      "body": "Prepara espacio y revisa el pedido cuando llegue."
+    },
+    "credits": {
+      "title": "Revisa los fiados vencidos",
+      "body": "Hay clientes con saldo pendiente. Envíales un recordatorio."
+    }
+  },
+  "audience": {
+    "all": "Todo el equipo",
+    "people": "Personas",
+    "role": {
+      "ADMIN": "Admins",
+      "CASHIER": "Cajeros",
+      "OWNER": "Dueño"
+    }
+  },
+  "link": {
+    "none": "Nada",
+    "caja": "Caja",
+    "cierre": "Cierre",
+    "fiados": "Fiados",
+    "inventario": "Inventario",
+    "gastos": "Gastos"
+  },
+  "when": {
+    "now": "Ahora",
+    "once": "Una vez",
+    "repeat": "Repetir"
+  },
+  "repeat": {
+    "DAILY": "Diario",
+    "WEEKLY": "Semanal",
+    "MONTHLY": "Mensual",
+    "EVERY_N_DAYS": "Cada N días"
+  },
+  "weekday": {
+    "1": "L",
+    "2": "M",
+    "3": "X",
+    "4": "J",
+    "5": "V",
+    "6": "S",
+    "7": "D"
+  },
+  "rule": {
+    "once": "Una vez el {{date}} a las {{time}}",
+    "daily": "Todos los días a las {{time}}",
+    "weekly": "Cada {{days}} a las {{time}}",
+    "monthly": "El día {{day}} de cada mes a las {{time}}",
+    "everyN": "Cada {{n}} días a las {{time}}"
+  },
+  "draftError": {
+    "TITLE": "Escribe un título (máximo 100 letras).",
+    "BODY": "Escribe el mensaje (máximo 500 letras).",
+    "AUDIENCE": "Elige quién lo recibe.",
+    "DATE": "Escribe una fecha válida.",
+    "TIME": "Escribe una hora válida (HH:MM).",
+    "DAYS": "Elige al menos un día de la semana.",
+    "DAY_OF_MONTH": "El día del mes va de 1 a 31.",
+    "EVERY_DAYS": "Cada cuántos días va de 1 a 365.",
+    "END_DATE": "La fecha de fin no es válida."
+  },
+  "err": {
+    "INVALID_TITLE": "El título no es válido.",
+    "INVALID_BODY": "El mensaje no es válido.",
+    "INVALID_AUDIENCE": "Elige a quién va dirigido el aviso.",
+    "INVALID_RULE": "La repetición no es válida.",
+    "RULE_ENDED": "Esa programación no se enviaría nunca: revisa la fecha.",
+    "INVALID_LINK": "Esa acción no existe.",
+    "SCHEDULE_LIMIT": "Ya tienes el máximo de programaciones activas. Pausa o elimina alguna."
+  },
+  "delete": {
+    "title": "Eliminar programación",
+    "body": "Se eliminará «{{title}}». Los avisos ya enviados se quedan en las bandejas."
+  },
+  "history": {
+    "title": "Historial: {{title}}",
+    "empty": "Todavía no se ha enviado.",
+    "status": {
+      "SENT": "Enviada",
+      "SKIPPED_LATE": "Saltada por atraso"
+    },
+    "recipients_one": "{{count}} destinatario",
+    "recipients_other": "{{count}} destinatarios"
+  }
+}

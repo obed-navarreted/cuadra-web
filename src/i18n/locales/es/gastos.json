@@ -1,0 +1,99 @@
+{
+  "title": "Gastos",
+  "subtitle": "Todo lo que sale del negocio: gastos, retiros y entradas de efectivo.",
+  "tab": {
+    "expenses": "Gastos",
+    "movements": "Movimientos de caja",
+    "categories": "Categorías"
+  },
+  "new": "Registrar gasto",
+  "empty": "No hay gastos con estos filtros.",
+  "voided": "Anulado",
+  "voidedTitle": "Anulados ({{count}})",
+  "uncategorized": "Sin categoría",
+  "byCategory": "Por categoría",
+  "filter": {
+    "source": "Origen del dinero",
+    "category": "Categoría",
+    "all": "Todos"
+  },
+  "source": {
+    "CASH_DRAWER": "Del cajón",
+    "BANK": "Banco",
+    "CARD": "Tarjeta",
+    "OWNER": "Del dueño",
+    "OTHER": "Otro"
+  },
+  "col": {
+    "date": "Fecha",
+    "what": "Detalle",
+    "category": "Categoría",
+    "source": "Origen",
+    "by": "Registró",
+    "amount": "Monto",
+    "actions": "Acciones",
+    "kind": "Tipo",
+    "reason": "Motivo"
+  },
+  "kpi": {
+    "total": "Total gastado",
+    "count_one": "{{count}} gasto",
+    "count_other": "{{count}} gastos",
+    "drawer": "Salió del cajón",
+    "drawerHint": "cambia el cierre de caja",
+    "other": "Otros medios",
+    "otherHint": "banco, tarjeta, del dueño…"
+  },
+  "cat": {
+    "goods": "Mercadería",
+    "utilities": "Servicios",
+    "payroll": "Sueldos",
+    "rent": "Alquiler",
+    "transport": "Transporte",
+    "supplies": "Insumos",
+    "maintenance": "Mantenimiento",
+    "other": "Otros"
+  },
+  "form": {
+    "title": "Registrar gasto",
+    "amount": "Monto",
+    "description": "¿En qué se gastó? (opcional)",
+    "category": "Categoría",
+    "noCategory": "Sin categoría",
+    "source": "¿De dónde salió el dinero?",
+    "sourceCashHint": "Sale del cajón: se descuenta de lo que debe haber en caja al cerrar.",
+    "sourceOtherHint": "No sale del cajón: se anota para saber cuánto se gasta, pero no cambia el cierre.",
+    "date": "Fecha del gasto",
+    "invalidAmount": "Escribe un monto mayor que cero.",
+    "invalidDate": "La fecha no puede ser futura.",
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "void": {
+    "action": "Anular",
+    "title": "Anular gasto",
+    "body": "El gasto de {{amount}} deja de contar en los reportes y en el cierre de caja. Si te equivocaste, registra el correcto después.",
+    "confirm": "Anular",
+    "linked": "Este gasto nació del pago a un proveedor: para anularlo, anula el pago desde Compras."
+  },
+  "movement": {
+    "DEPOSIT": "Entrada",
+    "WITHDRAWAL": "Retiro"
+  },
+  "movements": {
+    "hint": "Dinero que entra o sale del cajón sin ser una venta ni un gasto (por ejemplo, poner cambio o depositar al banco).",
+    "empty": "No hay movimientos de caja en este periodo.",
+    "voidTitle": "Anular movimiento",
+    "voidBody": "El movimiento de {{amount}} deja de contar en el cierre de caja."
+  },
+  "categories": {
+    "hint": "Las categorías de fábrica se pueden renombrar y ocultar. Ocultar no borra los gastos ya registrados.",
+    "new": "Nueva categoría",
+    "rename": "Renombrar",
+    "hide": "Ocultar",
+    "show": "Mostrar",
+    "hidden": "Oculta",
+    "name": "Nombre",
+    "empty": "Todavía no hay categorías."
+  }
+}

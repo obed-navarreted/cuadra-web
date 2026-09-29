@@ -1,0 +1,165 @@
+{
+  "title": "Tabs and customers",
+  "cancel": "Cancel",
+  "save": "Save",
+  "close": "Close",
+  "tabs": {
+    "credits": "Tabs",
+    "customers": "Customers"
+  },
+  "summary": {
+    "open": "To collect",
+    "overdue": "Older than {{days}} days",
+    "openCount_one": "{{count}} open tab",
+    "openCount_other": "{{count}} open tabs",
+    "customers_one": "{{count}} customer",
+    "customers_other": "{{count}} customers",
+    "overdueCount_one": "{{count}} old tab",
+    "overdueCount_other": "{{count}} old tabs"
+  },
+  "filters": {
+    "status": "Status",
+    "linked": "Customer",
+    "search": "Search by name, note or phone",
+    "sort": "Sort",
+    "status_OPEN": "Open",
+    "status_PAID": "Paid",
+    "status_ALL": "All",
+    "linked_ALL": "All",
+    "linked_WITH": "With customer",
+    "linked_WITHOUT": "Name only",
+    "old": "+{{days}} days",
+    "sort_OLDEST": "Oldest first",
+    "sort_AMOUNT": "Largest balance",
+    "sort_RECENT": "Most recent"
+  },
+  "credits": {
+    "col": {
+      "who": "Debtor",
+      "amount": "Amount",
+      "balance": "Balance",
+      "age": "Age",
+      "status": "Status"
+    },
+    "noCustomer": "name only",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "empty": "No tabs match these filters."
+  },
+  "status": {
+    "OPEN": "Open",
+    "PAID": "Paid",
+    "WRITTEN_OFF": "Written off",
+    "CANCELLED": "Cancelled"
+  },
+  "newCredit": {
+    "open": "New tab",
+    "title": "New tab",
+    "hint": "To record a debt that does not come from a sale, like the notebook.",
+    "name": "Debtor name",
+    "phone": "Phone (optional)",
+    "amount": "Amount",
+    "note": "Note (optional)",
+    "due": "Due date (optional)",
+    "save": "Save tab"
+  },
+  "pager": {
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page {{page}} of {{pages}}"
+  },
+  "credit": {
+    "paid": "Paid so far",
+    "created": "Date",
+    "due": "Due",
+    "note": "Note",
+    "phone": "Phone",
+    "openCustomer": "View customer"
+  },
+  "link": {
+    "open": "Link to a customer",
+    "title": "Link to a customer",
+    "hint": "“{{name}}” is a tab recorded with a name only. Pick the customer it belongs to; amounts and dates do not change.",
+    "search": "Search customer",
+    "none": "No customers with that name.",
+    "createNew": "Create customer “{{name}}”"
+  },
+  "writeOff": {
+    "open": "Write off",
+    "title": "Write off debt",
+    "hint": "The {{amount}} debt is closed without collecting it. It does not add to the register and is recorded.",
+    "confirm": "Write off"
+  },
+  "pay": {
+    "open": "Record payment",
+    "openCustomer": "Record payment",
+    "title": "Record payment",
+    "owes": "owes {{amount}}",
+    "fifo": "The payment is spread from the oldest tab to the newest.",
+    "amount": "Payment amount",
+    "over": "That is {{amount}} more than owed. It is recorded anyway and flagged for review.",
+    "method": "Payment method",
+    "reference": "Reference (optional)",
+    "referenceHint": "For example, the transfer number.",
+    "confirm": "Record {{amount}}",
+    "confirmEmpty": "Record payment"
+  },
+  "method": {
+    "CASH": "Cash",
+    "TRANSFER": "Transfer",
+    "CARD": "Card",
+    "OTHER": "Other"
+  },
+  "reason": {
+    "required": "Reason (required)",
+    "optional": "Reason (optional)"
+  },
+  "customers": {
+    "col": {
+      "name": "Customer",
+      "phone": "Phone",
+      "balance": "Balance",
+      "oldest": "Oldest tab"
+    },
+    "archived": "Archived",
+    "debtOnly": "With debt only",
+    "showArchived": "Show archived",
+    "new": "New customer",
+    "empty": "No customers match these filters."
+  },
+  "customer": {
+    "name": "Name",
+    "phone": "Phone",
+    "limit": "Credit limit (optional)",
+    "limitHint": "Empty = no limit. The app warns when selling on tab beyond it.",
+    "notes": "Notes",
+    "edit": "Edit details",
+    "loading": "Customer",
+    "limitValue": "Limit: {{amount}}",
+    "archive": "Archive",
+    "unarchive": "Restore",
+    "archiveTitle": "Archive customer",
+    "unarchiveTitle": "Restore customer",
+    "archiveHint": "Stops showing in the lists. Their history and debt are kept.",
+    "unarchiveHint": "Shows in the lists again."
+  },
+  "void": {
+    "open": "Void",
+    "title": "Void payment",
+    "hint": "The {{amount}} payment stops counting and the balance goes back up.",
+    "confirm": "Void payment"
+  },
+  "statement": {
+    "col": {
+      "date": "Date",
+      "what": "Movement",
+      "amount": "Amount",
+      "by": "Recorded by"
+    },
+    "kind_CREDIT": "Tab",
+    "kind_PAYMENT": "Payment",
+    "kind_WRITE_OFF": "Written off",
+    "voided": "Voided",
+    "empty": "This customer has no movements yet."
+  }
+}

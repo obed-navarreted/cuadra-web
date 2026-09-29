@@ -1,0 +1,6 @@
+.viewas-bar { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 8px 16px; background: var(--orange); color: #fff; font-weight: 700; font-size: 14px; }
+.viewas-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.viewas-bar .btn { background: #fff; border-color: #fff; color: var(--ink); }
+body .app-shell .side { top: var(--bar-h, 0px); height: calc(100vh - var(--bar-h, 0px)); }
+body .app-shell .topbar { top: var(--bar-h, 0px); }
+@media (max-width: 899px) { body .app-shell .side { height: auto; } }

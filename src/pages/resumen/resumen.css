@@ -1,0 +1,25 @@
+/* Gráfico de ventas y gastos. Los colores salen de los tokens (validados para daltonismo con la skill dataviz). */
+.chart { display: grid; gap: 10px; min-width: 0; }
+.chart-head { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.legend { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; font-size: 14px; font-weight: 700; }
+.legend li { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+.swatch.sales { background: var(--series-sales); }
+.swatch.expenses { background: var(--series-expenses); }
+.chart-scroll { overflow-x: auto; max-width: 100%; }
+.chart-box { position: relative; }
+.chart svg { display: block; font-family: var(--font-body); }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .axis { stroke: var(--line-2); stroke-width: 1; }
+.chart .tick { fill: var(--muted); font-size: 11px; }
+.chart .tick.month { font-weight: 800; }
+.chart .value-label { fill: var(--ink); font-size: 11px; font-weight: 800; }
+.chart .bar-sales { fill: var(--series-sales); }
+.chart .bar-expenses { fill: var(--series-expenses); }
+.chart .hit { fill: transparent; cursor: pointer; }
+.chart .hit:hover, .chart .hit:focus-visible { fill: rgba(26, 25, 22, 0.05); outline: none; stroke: var(--ink); stroke-width: 1; }
+.tooltip { position: absolute; top: 4px; width: 180px; display: grid; gap: 3px; padding: 10px 12px; border-radius: 12px; background: var(--ink); color: var(--bg); font-size: 13px; pointer-events: none; z-index: 2; }
+.tooltip .swatch { margin-right: 2px; }
+.resumen-cols { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; }
+.coverage-note { font-size: 13px; font-weight: 700; color: var(--orange); background: var(--orange-soft); padding: 8px 12px; border-radius: 12px; }
+.section-link { font-weight: 800; color: var(--green); }

@@ -1,0 +1,34 @@
+/* Consola de plataforma. Reusa el marco (.app-shell) y los componentes del panel; aquí solo lo propio. */
+.consola a.btn, .center-page a.btn { text-decoration: none; }
+.consola .stack { display: grid; gap: 14px; }
+.consola .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.consola ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.consola .kvs { display: grid; gap: 10px; margin: 0; }
+.consola .kv { display: grid; grid-template-columns: minmax(110px, 0.9fr) minmax(0, 1.4fr); gap: 8px; }
+.consola .kv dd { margin: 0; overflow-wrap: anywhere; }
+.consola .flags { display: grid; gap: 10px; }
+.consola .flag { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; }
+.consola .flag input { min-height: 0; width: 22px; height: 22px; margin-top: 2px; flex: none; }
+.consola fieldset.segment { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 12px; min-width: 0; margin: 0; }
+.consola fieldset.segment legend { font-weight: 800; font-size: 13px; padding: 0 6px; color: var(--ink-2); }
+.consola .ticket-msg { white-space: pre-wrap; overflow-wrap: anywhere; }
+.consola pre.diag { margin: 8px 0 0; padding: 10px 12px; background: var(--soft); border-radius: 12px; overflow-x: auto; font-size: 12px; max-width: 100%; }
+.consola .wrap { overflow-wrap: anywhere; word-break: break-word; }
+.consola code { font-size: 13px; overflow-wrap: anywhere; }
+.consola summary { cursor: pointer; font-weight: 700; min-height: 32px; display: flex; align-items: center; }
+.consola summary:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+/* métricas */
+.dist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.dist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.dist li { display: grid; grid-template-columns: minmax(80px, 1.2fr) minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 14px; }
+.dist-label { overflow-wrap: anywhere; }
+.dist-bar { height: 10px; border-radius: 999px; background: var(--soft); overflow: hidden; }
+.dist-bar span { display: block; height: 100%; background: var(--series-sales); border-radius: 999px; }
+.dist-n { font-weight: 800; }
+.chart { width: 100%; height: 160px; display: block; }
+table.retention td.heat { min-width: 52px; font-weight: 700; }
+table.retention th[scope='row'] { text-align: left; white-space: nowrap; text-transform: none; font-size: 13px; color: var(--ink); }
+.dist-grid { align-items: start; }
+.consola .page-head a, .consola .card a, .consola td a { color: var(--green); font-weight: 700; }
+.consola .flag .small { display: block; }

@@ -1,0 +1,99 @@
+{
+  "title": "Expenses",
+  "subtitle": "Everything that leaves the business: expenses, withdrawals and cash in.",
+  "tab": {
+    "expenses": "Expenses",
+    "movements": "Cash movements",
+    "categories": "Categories"
+  },
+  "new": "Record expense",
+  "empty": "There are no expenses with these filters.",
+  "voided": "Voided",
+  "voidedTitle": "Voided ({{count}})",
+  "uncategorized": "Uncategorized",
+  "byCategory": "By category",
+  "filter": {
+    "source": "Where the money came from",
+    "category": "Category",
+    "all": "All"
+  },
+  "source": {
+    "CASH_DRAWER": "Drawer",
+    "BANK": "Bank",
+    "CARD": "Card",
+    "OWNER": "Owner",
+    "OTHER": "Other"
+  },
+  "col": {
+    "date": "Date",
+    "what": "Detail",
+    "category": "Category",
+    "source": "Source",
+    "by": "Recorded by",
+    "amount": "Amount",
+    "actions": "Actions",
+    "kind": "Type",
+    "reason": "Reason"
+  },
+  "kpi": {
+    "total": "Total spent",
+    "count_one": "{{count}} expense",
+    "count_other": "{{count}} expenses",
+    "drawer": "Out of the drawer",
+    "drawerHint": "changes the cash closing",
+    "other": "Other methods",
+    "otherHint": "bank, card, owner…"
+  },
+  "cat": {
+    "goods": "Goods",
+    "utilities": "Utilities",
+    "payroll": "Payroll",
+    "rent": "Rent",
+    "transport": "Transport",
+    "supplies": "Supplies",
+    "maintenance": "Maintenance",
+    "other": "Other"
+  },
+  "form": {
+    "title": "Record expense",
+    "amount": "Amount",
+    "description": "What was it for? (optional)",
+    "category": "Category",
+    "noCategory": "No category",
+    "source": "Where did the money come from?",
+    "sourceCashHint": "Paid from the drawer: it is subtracted from the cash expected at closing.",
+    "sourceOtherHint": "Not paid from the drawer: it is recorded but does not change the closing.",
+    "date": "Expense date",
+    "invalidAmount": "Enter an amount greater than zero.",
+    "invalidDate": "The date cannot be in the future.",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "void": {
+    "action": "Void",
+    "title": "Void expense",
+    "body": "The {{amount}} expense stops counting in the reports and in the cash closing. If it was a mistake, record the right one afterwards.",
+    "confirm": "Void",
+    "linked": "This expense came from a supplier payment: to void it, void the payment from Purchases."
+  },
+  "movement": {
+    "DEPOSIT": "Cash in",
+    "WITHDRAWAL": "Withdrawal"
+  },
+  "movements": {
+    "hint": "Money that goes in or out of the drawer without being a sale or an expense (for example, adding change or depositing at the bank).",
+    "empty": "There are no cash movements in this period.",
+    "voidTitle": "Void movement",
+    "voidBody": "The {{amount}} movement stops counting in the cash closing."
+  },
+  "categories": {
+    "hint": "Factory categories can be renamed and hidden. Hiding does not delete the expenses already recorded.",
+    "new": "New category",
+    "rename": "Rename",
+    "hide": "Hide",
+    "show": "Show",
+    "hidden": "Hidden",
+    "name": "Name",
+    "empty": "There are no categories yet."
+  }
+}

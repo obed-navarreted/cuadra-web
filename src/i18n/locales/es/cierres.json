@@ -1,0 +1,76 @@
+{
+  "title": "Cierres de caja",
+  "subtitle": "Historial de turnos y de sus diferencias.",
+  "empty": "No hay turnos en este periodo.",
+  "status": {
+    "OPEN": "Abierto",
+    "CLOSED": "Cerrado"
+  },
+  "filter": {
+    "person": "Persona",
+    "everyone": "Todas"
+  },
+  "col": {
+    "register": "Caja",
+    "opened": "Abrió",
+    "closed": "Cerró",
+    "expected": "Debía haber",
+    "counted": "Contado",
+    "difference": "Resultado",
+    "flags": "Avisos"
+  },
+  "outcome": {
+    "balanced": "Cuadró",
+    "short": "Falta {{amount}}",
+    "over": "Sobra {{amount}}"
+  },
+  "flag": {
+    "forced": "Cierre forzado",
+    "late_one": "{{count}} operación tardía",
+    "late_other": "{{count}} operaciones tardías",
+    "reopened_one": "Reabierto {{count}} vez",
+    "reopened_other": "Reabierto {{count}} veces"
+  },
+  "kpi": {
+    "closed": "Cierres",
+    "open_one": "{{count}} turno abierto",
+    "open_other": "{{count}} turnos abiertos",
+    "net": "Diferencia neta",
+    "netHint": "faltantes y sobrantes juntos",
+    "absolute": "Diferencia total",
+    "absoluteHint": "sin compensar faltantes con sobrantes",
+    "forced": "Cierres forzados"
+  },
+  "detail": {
+    "title": "Detalle del turno",
+    "register": "Caja",
+    "opened": "Abierto",
+    "closed": "Cerrado",
+    "note": "Nota",
+    "forcedReason": "Motivo del cierre forzado",
+    "breakdown": "Desglose de la caja",
+    "float": "Fondo inicial",
+    "cashSales": "Ventas en efectivo ({{count}})",
+    "creditPayments": "Abonos de fiado en efectivo",
+    "deposits": "Entradas de efectivo",
+    "cashExpenses": "Gastos pagados del cajón",
+    "withdrawals": "Retiros",
+    "expected": "Debe haber en caja",
+    "expectedNow": "Debe haber ahora (con todo lo recibido)",
+    "expectedAtClose": "Debía haber al cerrar (lo que se firmó)",
+    "counted": "Efectivo contado",
+    "transfer": "Transferencias",
+    "card": "Tarjeta",
+    "other": "Otros medios",
+    "creditNew": "Fiado nuevo",
+    "cancelled": "Ventas eliminadas",
+    "otherHint": "Transferencias, tarjeta y fiado no están en el cajón: no cambian lo que debe haber.",
+    "close": "Cerrar",
+    "reopen": "Reabrir turno"
+  },
+  "reopen": {
+    "title": "Reabrir turno",
+    "body": "El turno vuelve a estar abierto y se puede cerrar de nuevo con otro conteo. Solo el dueño puede hacerlo y queda registrado con el motivo.",
+    "confirm": "Reabrir"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Sales",
+  "empty": "No sales match these filters.",
+  "status": {
+    "COMPLETED": "Completed",
+    "CANCELLED": "Deleted"
+  },
+  "method": {
+    "CASH": "Cash",
+    "TRANSFER": "Transfer",
+    "CARD": "Card",
+    "CREDIT": "On tab",
+    "OTHER": "Other"
+  },
+  "filter": {
+    "status": "Status",
+    "method": "Payment method",
+    "person": "Person",
+    "all": "All",
+    "everyone": "Everyone"
+  },
+  "col": {
+    "date": "Date",
+    "by": "Person",
+    "payments": "Payments",
+    "status": "Status",
+    "total": "Total"
+  },
+  "kpi": {
+    "sales": "Sales in the period",
+    "count_one": "{{count}} sale",
+    "count_other": "{{count}} sales",
+    "ticket": "Average ticket",
+    "discounts": "Discounts",
+    "cancelled": "Deleted sales"
+  },
+  "byMethod": "By payment method",
+  "export": {
+    "sales": "Export sales (CSV)",
+    "items": "Export lines (CSV)"
+  },
+  "detail": {
+    "title": "Sale detail",
+    "product": "Product",
+    "quantity": "Quantity",
+    "price": "Price",
+    "cost": "Cost",
+    "lineTotal": "Total",
+    "method": "Method",
+    "amount": "Amount",
+    "note": "Detail",
+    "creditTo": "On tab to {{name}}",
+    "change": "Paid with {{tendered}}, change {{change}}",
+    "date": "Date",
+    "by": "Served by",
+    "cancelledBy": "Deleted by",
+    "reason": "Reason",
+    "edited": "Edited",
+    "noItems": "No lines.",
+    "noPayments": "No payments.",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "costOfGoods": "Cost of goods sold",
+    "costCoverage": "Only {{percent}}% of the sale has a cost recorded: the real profit would be higher.",
+    "close": "Close",
+    "cancel": "Delete sale"
+  },
+  "cancel": {
+    "title": "Delete sale",
+    "body": "This {{total}} sale will be deleted: it leaves the reports, returns the stock and voids the tab it created. Who deleted it is recorded.",
+    "confirm": "Delete"
+  }
+}

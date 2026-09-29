@@ -1,0 +1,107 @@
+{
+  "app": {
+    "name": "Cuadra",
+    "tagline": "La caja, el fiado, los gastos y el inventario de tu negocio."
+  },
+  "auth": {
+    "continueWithGoogle": "Continuar con Google",
+    "hint": "Crea tu negocio o únete con una invitación.",
+    "signOut": "Cerrar sesión",
+    "error": {
+      "INVALID_GOOGLE_TOKEN": "No pudimos verificar tu cuenta de Google. Inténtalo de nuevo."
+    }
+  },
+  "platformLogin": {
+    "link": "Acceso de plataforma",
+    "title": "Acceso de plataforma",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "submit": "Entrar"
+  },
+  "language": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English"
+  },
+  "invite": {
+    "title": "Te invitaron a {{business}}",
+    "role": {
+      "ADMIN": "como administrador",
+      "CASHIER": "como cajero"
+    },
+    "invalid": "Esta invitación ya no es válida.",
+    "accept": "Aceptar invitación"
+  },
+  "shell": {
+    "welcome": "Bienvenido, {{name}}",
+    "businesses_one": "{{count}} negocio",
+    "businesses_other": "{{count}} negocios",
+    "menu": "Menú",
+    "business": "Negocio",
+    "noAccessTitle": "Esta parte es para dueños y administradores",
+    "noAccessBody": "Tu rol en este negocio no incluye el panel web. Usa la app en el teléfono para vender y cobrar.",
+    "loading": "Cargando…",
+    "retry": "Reintentar",
+    "comingSoon": "Esta sección llega pronto.",
+    "devToken": "Token de desarrollo",
+    "devTokenHint": "Solo en desarrollo: pega un token de sesión de la API.",
+    "enter": "Entrar",
+    "googleMissing": "Falta configurar el acceso con Google en esta versión (VITE_GOOGLE_CLIENT_ID).",
+    "noBusinesses": "Todavía no perteneces a ningún negocio. Crea uno desde la app en tu teléfono.",
+    "from": "Desde",
+    "to": "Hasta"
+  },
+  "errors": {
+    "INVALID_CREDENTIALS": "Usuario o contraseña incorrectos.",
+    "LOCKED": "Demasiados intentos, intenta en 15 minutos.",
+    "RATE_LIMITED": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.",
+    "generic": "Algo salió mal. Inténtalo de nuevo.",
+    "UNAUTHENTICATED": "Tu sesión expiró. Inicia sesión otra vez.",
+    "FORBIDDEN": "No tienes permiso para esto.",
+    "OFFLINE": "Sin conexión con el servidor.",
+    "RANGE_TOO_LONG": "El rango es demasiado largo (máximo un año).",
+    "INVALID_RANGE": "La fecha final es anterior a la inicial.",
+    "INVALID_EMAIL": "Ese correo no parece válido.",
+    "INVITATION_EMAIL_MISMATCH": "Esta invitación es para otra cuenta de Google.",
+    "BUSINESS_SUSPENDED": "Este negocio está suspendido. Contacta a soporte."
+  },
+  "support": {
+    "email": "Ayuda y contacto"
+  },
+  "donate": {
+    "coffee": "Invítame un café"
+  },
+  "nav": {
+    "resumen": "Resumen",
+    "ventas": "Ventas",
+    "fiados": "Fiados y clientes",
+    "gastos": "Gastos",
+    "inventario": "Inventario",
+    "cierres": "Cierres",
+    "reportes": "Reportes",
+    "equipo": "Equipo",
+    "avisos": "Notificaciones",
+    "ajustes": "Ajustes",
+    "ayuda": "Ayuda y contacto",
+    "plan": "Plan y facturación"
+  },
+  "range": {
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "last7": "7 días",
+    "last30": "30 días",
+    "thisMonth": "Este mes",
+    "lastMonth": "Mes pasado"
+  },
+  "pager": {
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{page}} de {{pages}}"
+  },
+  "dialog": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "reason": "Motivo",
+    "reasonOptional": "Motivo (opcional)"
+  }
+}

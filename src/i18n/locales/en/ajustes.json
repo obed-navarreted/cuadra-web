@@ -1,0 +1,146 @@
+{
+  "saved": "Changes saved.",
+  "saveChanges": "Save changes",
+  "cancel": "Cancel",
+  "ownerOnly": "Only the owner changes these settings. You can view them and edit the message templates.",
+  "business": {
+    "title": "Business details",
+    "name": "Name",
+    "type": "Business type",
+    "typeHint": "Optional (for example: corner store, cheese shop).",
+    "locale": "Default language",
+    "cutoff": "Day cutoff time",
+    "cutoffHint": "Sales before this time count for the previous day.",
+    "country": "Country",
+    "currency": "Currency",
+    "timezone": "Time zone",
+    "fixedHint": "Country, currency and time zone are set when the business is created: changing them after sales would move the accounts."
+  },
+  "modules": {
+    "title": "Modules",
+    "hint": "Turn off what your business does not use: it is hidden in the app and the panel, nothing is deleted.",
+    "credit": "Tabs",
+    "creditHint": "Customer ledger and payments.",
+    "expenses": "Expenses",
+    "expensesHint": "Expenses, cash withdrawals and deposits.",
+    "inventory": "Inventory",
+    "inventoryHint": "Stock, purchases and suppliers.",
+    "shifts": "Shifts and cash closing",
+    "shiftsHint": "Opening cash, count and differences.",
+    "catalog": "Product catalog",
+    "catalogHint": "List of products with prices.",
+    "team": "Team",
+    "teamHint": "Cashiers, admins and phones."
+  },
+  "pos": {
+    "title": "Register",
+    "hint": "Tabs shown when selling. Keep at least one.",
+    "TYPE": "Keypad",
+    "QUICK": "Quick",
+    "LIST": "List"
+  },
+  "credit": {
+    "title": "Tabs (credit)",
+    "requiresCustomer": "Require a customer when selling on tab",
+    "requiresCustomerHint": "If off, typing a name is enough.",
+    "limitEnforced": "Block when the credit limit is exceeded",
+    "limitEnforcedHint": "If off, it only warns.",
+    "dueDays": "Default due days",
+    "dueDaysHint": "A new tab is due in this many days. Empty = no change.",
+    "overdueDays": "Counted as overdue after (days)",
+    "overdueDaysHint": "Empty = no change."
+  },
+  "shifts": {
+    "title": "Shifts",
+    "required": "Require an open shift to sell",
+    "requiredHint": "With no open shift the register asks to open one first.",
+    "note": "Difference that requires a note ({{currency}})",
+    "noteHint": "If the closing is off by more than this, whoever closes must explain it. Empty = no change."
+  },
+  "templates": {
+    "title": "WhatsApp messages",
+    "hint": "This is how the messages shared with your customers read. You can change the text of each one, in each language.",
+    "kind": "Message",
+    "language": "Message language",
+    "kinds": {
+      "CREDIT_NEW": "New tab",
+      "PAYMENT": "Payment received",
+      "PAID_OFF": "Paid off",
+      "REMINDER": "Reminder",
+      "STATEMENT": "Statement",
+      "TICKET": "Sale receipt"
+    },
+    "body": "Message text",
+    "custom": "Your business's own text.",
+    "factory": "The factory text is used. Write one to change it.",
+    "placeholder": "Hi {cliente}, your balance at {negocio} is {saldo}.",
+    "variables": "Available variables",
+    "unknown": "These variables do not exist and will appear as typed: {{list}}",
+    "preview": "How it will look",
+    "reset": "Restore the factory text"
+  },
+  "plan": {
+    "title": "Plan and billing",
+    "summary": "See what your plan includes, how much you use and what happens when the trial ends.",
+    "open": "See plan and billing"
+  },
+  "danger": {
+    "title": "Danger zone",
+    "transferTitle": "Transfer ownership",
+    "transferBody": "Someone with a Google account becomes the owner of the business and you become an admin. There can only be one owner.",
+    "noCandidates": "There is nobody to transfer ownership to: you need an active member with a Google account (invite them from Team).",
+    "newOwner": "New owner",
+    "pick": "Pick someone",
+    "transfer": "Transfer ownership",
+    "transferConfirmTitle": "Transfer ownership?",
+    "transferConfirmBody": "{{name}} will own the business and you will become an admin. You cannot undo this on your own.",
+    "deleteTitle": "Delete the business",
+    "deleteBody": "The business is marked for deletion and stops being used. Data is permanently erased after 30 days; within that time you can ask for help to recover it.",
+    "deleting": "This business is marked for deletion. It will be permanently erased after 30 days; if it was a mistake, ask for help in Help and contact.",
+    "delete": "Delete the business",
+    "deleteConfirmTitle": "Delete the business?",
+    "deleteConfirmBody": "Nobody will be able to keep selling or signing in. To confirm, type the business name.",
+    "typeName": "Type “{{name}}” to confirm"
+  },
+  "formError": {
+    "NAME": "Enter the business name.",
+    "CUTOFF": "The cutoff time is not valid (HH:MM).",
+    "POS_VIEWS": "Keep at least one register tab.",
+    "DUE_DAYS": "Due days go from 0 to 365.",
+    "OVERDUE_DAYS": "Days to count as overdue go from 1 to 365.",
+    "SHIFT_NOTE": "The amount is not valid for the currency."
+  },
+  "err": {
+    "INVALID_TIMEZONE": "The time zone is not valid.",
+    "INVALID_DAY_CUTOFF": "The cutoff time is not valid.",
+    "INVALID_MODULE": "That module does not exist.",
+    "INVALID_POS_VIEWS": "Keep at least one register tab."
+  },
+  "unsaved": "You have unsaved changes",
+  "discard": "Discard",
+  "activity": {
+    "title": "Activity",
+    "tab": "Data and settings",
+    "subtitle": "Who did what in your business. Only you, as the owner, can see this list.",
+    "empty": "No activity recorded yet.",
+    "platformNotice": "Platform support looked at your business",
+    "platformNoticeGeneric": "The platform made a change to your business",
+    "reason": "reason",
+    "by": "By {{name}}",
+    "byPlatform": "Platform support",
+    "system": "System",
+    "platformHint": "This was done by the platform team and is recorded here so you know.",
+    "when": "Date",
+    "what": "What happened",
+    "who": "Who",
+    "actions": {
+      "platform_view_as": "Platform support looked at your business",
+      "platform_plan_changed": "The platform changed your plan",
+      "platform_trial_extended": "The platform extended your trial",
+      "platform_suspended": "The platform suspended the business",
+      "platform_unsuspended": "The platform reactivated the business",
+      "platform_flag": "The platform changed a business option",
+      "platform_deletion_marked": "The platform marked the business for deletion"
+    }
+  }
+}

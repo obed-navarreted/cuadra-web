@@ -1,0 +1,28 @@
+.avisos-list { display: grid; gap: 10px; }
+.avisos-item { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); text-align: left; width: 100%; font: inherit; color: inherit; }
+.avisos-item:hover { border-color: var(--line-2); }
+.avisos-text { display: grid; gap: 2px; background: none; border: 0; padding: 0; margin: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; min-width: 0; }
+.avisos-text:disabled { cursor: default; opacity: 1; color: inherit; }
+.avisos-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; background: var(--line-2); }
+.avisos-item.unread .avisos-dot { background: var(--green); }
+.avisos-item.unread .avisos-title { font-weight: 800; }
+.avisos-title { font-weight: 700; }
+.avisos-body { color: var(--ink-2); font-size: 14px; overflow-wrap: anywhere; }
+.avisos-meta { font-size: 13px; color: var(--muted); }
+.avisos-open { align-self: center; font-size: 13px; font-weight: 800; color: var(--green); white-space: nowrap; }
+.sched-card { display: grid; gap: 8px; }
+.sched-head { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+.sched-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.sched-form { display: grid; gap: 14px; }
+.sched-form .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.sched-counter { font-size: 12px; color: var(--muted); text-align: right; }
+.sched-counter.over { color: var(--orange); font-weight: 800; }
+.sched-preview { padding: 14px 16px; border-radius: 16px; background: var(--surface); border: 1px dashed var(--line-2); display: grid; gap: 4px; }
+.sched-check { display: flex; gap: 10px; align-items: center; min-height: 40px; }
+.sched-check input { min-height: 0; width: 20px; height: 20px; }
+.sched-people { display: grid; gap: 2px; max-height: 180px; overflow: auto; }
+.sched-actions-row { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.pref-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; min-height: 48px; border-bottom: 1px solid var(--line); }
+.pref-row:last-child { border-bottom: 0; }
+.pref-row input[type='checkbox'], .switch input { width: 22px; height: 22px; min-height: 0; accent-color: var(--green); }
+.settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }

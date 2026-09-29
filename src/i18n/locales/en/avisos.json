@@ -1,0 +1,249 @@
+{
+  "tab": {
+    "inbox": "Inbox",
+    "schedules": "Scheduled",
+    "preferences": "Preferences"
+  },
+  "inbox": {
+    "all": "All",
+    "unread": "Unread",
+    "markAll": "Mark all as read",
+    "empty": "You have no notifications.",
+    "emptyUnread": "You have no unread notifications.",
+    "new": "New",
+    "open": "Open",
+    "more": "Show more"
+  },
+  "result": {
+    "balanced": "Balanced",
+    "short": "Short {{amount}}",
+    "over": "Over {{amount}}"
+  },
+  "text": {
+    "LOW_STOCK": {
+      "title": "Running low: {{productName}}",
+      "body": "{{stock}} left. Time to restock."
+    },
+    "OUT_OF_STOCK": {
+      "title": "{{productName}} is out of stock",
+      "body": "No stock is left on record."
+    },
+    "SHIFT_CLOSED": {
+      "title": "Cash closing",
+      "body": "{{memberName}} closed the register. {{result}}."
+    },
+    "SHIFT_DIFFERENCE": {
+      "title": "Closing difference",
+      "body": "{{memberName}} closed with a difference of {{amount}}."
+    },
+    "SHIFT_NOT_CLOSED": {
+      "title": "Register not closed",
+      "body": "{{memberName}}'s shift is still open."
+    },
+    "SALE_DELETED": {
+      "title": "Sale deleted",
+      "body": "{{memberName}} deleted a sale of {{total}}."
+    },
+    "DEVICE_STALE": {
+      "title": "A phone has not synced",
+      "body": "{{deviceName}} has {{pending}} operations waiting."
+    },
+    "PIN_LOCKOUT": {
+      "title": "PIN locked",
+      "body": "{{memberName}} entered the wrong PIN several times."
+    },
+    "MEMBER_JOINED": {
+      "title": "Someone joined the team",
+      "body": "{{memberName}} accepted your invitation."
+    },
+    "DAILY_SUMMARY": {
+      "title": "Daily summary",
+      "body": "{{salesCount}} sales for {{total}}. Expenses: {{expenses}}."
+    },
+    "SCHEDULED": {
+      "title": "Scheduled alert",
+      "body": "Scheduled alert"
+    }
+  },
+  "unit": {
+    "LB": "lb",
+    "KG": "kg",
+    "L": "L",
+    "M": "m"
+  },
+  "prefs": {
+    "title": "Which alerts to get",
+    "hint": "Turn off the ones you do not need. It only changes yours, not the rest of the team's.",
+    "type": {
+      "LOW_STOCK": "A product is running low",
+      "OUT_OF_STOCK": "A product is out of stock",
+      "SHIFT_CLOSED": "Cash closings",
+      "SHIFT_DIFFERENCE": "Difference in a closing",
+      "SHIFT_NOT_CLOSED": "Register not closed",
+      "SALE_DELETED": "Sale deleted",
+      "DEVICE_STALE": "Phone not synced",
+      "PIN_LOCKOUT": "PIN locked",
+      "MEMBER_JOINED": "Someone joined the team",
+      "DAILY_SUMMARY": "Daily summary",
+      "SCHEDULED": "Scheduled alerts"
+    }
+  },
+  "biz": {
+    "title": "Business alert rules",
+    "hint": "Times use the business time zone ({{zone}}). These rules apply to the whole team.",
+    "ownerOnly": "Only the owner changes these rules.",
+    "quietStart": "Quiet from",
+    "quietEnd": "Quiet until",
+    "quietHint": "During quiet hours normal alerts stay in the inbox only; critical and scheduled ones still ring.",
+    "summary": "Send the daily summary to the owner",
+    "summaryTime": "Summary time",
+    "reminder": "Warn when a shift is still open",
+    "reminderTime": "Reminder time",
+    "stale": "Hours before warning about a phone that has not synced",
+    "staleHint": "Between 1 and 720.",
+    "invalid": "Check the times (HH:MM) and that the waiting hours are between 1 and 720.",
+    "saved": "Changes saved."
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "sendNow": "Send now",
+    "schedule": "Schedule",
+    "pause": "Pause",
+    "resume": "Resume",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "history": "History",
+    "delete": "Delete",
+    "close": "Close"
+  },
+  "sched": {
+    "hint": "Reminders the system sends your team at the time you choose.",
+    "new": "New schedule",
+    "empty": "There are no scheduled alerts yet.",
+    "sentTag": "Sent",
+    "ended": "Ended",
+    "paused": "Paused",
+    "next": "Next send: {{when}}",
+    "counts": "Sent {{sent}} · Read {{read}}",
+    "copySuffix": "(copy)"
+  },
+  "editor": {
+    "newTitle": "New schedule",
+    "editTitle": "Edit schedule",
+    "templates": "Quick templates",
+    "title": "Title",
+    "counter": "{{n}}/{{max}} recommended",
+    "body": "Message",
+    "audience": "Who receives it?",
+    "link": "Tapping the alert opens…",
+    "when": "When?",
+    "zone": "Times use the business time zone ({{zone}}).",
+    "date": "Date",
+    "time": "Time",
+    "days": "Days of the week",
+    "dayOfMonth": "Day of the month",
+    "everyDays": "Every how many days",
+    "endDate": "Ends on (optional)",
+    "endHint": "With no date, it repeats until you pause it.",
+    "preview": "Preview",
+    "previewTitle": "Alert title",
+    "previewBody": "Alert message"
+  },
+  "template": {
+    "float": {
+      "title": "Remember to count the float when opening",
+      "body": "Before selling, count the cash the register starts with and enter it when opening the shift."
+    },
+    "closing": {
+      "title": "Cash closing at 9 p.m.",
+      "body": "Time to count the cash and close the day's register."
+    },
+    "supplier": {
+      "title": "The supplier arrives today",
+      "body": "Make room and check the order when it arrives."
+    },
+    "credits": {
+      "title": "Check overdue tabs",
+      "body": "Some customers have a pending balance. Send them a reminder."
+    }
+  },
+  "audience": {
+    "all": "Whole team",
+    "people": "People",
+    "role": {
+      "ADMIN": "Admins",
+      "CASHIER": "Cashiers",
+      "OWNER": "Owner"
+    }
+  },
+  "link": {
+    "none": "Nothing",
+    "caja": "Register",
+    "cierre": "Closing",
+    "fiados": "Tabs",
+    "inventario": "Inventory",
+    "gastos": "Expenses"
+  },
+  "when": {
+    "now": "Now",
+    "once": "Once",
+    "repeat": "Repeat"
+  },
+  "repeat": {
+    "DAILY": "Daily",
+    "WEEKLY": "Weekly",
+    "MONTHLY": "Monthly",
+    "EVERY_N_DAYS": "Every N days"
+  },
+  "weekday": {
+    "1": "M",
+    "2": "T",
+    "3": "W",
+    "4": "T",
+    "5": "F",
+    "6": "S",
+    "7": "S"
+  },
+  "rule": {
+    "once": "Once on {{date}} at {{time}}",
+    "daily": "Every day at {{time}}",
+    "weekly": "Every {{days}} at {{time}}",
+    "monthly": "On day {{day}} of each month at {{time}}",
+    "everyN": "Every {{n}} days at {{time}}"
+  },
+  "draftError": {
+    "TITLE": "Write a title (100 characters at most).",
+    "BODY": "Write the message (500 characters at most).",
+    "AUDIENCE": "Pick who receives it.",
+    "DATE": "Enter a valid date.",
+    "TIME": "Enter a valid time (HH:MM).",
+    "DAYS": "Pick at least one weekday.",
+    "DAY_OF_MONTH": "The day of the month goes from 1 to 31.",
+    "EVERY_DAYS": "Every how many days goes from 1 to 365.",
+    "END_DATE": "The end date is not valid."
+  },
+  "err": {
+    "INVALID_TITLE": "The title is not valid.",
+    "INVALID_BODY": "The message is not valid.",
+    "INVALID_AUDIENCE": "Pick who the alert is for.",
+    "INVALID_RULE": "The repeat rule is not valid.",
+    "RULE_ENDED": "That schedule would never send: check the date.",
+    "INVALID_LINK": "That action does not exist.",
+    "SCHEDULE_LIMIT": "You already have the maximum number of active schedules. Pause or delete one."
+  },
+  "delete": {
+    "title": "Delete schedule",
+    "body": "“{{title}}” will be deleted. Alerts already sent stay in the inboxes."
+  },
+  "history": {
+    "title": "History: {{title}}",
+    "empty": "Nothing has been sent yet.",
+    "status": {
+      "SENT": "Sent",
+      "SKIPPED_LATE": "Skipped (too late)"
+    },
+    "recipients_one": "{{count}} recipient",
+    "recipients_other": "{{count}} recipients"
+  }
+}

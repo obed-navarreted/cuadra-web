@@ -1,0 +1,54 @@
+{
+  "subtitle": "Frequently asked questions and how to reach us.",
+  "form": {
+    "title": "Write to us",
+    "category": "What is it about?",
+    "message": "Tell us",
+    "messageHint": "{{count}}/{{max}}. At least 10 characters.",
+    "email": "Email to reply to",
+    "emailHint": "Optional. If empty we use your account's.",
+    "phone": "Phone (optional)",
+    "privacy": "We also send your business name and technical browser details so we can help. Nothing about your sales or your customers.",
+    "send": "Send message",
+    "sent": "Done! We got your message and will reply soon.",
+    "reference": "Reference: {{reference}}.",
+    "another": "Send another message",
+    "tooMany": "You sent several messages in a row. Wait a while and try again.",
+    "error": {
+      "MESSAGE_SHORT": "Tell us a bit more (at least 10 characters).",
+      "MESSAGE_LONG": "The message is too long (4000 characters at most).",
+      "EMAIL": "That email does not look valid.",
+      "PHONE": "That phone does not look valid."
+    }
+  },
+  "category": {
+    "QUESTION": "A question",
+    "PROBLEM": "A problem",
+    "SUGGESTION": "A suggestion",
+    "BILLING": "Billing and plans"
+  },
+  "contact": {
+    "title": "Contact",
+    "email": "You can also write to",
+    "coffeeHint": "If Cuadra helps you and you want to support its development, you can buy me a coffee. It is entirely optional."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "link": {
+      "q": "How do I link a phone to the business?",
+      "a": "On the new phone open the app and choose “Link this phone with a code”: you will see a short code. Then, in this panel, go to Team → Phones and type that code. The phone is linked and cashiers sign in with their PIN."
+    },
+    "offline": {
+      "q": "What happens if the internet goes down?",
+      "a": "Nothing stops: the app keeps selling, recording tabs and expenses, and saves everything on the phone. When the connection returns, whatever is pending is sent by itself, exactly once. Reports on this website catch up when the phones finish syncing."
+    },
+    "closing": {
+      "q": "How does the cash closing work?",
+      "a": "When the shift opens the starting cash is recorded. At closing you count the cash and the app compares: expected = opening cash + cash sales + cash tab payments + deposits − drawer expenses − withdrawals. Sales by transfer, card or on tab do not count. The difference (short or over) stays in the Closings history."
+    },
+    "import": {
+      "q": "How do I import my products from a file?",
+      "a": "In Inventory choose “Import CSV”. The file has one row per product with columns such as name, code, price, cost, unit, category and stock. First you see a preview of what would be created or updated, without saving anything; then you confirm. If you import again, what already exists is updated and not duplicated."
+    }
+  }
+}

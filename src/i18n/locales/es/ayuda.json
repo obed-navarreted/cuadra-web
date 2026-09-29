@@ -1,0 +1,54 @@
+{
+  "subtitle": "Preguntas frecuentes y cómo escribirnos.",
+  "form": {
+    "title": "Escríbenos",
+    "category": "¿Sobre qué es?",
+    "message": "Cuéntanos",
+    "messageHint": "{{count}}/{{max}}. Mínimo 10 letras.",
+    "email": "Correo para responderte",
+    "emailHint": "Opcional. Si lo dejas vacío usamos el de tu cuenta.",
+    "phone": "Teléfono (opcional)",
+    "privacy": "Enviamos también el nombre de tu negocio y datos técnicos del navegador para poder ayudarte. Nada de tus ventas ni de tus clientes.",
+    "send": "Enviar mensaje",
+    "sent": "¡Listo! Recibimos tu mensaje y te responderemos pronto.",
+    "reference": "Referencia: {{reference}}.",
+    "another": "Enviar otro mensaje",
+    "tooMany": "Enviaste varios mensajes seguidos. Espera un rato e inténtalo de nuevo.",
+    "error": {
+      "MESSAGE_SHORT": "Cuéntanos un poco más (mínimo 10 letras).",
+      "MESSAGE_LONG": "El mensaje es demasiado largo (máximo 4000 letras).",
+      "EMAIL": "Ese correo no parece válido.",
+      "PHONE": "Ese teléfono no parece válido."
+    }
+  },
+  "category": {
+    "QUESTION": "Una duda",
+    "PROBLEM": "Un problema",
+    "SUGGESTION": "Una sugerencia",
+    "BILLING": "Cobros y planes"
+  },
+  "contact": {
+    "title": "Contacto",
+    "email": "También puedes escribir a",
+    "coffeeHint": "Si Cuadra te sirve y quieres apoyar su desarrollo, puedes invitarme un café. Es totalmente opcional."
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "link": {
+      "q": "¿Cómo vinculo un teléfono al negocio?",
+      "a": "En el teléfono nuevo abre la app y elige «Vincular este teléfono con un código»: verás un código corto. Luego, en este panel, ve a Equipo → Teléfonos y escribe ese código. El teléfono queda vinculado y los cajeros entran con su PIN."
+    },
+    "offline": {
+      "q": "¿Qué pasa si se cae el internet?",
+      "a": "Nada se detiene: la app sigue vendiendo, fiando y anotando gastos, y guarda todo en el teléfono. Cuando vuelve la conexión, lo pendiente se envía solo y una sola vez. Los reportes de esta web se ponen al día cuando los teléfonos terminan de sincronizar."
+    },
+    "closing": {
+      "q": "¿Cómo funciona el cierre de caja?",
+      "a": "Al abrir el turno se anota el efectivo inicial. Al cerrar, cuentas el efectivo y la app compara: debe haber = fondo inicial + ventas en efectivo + abonos en efectivo + entradas − gastos del cajón − retiros. Las ventas por transferencia, tarjeta o fiado no entran. La diferencia (falta o sobra) queda en el historial de Cierres."
+    },
+    "import": {
+      "q": "¿Cómo importo mis productos desde un archivo?",
+      "a": "En Inventario elige «Importar CSV». El archivo lleva una fila por producto con columnas como nombre, código, precio, costo, unidad, categoría y existencia. Primero ves una vista previa de lo que se crearía o actualizaría, sin guardar nada; después confirmas. Si repites la importación, lo que ya existe se actualiza y no se duplica."
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "title": "Team",
+  "cancel": "Cancel",
+  "save": "Save",
+  "close": "Close",
+  "tabs": {
+    "members": "Members",
+    "invitations": "Invitations",
+    "devices": "Phones"
+  },
+  "role": {
+    "OWNER": "Owner",
+    "ADMIN": "Admin",
+    "CASHIER": "Cashier"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "DISABLED": "Disabled"
+  },
+  "members": {
+    "col": {
+      "name": "Name",
+      "role": "Role",
+      "status": "Status",
+      "access": "Access"
+    },
+    "you": "(you)",
+    "google": "Google",
+    "pin": "PIN",
+    "noPin": "No PIN",
+    "edit": "Edit",
+    "resetPin": "Change PIN",
+    "resetPinTitle": "Change {{name}}'s PIN",
+    "hint": "People who work at the register sign in with a PIN on the phone. Only the owner manages admins.",
+    "new": "New member",
+    "newHint": "Create someone who will use the register with a PIN, without a Google account.",
+    "create": "Create member",
+    "empty": "There are no members yet.",
+    "color": "Color",
+    "activeLabel": "Can use the register",
+    "disableHint": "A disabled person cannot sign in, but their history is kept."
+  },
+  "pin": {
+    "label": "PIN (4 to 6 digits)",
+    "hint": "Numbers only.",
+    "generate": "Generate",
+    "mustChange": "Ask them to change it when they sign in",
+    "savedTitle": "PIN saved",
+    "savedFor": "{{name}}'s PIN is:",
+    "once": "Write it down or tell them now: for security it is stored encrypted and cannot be shown again. If it is forgotten, set a new one.",
+    "written": "I wrote it down",
+    "save": "Save PIN"
+  },
+  "invitations": {
+    "hint": "An invitation lets someone with a Google account join the business with the chosen role.",
+    "new": "New invitation",
+    "empty": "There are no active invitations.",
+    "code": "Code",
+    "uses": "Uses",
+    "usesValue": "{{used}} of {{max}}",
+    "expires": "Expires",
+    "copyLink": "Copy link",
+    "copyCode": "Copy code",
+    "copied": "Copied",
+    "copyFailed": "Could not copy: select it and copy it by hand.",
+    "revoke": "Revoke",
+    "revokeTitle": "Revoke invitation",
+    "revokeBody": "Code {{code}} will stop working. Whoever already joined keeps their access.",
+    "createdTitle": "Invitation created",
+    "createdHint": "Share the code or the link with the person. They open it with their Google account.",
+    "maxUses": "How many people can use it",
+    "maxUsesHint": "From 1 to 50.",
+    "days": "Days valid",
+    "daysHint": "From 1 to 30.",
+    "create": "Create invitation",
+    "email": "Person's email (optional)",
+    "emailHint": "If you enter it, only that Google account can accept the invitation.",
+    "for": "For",
+    "anyone": "Anyone with the code"
+  },
+  "devices": {
+    "col": {
+      "name": "Phone",
+      "sync": "Last sync",
+      "pending": "Pending",
+      "linked": "Linked",
+      "register": "Register"
+    },
+    "version": "version {{version}}",
+    "never": "Never",
+    "revoked": "Revoked",
+    "revoke": "Revoke",
+    "revokeTitle": "Revoke phone",
+    "revokeBody": "“{{name}}” will stop syncing and will need to be linked again.",
+    "revokePending_one": "It has {{count}} operation not sent yet; it stays on the phone but will not arrive here until it is linked again.",
+    "revokePending_other": "It has {{count}} operations not sent yet; they stay on the phone but will not arrive here until it is linked again.",
+    "linkTitle": "Link a phone",
+    "linkHint": "On the new phone open the app and choose “Link this phone”: it shows a short code. Type it here.",
+    "code": "Phone code",
+    "nameLabel": "Name (optional), for example “Register 1”",
+    "link": "Link",
+    "linked": "“{{name}}” is now linked.",
+    "empty": "There are no linked phones yet."
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "subtitle": "{{from}} – {{to}} · todas las cajas",
+  "kpi": {
+    "sales": "Ventas",
+    "expenses": "Gastos operativos",
+    "expensesHint": "Compras de mercadería aparte: {{amount}}",
+    "expensesHintNone": "Sin las compras de mercadería",
+    "profit": "Ganancia estimada",
+    "profitHint": "ventas − costo − gastos",
+    "coverage": "El costo está anotado en {{percent}} % de lo vendido: la ganancia real puede ser menor.",
+    "receivable": "Por cobrar (fiado)",
+    "salesHint_one": "{{count}} venta · ticket {{ticket}}",
+    "salesHint_other": "{{count}} ventas · ticket {{ticket}}",
+    "receivableHint_one": "{{count}} pendiente",
+    "receivableHint_other": "{{count}} pendientes"
+  },
+  "chart": {
+    "title": "Ventas y gastos por día",
+    "sales": "Ventas",
+    "expenses": "Gastos",
+    "asTable": "Ver como tabla",
+    "asChart": "Ver gráfico",
+    "day": "Día",
+    "aria": "Ventas y gastos de cada día del rango. Usa la vista de tabla para leer los valores.",
+    "point": "{{day}}: ventas {{sales}}, gastos {{expenses}}",
+    "empty": "No hay ventas ni gastos en este rango."
+  },
+  "top": {
+    "title": "Más vendidos por ingreso",
+    "legend": "ingreso · ganancia",
+    "noCost": "sin costo",
+    "empty": "Todavía no hay ventas en este rango."
+  },
+  "oldest": {
+    "title": "Fiados más viejos",
+    "empty": "No hay fiados pendientes.",
+    "all": "Ver reporte",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días"
+  },
+  "stock": {
+    "title": "Inventario",
+    "ok": "Nada por revisar.",
+    "link": "Ir a inventario",
+    "low_one": "{{count}} producto con poco stock o en negativo",
+    "low_other": "{{count}} productos con poco stock o en negativo"
+  },
+  "closing": {
+    "title": "Último cierre",
+    "by": "{{name}} · {{when}}",
+    "balanced": "Cuadró",
+    "short": "Faltó {{amount}}",
+    "over": "Sobró {{amount}}",
+    "empty": "Todavía no hay cierres de caja.",
+    "link": "Ver cierres"
+  }
+}

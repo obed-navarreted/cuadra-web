@@ -1,0 +1,146 @@
+{
+  "saved": "Cambios guardados.",
+  "saveChanges": "Guardar cambios",
+  "cancel": "Cancelar",
+  "ownerOnly": "Solo el dueño cambia estos ajustes. Tú puedes verlos y editar las plantillas de mensajes.",
+  "business": {
+    "title": "Datos del negocio",
+    "name": "Nombre",
+    "type": "Tipo de negocio",
+    "typeHint": "Opcional (por ejemplo: pulpería, quesería).",
+    "locale": "Idioma por defecto",
+    "cutoff": "Hora de corte de la jornada",
+    "cutoffHint": "Lo vendido antes de esta hora cuenta para el día anterior.",
+    "country": "País",
+    "currency": "Moneda",
+    "timezone": "Zona horaria",
+    "fixedHint": "El país, la moneda y la zona horaria se fijan al crear el negocio: cambiarlos con ventas hechas movería las cuentas."
+  },
+  "modules": {
+    "title": "Módulos",
+    "hint": "Apaga lo que tu negocio no usa: se esconde en la app y en el panel, sin borrar nada.",
+    "credit": "Fiado",
+    "creditHint": "Libreta de clientes y abonos.",
+    "expenses": "Gastos",
+    "expensesHint": "Gastos, retiros y entradas de caja.",
+    "inventory": "Inventario",
+    "inventoryHint": "Existencias, compras y proveedores.",
+    "shifts": "Turnos y cierre de caja",
+    "shiftsHint": "Fondo inicial, conteo y diferencias.",
+    "catalog": "Catálogo de productos",
+    "catalogHint": "Lista de productos con precio.",
+    "team": "Equipo",
+    "teamHint": "Cajeros, admins y teléfonos."
+  },
+  "pos": {
+    "title": "Caja",
+    "hint": "Pestañas que se ven al vender. Deja al menos una.",
+    "TYPE": "Teclado",
+    "QUICK": "Rápidos",
+    "LIST": "Lista"
+  },
+  "credit": {
+    "title": "Fiado",
+    "requiresCustomer": "Exigir cliente al fiar",
+    "requiresCustomerHint": "Si está apagado, basta escribir un nombre.",
+    "limitEnforced": "Bloquear al superar el límite de crédito",
+    "limitEnforcedHint": "Si está apagado, solo se avisa.",
+    "dueDays": "Días de vencimiento por defecto",
+    "dueDaysHint": "Un fiado nuevo vence en tantos días. Vacío = sin cambio.",
+    "overdueDays": "Se considera vencido después de (días)",
+    "overdueDaysHint": "Vacío = sin cambio."
+  },
+  "shifts": {
+    "title": "Turnos",
+    "required": "Exigir un turno abierto para vender",
+    "requiredHint": "Sin turno abierto la caja pide abrir uno primero.",
+    "note": "Diferencia que exige una nota ({{currency}})",
+    "noteHint": "Si el cierre se desvía más que esto, quien cierra debe explicarlo. Vacío = sin cambio."
+  },
+  "templates": {
+    "title": "Mensajes de WhatsApp",
+    "hint": "Así salen los mensajes que se comparten con tus clientes. Puedes cambiar el texto de cada uno, en cada idioma.",
+    "kind": "Mensaje",
+    "language": "Idioma del mensaje",
+    "kinds": {
+      "CREDIT_NEW": "Fiado nuevo",
+      "PAYMENT": "Abono recibido",
+      "PAID_OFF": "Deuda saldada",
+      "REMINDER": "Recordatorio",
+      "STATEMENT": "Estado de cuenta",
+      "TICKET": "Comprobante de venta"
+    },
+    "body": "Texto del mensaje",
+    "custom": "Texto propio de tu negocio.",
+    "factory": "Se usa el texto de fábrica. Escribe uno para cambiarlo.",
+    "placeholder": "Hola {cliente}, tu saldo en {negocio} es {saldo}.",
+    "variables": "Variables disponibles",
+    "unknown": "Estas variables no existen y saldrán tal cual: {{list}}",
+    "preview": "Así se vería",
+    "reset": "Restaurar el de fábrica"
+  },
+  "plan": {
+    "title": "Plan y facturación",
+    "summary": "Mira qué incluye tu plan, cuánto usas y qué pasa al terminar la prueba.",
+    "open": "Ver plan y facturación"
+  },
+  "danger": {
+    "title": "Zona de peligro",
+    "transferTitle": "Pasar la propiedad",
+    "transferBody": "Otra persona con cuenta de Google pasa a ser la dueña del negocio, y tú quedas como administrador. Solo puede haber una dueña.",
+    "noCandidates": "No hay nadie a quien pasarle la propiedad: necesitas un miembro activo con cuenta de Google (invítalo desde Equipo).",
+    "newOwner": "Nueva persona dueña",
+    "pick": "Elige a alguien",
+    "transfer": "Pasar la propiedad",
+    "transferConfirmTitle": "¿Pasar la propiedad?",
+    "transferConfirmBody": "{{name}} será la dueña del negocio y tú pasarás a administrador. No podrás deshacerlo por tu cuenta.",
+    "deleteTitle": "Eliminar el negocio",
+    "deleteBody": "El negocio se marca para eliminar y deja de usarse. Los datos se borran definitivamente a los 30 días; en ese plazo puedes pedir ayuda para recuperarlo.",
+    "deleting": "Este negocio está marcado para eliminarse. Se borrará definitivamente a los 30 días; si fue un error, pide ayuda desde Ayuda y contacto.",
+    "delete": "Eliminar el negocio",
+    "deleteConfirmTitle": "¿Eliminar el negocio?",
+    "deleteConfirmBody": "Nadie podrá seguir vendiendo ni entrando. Para confirmar, escribe el nombre del negocio.",
+    "typeName": "Escribe «{{name}}» para confirmar"
+  },
+  "formError": {
+    "NAME": "Escribe el nombre del negocio.",
+    "CUTOFF": "La hora de corte no es válida (HH:MM).",
+    "POS_VIEWS": "Deja al menos una pestaña de la caja.",
+    "DUE_DAYS": "Los días de vencimiento van de 0 a 365.",
+    "OVERDUE_DAYS": "Los días para considerar vencido van de 1 a 365.",
+    "SHIFT_NOTE": "El monto no es válido para la moneda."
+  },
+  "err": {
+    "INVALID_TIMEZONE": "La zona horaria no es válida.",
+    "INVALID_DAY_CUTOFF": "La hora de corte no es válida.",
+    "INVALID_MODULE": "Ese módulo no existe.",
+    "INVALID_POS_VIEWS": "Deja al menos una pestaña de la caja."
+  },
+  "unsaved": "Tienes cambios sin guardar",
+  "discard": "Descartar",
+  "activity": {
+    "title": "Actividad",
+    "tab": "Datos y ajustes",
+    "subtitle": "Quién hizo qué en tu negocio. Solo tú, como dueño, ves esta lista.",
+    "empty": "Todavía no hay actividad registrada.",
+    "platformNotice": "Soporte de la plataforma miró tu negocio",
+    "platformNoticeGeneric": "La plataforma hizo un cambio en tu negocio",
+    "reason": "motivo",
+    "by": "Por {{name}}",
+    "byPlatform": "Soporte de la plataforma",
+    "system": "Sistema",
+    "platformHint": "Esto lo hizo el equipo de la plataforma y queda registrado aquí para que lo sepas.",
+    "when": "Fecha",
+    "what": "Qué pasó",
+    "who": "Quién",
+    "actions": {
+      "platform_view_as": "Soporte de la plataforma miró tu negocio",
+      "platform_plan_changed": "La plataforma cambió tu plan",
+      "platform_trial_extended": "La plataforma extendió tu prueba",
+      "platform_suspended": "La plataforma suspendió el negocio",
+      "platform_unsuspended": "La plataforma reactivó el negocio",
+      "platform_flag": "La plataforma cambió una opción del negocio",
+      "platform_deletion_marked": "La plataforma marcó el negocio para eliminarlo"
+    }
+  }
+}

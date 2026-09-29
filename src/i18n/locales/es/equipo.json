@@ -1,0 +1,105 @@
+{
+  "title": "Equipo",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "close": "Cerrar",
+  "tabs": {
+    "members": "Miembros",
+    "invitations": "Invitaciones",
+    "devices": "Teléfonos"
+  },
+  "role": {
+    "OWNER": "Dueño",
+    "ADMIN": "Administrador",
+    "CASHIER": "Cajero"
+  },
+  "status": {
+    "ACTIVE": "Activo",
+    "DISABLED": "Deshabilitado"
+  },
+  "members": {
+    "col": {
+      "name": "Nombre",
+      "role": "Rol",
+      "status": "Estado",
+      "access": "Acceso"
+    },
+    "you": "(tú)",
+    "google": "Google",
+    "pin": "PIN",
+    "noPin": "Sin PIN",
+    "edit": "Editar",
+    "resetPin": "Cambiar PIN",
+    "resetPinTitle": "Cambiar el PIN de {{name}}",
+    "hint": "Quienes trabajan en la caja entran con un PIN en el teléfono. Solo el dueño gestiona administradores.",
+    "new": "Nuevo miembro",
+    "newHint": "Crea a alguien que entrará a la caja con un PIN, sin cuenta de Google.",
+    "create": "Crear miembro",
+    "empty": "Todavía no hay miembros.",
+    "color": "Color",
+    "activeLabel": "Puede entrar a la caja",
+    "disableHint": "Una persona deshabilitada no puede entrar, pero su historial se conserva."
+  },
+  "pin": {
+    "label": "PIN (4 a 6 dígitos)",
+    "hint": "Solo números.",
+    "generate": "Generar",
+    "mustChange": "Pedir que lo cambie al entrar",
+    "savedTitle": "PIN guardado",
+    "savedFor": "El PIN de {{name}} es:",
+    "once": "Anótalo o díselo ahora: por seguridad solo se guarda cifrado y no se puede volver a ver. Si se olvida, se crea uno nuevo.",
+    "written": "Ya lo anoté",
+    "save": "Guardar PIN"
+  },
+  "invitations": {
+    "hint": "Una invitación deja que alguien con cuenta de Google se una al negocio con el rol elegido.",
+    "new": "Nueva invitación",
+    "empty": "No hay invitaciones activas.",
+    "code": "Código",
+    "uses": "Usos",
+    "usesValue": "{{used}} de {{max}}",
+    "expires": "Vence",
+    "copyLink": "Copiar enlace",
+    "copyCode": "Copiar código",
+    "copied": "Copiado",
+    "copyFailed": "No se pudo copiar: selecciónalo y cópialo a mano.",
+    "revoke": "Revocar",
+    "revokeTitle": "Revocar invitación",
+    "revokeBody": "El código {{code}} dejará de funcionar. Quien ya se unió conserva su acceso.",
+    "createdTitle": "Invitación creada",
+    "createdHint": "Comparte el código o el enlace con la persona. Ella lo abre con su cuenta de Google.",
+    "maxUses": "Cuántas personas pueden usarla",
+    "maxUsesHint": "De 1 a 50.",
+    "days": "Días de validez",
+    "daysHint": "De 1 a 30.",
+    "create": "Crear invitación",
+    "email": "Correo de la persona (opcional)",
+    "emailHint": "Si lo escribes, solo esa cuenta de Google podrá aceptar la invitación.",
+    "for": "Para",
+    "anyone": "Cualquiera con el código"
+  },
+  "devices": {
+    "col": {
+      "name": "Teléfono",
+      "sync": "Última sincronización",
+      "pending": "Pendientes",
+      "linked": "Vinculado",
+      "register": "Caja"
+    },
+    "version": "versión {{version}}",
+    "never": "Nunca",
+    "revoked": "Revocado",
+    "revoke": "Revocar",
+    "revokeTitle": "Revocar teléfono",
+    "revokeBody": "“{{name}}” dejará de sincronizar y se pedirá vincularlo de nuevo.",
+    "revokePending_one": "Tiene {{count}} operación sin enviar; se conserva en el teléfono pero no llegará aquí hasta vincularlo de nuevo.",
+    "revokePending_other": "Tiene {{count}} operaciones sin enviar; se conservan en el teléfono pero no llegarán aquí hasta vincularlo de nuevo.",
+    "linkTitle": "Vincular un teléfono",
+    "linkHint": "En el teléfono nuevo abre la app y elige “Vincular este teléfono”: mostrará un código corto. Escríbelo aquí.",
+    "code": "Código del teléfono",
+    "nameLabel": "Nombre (opcional), por ejemplo “Caja 1”",
+    "link": "Vincular",
+    "linked": "“{{name}}” quedó vinculado.",
+    "empty": "Todavía no hay teléfonos vinculados."
+  }
+}
