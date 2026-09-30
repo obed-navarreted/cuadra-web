@@ -75,6 +75,22 @@ describe('bandeja', () => {
     expect(screen.getByText('Running low: Leche')).toBeInTheDocument()
   })
 
+  it('cambio de precio de un cajero y venta en conflicto: antes y después, y quién', async () => {
+    api.responses[NOTIFS] = {
+      last: true,
+      items: [
+        { id: 'p1', type: 'PRICE_CHANGED', args: { productName: 'Cuajada', memberName: 'Kevin', fromPriceMinor: 3000, toPriceMinor: 3200 }, createdAt: '2026-09-29T02:00:00Z', push: true, rev: 1 },
+        { id: 'p2', type: 'PRICE_CHANGED', args: { productName: 'Queso', memberName: 'Kevin', costChanged: true }, createdAt: '2026-09-29T02:00:00Z', push: true, rev: 2 },
+        { id: 'c1', type: 'SALE_CONFLICT', args: { memberName: 'Lucía', totalMinor: 4000 }, deepLink: 'cuadra://ventas', createdAt: '2026-09-29T02:00:00Z', push: true, rev: 3 },
+      ],
+    }
+    renderPanel(<AvisosPage />)
+    expect(await screen.findByText('Cambio de precio: Cuajada')).toBeInTheDocument()
+    expect(screen.getByText(/Kevin cambió el precio de .*30\.00 a .*32\.00\./)).toBeInTheDocument()
+    expect(screen.getByText('Cambio de costo: Queso')).toBeInTheDocument()
+    expect(screen.getByText(/Una venta de .*40\.00 de Lucía chocó/)).toBeInTheDocument()
+  })
+
   it('un aviso de un tipo desconocido muestra el texto del servidor', async () => {
     api.responses[NOTIFS] = { last: true, items: [{ id: 'n1', type: 'FUTURE_TYPE', title: 'Novedad', body: 'Algo nuevo', args: {}, createdAt: '2026-09-29T02:00:00Z', push: true, rev: 1 }] }
     renderPanel(<AvisosPage />)

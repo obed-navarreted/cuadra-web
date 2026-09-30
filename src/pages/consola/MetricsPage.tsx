@@ -4,7 +4,7 @@ import { Card, ErrorNotice, Kpi, Page, Spinner } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { getMetrics, type Metrics } from './api'
 import { useConsoleFormat } from './format'
-import { cohortRow, fillDays, planKeyLabel } from './lib'
+import { cohortRow, fillDays, planKeyLabel, SHOW_PLANS } from './lib'
 
 type Count = { key?: string | null; count: number }
 
@@ -146,7 +146,7 @@ export function MetricsPage() {
             <Distribution title={t('metrics.byCountry')} rows={d.byCountry ?? []} label={(k) => country(k)} />
             <Distribution title={t('metrics.byType')} rows={d.byType ?? []} label={(k) => orNone(k)} />
             <Distribution title={t('metrics.byLocale')} rows={d.byLocale ?? []} label={(k) => language(k)} />
-            <Distribution title={t('metrics.byPlan')} rows={d.byPlan ?? []} label={(k) => planKeyLabel(k, t)} />
+            {SHOW_PLANS && <Distribution title={t('metrics.byPlan')} rows={d.byPlan ?? []} label={(k) => planKeyLabel(k, t)} />}
             <Distribution title={t('metrics.moduleUsage')} rows={d.moduleUsage ?? []} label={(k) => t(`modules.${k}`, { defaultValue: k })} />
             <Distribution title={t('metrics.appVersions')} rows={d.appVersions ?? []} label={(k) => orNone(k)} />
           </div>

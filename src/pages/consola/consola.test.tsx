@@ -91,10 +91,10 @@ describe('formulario de anuncios', () => {
 
   it('"¿A cuántos llega?" muestra la cifra del servidor', async () => {
     renderForm()
-    fireEvent.change(screen.getByLabelText(/^Planes/), { target: { value: 'pro' } })
+    fireEvent.change(screen.getByLabelText(/^Países/), { target: { value: 'ni' } })
     fireEvent.click(screen.getByRole('button', { name: '¿A cuántos llega?' }))
     expect(await screen.findByText(/Llegaría a 3 negocios y 7 personas/)).toBeInTheDocument()
-    expect(api.calls.at(-1)?.body).toEqual({ segment: { plans: ['PRO'] }, audience: 'OWNERS' })
+    expect(api.calls.at(-1)?.body).toEqual({ segment: { countries: ['NI'] }, audience: 'OWNERS' })
   })
 })
 

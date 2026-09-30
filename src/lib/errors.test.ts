@@ -12,11 +12,11 @@ beforeAll(async () => {
 describe('errorText', () => {
   const t = i18n.t.bind(i18n)
   it('PLAN_LIMIT usa la función y el tope', () => {
-    expect(errorText(t, new ApiError(403, 'PLAN_LIMIT', 'x', { feature: 'DEVICES', limit: 2 }))).toBe('Tu plan Gratis permite hasta 2 teléfonos. Para conectar otro, pasa a Pro.')
-    expect(errorText(t, new ApiError(403, 'PLAN_LIMIT', 'x', { feature: 'EXPORT', limit: 0 }))).toContain('CSV')
+    expect(errorText(t, new ApiError(403, 'PLAN_LIMIT', 'x', { feature: 'DEVICES', limit: 2 }))).toBe('Máximo 2 teléfonos por negocio.')
+    expect(errorText(t, new ApiError(403, 'PLAN_LIMIT', 'x', { feature: 'MEMBERS', limit: 10 }))).toBe('Máximo 10 personas por negocio.')
   })
   it('PLAN_LIMIT con una función desconocida no muestra el error genérico', () => {
-    expect(errorText(t, new ApiError(403, 'PLAN_LIMIT', 'x', { feature: 'NUEVA', limit: 1 }))).toContain('plan actual')
+    expect(errorText(t, new ApiError(403, 'PLAN_LIMIT', 'x', { feature: 'NUEVA', limit: 1 }))).toContain('límite')
   })
   it('un negocio suspendido tiene su texto, y lo demás sigue por código', () => {
     expect(errorText(t, new ApiError(403, 'BUSINESS_SUSPENDED', 'x'))).toContain('suspendido')

@@ -13,11 +13,15 @@ vi.mock('./api', async (orig) => ({
   ...(await orig<typeof import('./api')>()),
   listMembers: vi.fn(async () => members),
   createMember: vi.fn(async () => members[2]),
-  listInvitations: vi.fn(async () => [{ id: 'i1', role: 'CASHIER', code: 'ABCD2345', url: 'http://x/i/ABCD2345', maxUses: 1, usedCount: 0, expiresAt: '2026-10-06T12:00:00Z' }]),
+  updateMember: vi.fn(async () => members[2]),
+  renewAccessCode: vi.fn(async () => ({ accessCode: '48213' })),
+  listDevices: vi.fn(async () => []),
+  setAccessCode: vi.fn(async (_b: string, code: string) => ({ accessCode: code })),
 }))
 
 import * as api from './api'
-import { InvitationsView } from './InvitationsView'
+import { AccessCodeCard } from './AccessCodeCard'
+import EquipoPage from './index'
 import { MembersView } from './MembersView'
 
 describe('equipo', () => {
@@ -53,17 +57,12 @@ describe('equipo', () => {
     expect(screen.getByLabelText('Rol')).toBeInTheDocument()
   })
 
-  it('el administrador ofrece cajero y administrador al crear un miembro y al invitar', async () => {
-    const { unmount } = renderAs(<MembersView />, 'ADMIN')
+  it('el administrador ofrece cajero y administrador al crear un miembro', async () => {
+    renderAs(<MembersView />, 'ADMIN')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
-    fireEvent.click(screen.getByRole('button', { name: 'Nuevo miembro' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
     expect(screen.getByRole('option', { name: 'Administrador' })).toBeInTheDocument()
     expect(screen.getByRole('option', { name: 'Cajero' })).toBeInTheDocument()
-    unmount()
-    renderAs(<InvitationsView />, 'ADMIN')
-    await waitFor(() => expect(screen.getByText('ABCD2345')).toBeInTheDocument())
-    fireEvent.click(screen.getByRole('button', { name: 'Nueva invitación' }))
-    expect(screen.getByRole('option', { name: 'Administrador' })).toBeInTheDocument()
   })
 
   it('los errores del servidor se explican en el idioma de la pantalla', async () => {
@@ -71,38 +70,149 @@ describe('equipo', () => {
     vi.mocked(api.createMember).mockRejectedValueOnce(new ApiError(400, 'INVALID_PIN', 'x'))
     renderAs(<MembersView />, 'OWNER')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
-    fireEvent.click(screen.getByRole('button', { name: 'Nuevo miembro' }))
-    fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Rosa' } })
-    fireEvent.change(screen.getByLabelText(/PIN \(4 a 6/), { target: { value: '4821' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Crear miembro' }))
-    expect(await screen.findByText('El PIN debe tener de 4 a 6 dígitos.')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
+    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Rosa' } })
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '48213' } })
+    fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '48213' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Crear persona' }))
+    expect(await screen.findByText('El PIN debe tener exactamente 5 números.')).toBeInTheDocument()
   })
 
-  it('el PIN debe tener de 4 a 6 dígitos y se muestra una sola vez al crear', async () => {
+  it('el PIN debe tener exactamente 5 números y se muestra una sola vez al crear', async () => {
     renderAs(<MembersView />, 'OWNER')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
-    fireEvent.click(screen.getByRole('button', { name: 'Nuevo miembro' }))
-    fireEvent.change(screen.getByLabelText('Nombre'), { target: { value: 'Rosa' } })
-    fireEvent.change(screen.getByLabelText(/PIN \(4 a 6/), { target: { value: '12' } })
-    const create = screen.getByRole('button', { name: 'Crear miembro' })
+    fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
+    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Rosa' } })
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '12' } })
+    const create = screen.getByRole('button', { name: 'Crear persona' })
     expect(create).toBeDisabled()
-    fireEvent.change(screen.getByLabelText(/PIN \(4 a 6/), { target: { value: '48a2' } })
-    expect((screen.getByLabelText(/PIN \(4 a 6/) as HTMLInputElement).value).toBe('482')
-    fireEvent.change(screen.getByLabelText(/PIN \(4 a 6/), { target: { value: '4821' } }) 
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '48a2' } })
+    expect((screen.getByLabelText(/^PIN \(5 números\)/) as HTMLInputElement).value).toBe('482')
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '4821' } })
+    expect(create).toBeDisabled() // 4 dígitos no bastan
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '4821399' } })
+    expect((screen.getByLabelText(/^PIN \(5 números\)/) as HTMLInputElement).value).toBe('48213') // no pasa de 5
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '48213' } })
+    expect(create).toBeDisabled() // falta repetir el PIN
+    fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '48214' } })
+    expect(create).toBeDisabled()
+    expect(screen.getByText('Los dos PIN no coinciden.')).toBeInTheDocument()
+    fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '48213' } })
     expect(create).toBeEnabled()
     fireEvent.click(create)
-    await waitFor(() => expect(api.createMember).toHaveBeenCalledWith('b1', { displayName: 'Rosa', role: 'CASHIER', pin: '4821', mustChangePin: true }))
-    await waitFor(() => expect(screen.getByText('4821')).toBeInTheDocument())
+    await waitFor(() => expect(api.createMember).toHaveBeenCalledWith('b1', { displayName: 'Rosa', role: 'CASHIER', pin: '48213', mustChangePin: true }))
+    // Tarjeta de confirmación: negocio, código, usuario y PIN.
+    await waitFor(() => expect(screen.getByText('48213')).toBeInTheDocument())
+    expect(screen.getByText('13085')).toBeInTheDocument()
+    expect(screen.getByText('Rosa', { selector: 'dd' })).toBeInTheDocument()
     expect(screen.getByText(/no se puede volver a ver/)).toBeInTheDocument()
-  })
-
-  it('copiar el enlace de una invitación lo anuncia', async () => {
     const writeText = vi.fn(async () => undefined)
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
-    renderAs(<InvitationsView />, 'OWNER')
-    await waitFor(() => expect(screen.getByText('ABCD2345')).toBeInTheDocument())
-    fireEvent.click(screen.getByRole('button', { name: 'Copiar enlace' }))
-    await waitFor(() => expect(writeText).toHaveBeenCalledWith('http://x/i/ABCD2345'))
-    await waitFor(() => expect(screen.getAllByText('Copiado').length).toBeGreaterThan(0))
+    fireEvent.click(screen.getByRole('button', { name: 'Copiar datos' }))
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('Para entrar a Negocio en la app Cuentiva: código 13085, usuario Rosa, PIN 48213.'))
+  })
+
+  it('NAME_TAKEN se explica al crear y al renombrar', async () => {
+    const { ApiError } = await import('../../api/http')
+    vi.mocked(api.createMember).mockRejectedValueOnce(new ApiError(409, 'NAME_TAKEN', 'x'))
+    renderAs(<MembersView />, 'OWNER')
+    await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
+    fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
+    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Kevin' } })
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '48213' } })
+    fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '48213' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Crear persona' }))
+    expect(await screen.findByText('Ya hay alguien con ese nombre en este negocio.')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
+    vi.mocked(api.updateMember).mockRejectedValueOnce(new ApiError(409, 'NAME_TAKEN', 'x'))
+    fireEvent.click(within(screen.getAllByRole('row')[2]).getByRole('button', { name: 'Editar' }))
+    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Kevin' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Guardar' }))
+    expect(await screen.findByText('Ya hay alguien con ese nombre en este negocio.')).toBeInTheDocument()
+  })
+
+  it('la columna se llama Usuario y no hay pestaña de invitaciones', async () => {
+    renderAs(<EquipoPage />, 'OWNER')
+    await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
+    expect(screen.getByRole('columnheader', { name: 'Usuario' })).toBeInTheDocument()
+    expect(screen.queryByRole('tab', { name: 'Invitaciones' })).not.toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'Teléfonos' })).toBeInTheDocument()
+  })
+
+  it('el código del negocio: ambos lo ven y lo copian; solo el dueño lo renueva', async () => {
+    const writeText = vi.fn(async () => undefined)
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
+    const { unmount } = renderAs(<AccessCodeCard />, 'ADMIN')
+    expect(screen.getByText('13085')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Renovar código' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Copiar' }))
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('13085'))
+    unmount()
+    renderAs(<AccessCodeCard />, 'OWNER')
+    expect(screen.getByRole('button', { name: 'Renovar código' })).toBeInTheDocument()
+  })
+
+  it('compartir usa la hoja del sistema con el mensaje listo; sin ella, copia', async () => {
+    const share = vi.fn(async () => undefined)
+    Object.defineProperty(navigator, 'share', { value: share, configurable: true })
+    const { unmount } = renderAs(<AccessCodeCard />, 'OWNER')
+    fireEvent.click(screen.getByRole('button', { name: 'Compartir' }))
+    await waitFor(() => expect(share).toHaveBeenCalledWith({ title: 'Acceso a Negocio', text: 'Para entrar a Negocio en la app Cuentiva: código 13085, tu usuario y tu PIN.' }))
+    unmount()
+    Object.defineProperty(navigator, 'share', { value: undefined, configurable: true })
+    const writeText = vi.fn(async () => undefined)
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
+    renderAs(<AccessCodeCard />, 'OWNER')
+    fireEvent.click(screen.getByRole('button', { name: 'Compartir' }))
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('Para entrar a Negocio en la app Cuentiva: código 13085, tu usuario y tu PIN.'))
+  })
+
+  it('renovar pide confirmación y llama a la API; cancelar no hace nada', async () => {
+    renderAs(<AccessCodeCard />, 'OWNER')
+    fireEvent.click(screen.getByRole('button', { name: 'Renovar código' }))
+    expect(screen.getByText(/dejará de servir para nuevos ingresos/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
+    expect(api.renewAccessCode).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Renovar código' }))
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Renovar código' }))
+    await waitFor(() => expect(api.renewAccessCode).toHaveBeenCalledWith('b1'))
+  })
+
+  it('elegir mi propio código: solo el dueño; se valida en vivo y se guarda con la API', async () => {
+    const { unmount } = renderAs(<AccessCodeCard />, 'ADMIN')
+    expect(screen.queryByRole('button', { name: 'Elegir mi propio código' })).not.toBeInTheDocument()
+    unmount()
+    renderAs(<AccessCodeCard />, 'OWNER')
+    fireEvent.click(screen.getByRole('button', { name: 'Elegir mi propio código' }))
+    const dialog = screen.getByRole('dialog')
+    const input = within(dialog).getByLabelText(/^Código nuevo/) as HTMLInputElement
+    const save = within(dialog).getByRole('button', { name: 'Guardar código' })
+    expect(save).toBeDisabled()
+    fireEvent.change(input, { target: { value: '0123' } })
+    expect(save).toBeDisabled()
+    fireEvent.change(input, { target: { value: '01234' } })
+    expect(within(dialog).getByText('Deben ser 5 números y no puede empezar en 0.')).toBeInTheDocument()
+    expect(save).toBeDisabled()
+    fireEvent.change(input, { target: { value: '5a2-7 1' } })
+    expect(input.value).toBe('5271')
+    fireEvent.change(input, { target: { value: '52719' } })
+    expect(within(dialog).getByText('Se ve bien.')).toBeInTheDocument()
+    expect(save).toBeEnabled()
+    fireEvent.click(save)
+    await waitFor(() => expect(api.setAccessCode).toHaveBeenCalledWith('b1', '52719'))
+  })
+
+  it('elegir código: ACCESS_CODE_TAKEN e INVALID_ACCESS_CODE se explican', async () => {
+    const { ApiError } = await import('../../api/http')
+    renderAs(<AccessCodeCard />, 'OWNER')
+    fireEvent.click(screen.getByRole('button', { name: 'Elegir mi propio código' }))
+    const dialog = screen.getByRole('dialog')
+    fireEvent.change(within(dialog).getByLabelText(/^Código nuevo/), { target: { value: '52719' } })
+    vi.mocked(api.setAccessCode).mockRejectedValueOnce(new ApiError(409, 'ACCESS_CODE_TAKEN', 'x'))
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Guardar código' }))
+    expect(await screen.findByText('Ese código ya lo usa otro negocio, prueba con otro')).toBeInTheDocument()
+    vi.mocked(api.setAccessCode).mockRejectedValueOnce(new ApiError(400, 'INVALID_ACCESS_CODE', 'x'))
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Guardar código' }))
+    expect(await screen.findByText('El código debe tener 5 números y no empezar en 0.')).toBeInTheDocument()
   })
 })

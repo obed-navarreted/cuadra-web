@@ -24,19 +24,17 @@
   "category": {
     "QUESTION": "Una duda",
     "PROBLEM": "Un problema",
-    "SUGGESTION": "Una sugerencia",
-    "BILLING": "Cobros y planes"
+    "SUGGESTION": "Una sugerencia"
   },
   "contact": {
     "title": "Contacto",
-    "email": "También puedes escribir a",
-    "coffeeHint": "Si Cuentiva te sirve y quieres apoyar su desarrollo, puedes invitarme un café. Es totalmente opcional."
+    "email": "También puedes escribir a"
   },
   "faq": {
     "title": "Preguntas frecuentes",
     "link": {
-      "q": "¿Cómo vinculo un teléfono al negocio?",
-      "a": "En el teléfono nuevo abre la app y elige «Vincular este teléfono con un código»: verás un código corto. Luego, en este panel, ve a Equipo → Teléfonos y escribe ese código. El teléfono queda vinculado y los cajeros entran con su PIN."
+      "q": "¿Cómo agrego a mi equipo?",
+      "a": "Agrega a tu equipo con nombre y PIN de 5 números; cada persona entra desde su teléfono con el código del negocio, su usuario (su nombre) y su PIN. Solo el dueño entra con Google."
     },
     "offline": {
       "q": "¿Qué pasa si se cae el internet?",
@@ -50,5 +48,15 @@
       "q": "¿Cómo importo mis productos desde un archivo?",
       "a": "En Inventario elige «Importar CSV». El archivo lleva una fila por producto con columnas como nombre, código, precio, costo, unidad, categoría y existencia. Primero ves una vista previa de lo que se crearía o actualizaría, sin guardar nada; después confirmas. Si repites la importación, lo que ya existe se actualiza y no se duplica."
     }
+  },
+  "support": {
+    "title": "Apóyame",
+    "body": "Cuentiva es gratis. Si te sirve y quieres apoyar su desarrollo, escríbeme.",
+    "whatsapp": "Escribir por WhatsApp",
+    "whatsappMessage": "Hola, quiero apoyar Cuentiva",
+    "emailLabel": "O escríbeme por correo:",
+    "copyEmail": "Copiar correo",
+    "copied": "Correo copiado",
+    "writeEmail": "Enviar correo"
   }
 }

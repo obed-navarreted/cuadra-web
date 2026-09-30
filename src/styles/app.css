@@ -102,3 +102,4 @@ dialog.modal { border: 0; border-radius: 20px; padding: 0; width: min(560px, cal
 dialog.modal::backdrop { background: rgba(26, 25, 22, 0.5); }
 .modal-body { padding: 20px; display: grid; gap: 14px; }
 .modal-body h2 { font-size: 22px; }
+.link-danger { background: none; border: 0; padding: 8px 0; min-height: 40px; color: var(--red); font: inherit; font-size: 13px; text-decoration: underline; cursor: pointer; text-align: left; }

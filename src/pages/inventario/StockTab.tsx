@@ -1,9 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { downloadFile } from '../../api/http'
-import { usePlan } from '../../plan/context'
-import { canExport } from '../../plan/logic'
-import { ProTag } from '../../plan/ProTag'
 import { useBusiness } from '../../auth/context'
 import { DataTable, type Column } from '../../components/DataTable'
 import { Modal } from '../../components/Modal'
@@ -24,7 +21,6 @@ export function StockTab({ reloadKey, onChanged }: { reloadKey: number; onChange
   const [onlyReview, setOnlyReview] = useState(false)
   const [selected, setSelected] = useState<Product | null>(null)
   const [exportError, setExportError] = useState<unknown>(null)
-  const { plan } = usePlan()
   const report = useAsync(() => loadStockReport(business.id), [business.id, reloadKey])
   const products = useAsync(() => loadProducts(business.id), [business.id, reloadKey])
   const tracked = useMemo(() => (products.data ?? []).filter((p) => p.trackStock && (!onlyReview || needsReview(p))), [products.data, onlyReview])
@@ -78,9 +74,8 @@ export function StockTab({ reloadKey, onChanged }: { reloadKey: number; onChange
             <Button small kind={onlyReview ? 'dark' : 'plain'} onClick={() => setOnlyReview((v) => !v)} aria-pressed={onlyReview}>
               {t('stock.onlyReview')}
             </Button>
-            <Button small disabled={!canExport(plan)} onClick={() => downloadFile(`/api/b/${business.id}/reports/inventory.csv`, { lang: i18n.language }).then(() => setExportError(null), setExportError)}>
+            <Button small onClick={() => downloadFile(`/api/b/${business.id}/reports/inventory.csv`, { lang: i18n.language }).then(() => setExportError(null), setExportError)}>
               {t('stock.export')}
-              {!canExport(plan) && <ProTag />}
             </Button>
           </>
         }

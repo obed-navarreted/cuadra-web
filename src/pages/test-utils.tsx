@@ -19,7 +19,7 @@ export function polyfillDialog() {
 
 export function fakeAuth(role: 'OWNER' | 'ADMIN' = 'OWNER'): AuthValue {
   const membership: Membership = { businessId: 'b1', businessName: 'Negocio', currency: 'NIO', memberId: role === 'OWNER' ? 'm-owner' : 'm-admin', role, timezone: 'America/Managua' }
-  const business = { id: 'b1', name: 'Negocio', currency: 'NIO', country: 'NI', timezone: 'America/Managua', dayCutoff: '02:00' } as Business
+  const business = { id: 'b1', name: 'Negocio', currency: 'NIO', country: 'NI', timezone: 'America/Managua', dayCutoff: '02:00', accessCode: '13085' } as Business
   return {
     status: 'ready',
     me: { id: 'u1', platformAdmin: false, businesses: [membership] },

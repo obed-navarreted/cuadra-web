@@ -6,11 +6,11 @@ import { Button, Card, ErrorNotice, Field, Page } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { errorText } from '../../lib/errors'
 import './ayuda.css'
-import { buildTicket, CATEGORIES, donationLink, MESSAGE_MAX, validateTicket, type Category } from './support'
+import { buildTicket, CATEGORIES, DEFAULT_SUPPORT_EMAIL, DEFAULT_SUPPORT_WHATSAPP, MESSAGE_MAX, validateTicket, whatsappLink, type Category } from './support'
 
 const FAQ = ['link', 'offline', 'closing', 'import'] as const
 
-/** Ayuda: preguntas frecuentes, contacto con soporte y "Invítame un café". */
+/** Ayuda: preguntas frecuentes, contacto con soporte y «Apóyame» (WhatsApp y correo; sin pagos dentro de la aplicación). */
 export default function AyudaPage() {
   const { t, i18n } = useTranslation('ayuda')
   const { membership } = useBusiness()
@@ -25,8 +25,15 @@ export default function AyudaPage() {
   const [sent, setSent] = useState<string | null>(null)
   const draft = { category, message, email, phone }
   const error = validateTicket(draft)
-  const coffee = donationLink(config.data?.donationUrl, config.data?.donationMode)
-  const supportEmail = config.data?.supportEmail
+  const supportEmail = config.data?.supportEmail || DEFAULT_SUPPORT_EMAIL
+  const whatsapp = whatsappLink(config.data?.supportWhatsapp || DEFAULT_SUPPORT_WHATSAPP, t('support.whatsappMessage'))
+  const [copied, setCopied] = useState(false)
+  const copyEmail = () => {
+    void navigator.clipboard?.writeText(supportEmail).then(() => {
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2500)
+    })
+  }
 
   async function submit() {
     setTried(true)
@@ -113,19 +120,31 @@ export default function AyudaPage() {
         <div className="page">
           <Card title={t('contact.title')}>
             {config.error && <ErrorNotice error={config.error} onRetry={config.reload} />}
-            {supportEmail && (
-              <p>
-                {t('contact.email')} <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
-              </p>
-            )}
-            {coffee && (
-              <>
-                <p className="muted">{t('contact.coffeeHint')}</p>
-                <a className="btn dark ay-coffee" href={coffee} target="_blank" rel="noopener noreferrer">
-                  {t('common:donate.coffee')}
+            <p>
+              {t('contact.email')} <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
+            </p>
+          </Card>
+          <Card title={t('support.title')}>
+            <div className="ay-support">
+              <p>{t('support.body')}</p>
+              {whatsapp && (
+                <a className="btn primary" href={whatsapp} target="_blank" rel="noopener noreferrer">
+                  {t('support.whatsapp')}
                 </a>
-              </>
-            )}
+              )}
+              <p className="muted small">{t('support.emailLabel')}</p>
+              <p>
+                <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
+              </p>
+              <div className="row">
+                <Button small onClick={copyEmail}>
+                  {copied ? t('support.copied') : t('support.copyEmail')}
+                </Button>
+                <a className="btn small" href={`mailto:${supportEmail}`}>
+                  {t('support.writeEmail')}
+                </a>
+              </div>
+            </div>
           </Card>
         </div>
       </div>

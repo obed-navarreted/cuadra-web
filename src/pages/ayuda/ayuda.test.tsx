@@ -34,26 +34,33 @@ const calls = () => api.calls as Call[]
 beforeEach(async () => {
   api.calls.length = 0
   for (const k of Object.keys(api.responses)) delete api.responses[k]
-  api.responses['GET /api/config'] = { supportEmail: 'soporte@cuadra.app', donationUrl: 'https://buymeacoffee.com/x', donationMode: 'external_link' }
+  api.responses['GET /api/config'] = { supportEmail: 'soporte@cuadra.app', supportWhatsapp: '50582724138' }
   await act(async () => {
     await setLocale('es')
   })
 })
 
 describe('ayuda y contacto', () => {
-  it('muestra el correo de soporte y el café solo cuando hay dirección', async () => {
+  it('muestra el correo de soporte y la tarjeta «Apóyame» con WhatsApp y copiar correo', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
     renderPanel(<AyudaPage />)
-    expect(await screen.findByRole('link', { name: 'soporte@cuadra.app' })).toHaveAttribute('href', 'mailto:soporte@cuadra.app')
-    const coffee = screen.getByRole('link', { name: 'Invítame un café' })
-    expect(coffee).toHaveAttribute('href', 'https://buymeacoffee.com/x')
-    expect(coffee).toHaveAttribute('rel', expect.stringContaining('noopener'))
+    expect((await screen.findAllByRole('link', { name: 'soporte@cuadra.app' }))[0]).toHaveAttribute('href', 'mailto:soporte@cuadra.app')
+    expect(screen.getByRole('heading', { name: 'Apóyame' })).toBeInTheDocument()
+    expect(screen.getByText(/Cuentiva es gratis/)).toBeInTheDocument()
+    const wa = screen.getByRole('link', { name: 'Escribir por WhatsApp' })
+    expect(wa).toHaveAttribute('href', 'https://wa.me/50582724138?text=Hola%2C%20quiero%20apoyar%20Cuentiva')
+    expect(wa).toHaveAttribute('rel', expect.stringContaining('noopener'))
+    fireEvent.click(screen.getByRole('button', { name: 'Copiar correo' }))
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('soporte@cuadra.app'))
+    expect(screen.queryByText(/PayPal|café/i)).not.toBeInTheDocument()
   })
 
-  it('sin dirección de donación no hay botón', async () => {
-    api.responses['GET /api/config'] = { supportEmail: 'soporte@cuadra.app' }
+  it('sin datos del servidor usa el WhatsApp y el correo de fábrica', async () => {
+    api.responses['GET /api/config'] = {}
     renderPanel(<AyudaPage />)
-    await screen.findByRole('link', { name: 'soporte@cuadra.app' })
-    expect(screen.queryByRole('link', { name: 'Invítame un café' })).not.toBeInTheDocument()
+    expect((await screen.findByRole('link', { name: 'Escribir por WhatsApp' })).getAttribute('href')).toContain('https://wa.me/50582724138')
+    expect(screen.getAllByRole('link', { name: 'ndiazobed@gmail.com' })[0]).toBeInTheDocument()
   })
 
   it('no envía un mensaje demasiado corto y lo explica', async () => {

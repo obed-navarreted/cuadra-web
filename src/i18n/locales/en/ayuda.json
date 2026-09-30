@@ -24,19 +24,17 @@
   "category": {
     "QUESTION": "A question",
     "PROBLEM": "A problem",
-    "SUGGESTION": "A suggestion",
-    "BILLING": "Billing and plans"
+    "SUGGESTION": "A suggestion"
   },
   "contact": {
     "title": "Contact",
-    "email": "You can also write to",
-    "coffeeHint": "If Cuentiva helps you and you want to support its development, you can buy me a coffee. It is entirely optional."
+    "email": "You can also write to"
   },
   "faq": {
     "title": "Frequently asked questions",
     "link": {
-      "q": "How do I link a phone to the business?",
-      "a": "On the new phone open the app and choose “Link this phone with a code”: you will see a short code. Then, in this panel, go to Team → Phones and type that code. The phone is linked and cashiers sign in with their PIN."
+      "q": "How do I add my team?",
+      "a": "Add your team with a name and a 5-digit PIN; each person signs in from their own phone with the business code, their username (their name) and their PIN. Only the owner signs in with Google."
     },
     "offline": {
       "q": "What happens if the internet goes down?",
@@ -50,5 +48,15 @@
       "q": "How do I import my products from a file?",
       "a": "In Inventory choose “Import CSV”. The file has one row per product with columns such as name, code, price, cost, unit, category and stock. First you see a preview of what would be created or updated, without saving anything; then you confirm. If you import again, what already exists is updated and not duplicated."
     }
+  },
+  "support": {
+    "title": "Support me",
+    "body": "Cuentiva is free. If it helps you and you want to support its development, write to me.",
+    "whatsapp": "Write on WhatsApp",
+    "whatsappMessage": "Hi, I want to support Cuentiva",
+    "emailLabel": "Or write to me by e-mail:",
+    "copyEmail": "Copy e-mail",
+    "copied": "E-mail copied",
+    "writeEmail": "Send e-mail"
   }
 }

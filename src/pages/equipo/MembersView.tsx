@@ -6,7 +6,8 @@ import { Modal } from '../../components/Modal'
 import { Button, ErrorNotice, Field, Spinner, Tag } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { createMember, listMembers, resetPin, updateMember, type Member, type Role } from './api'
-import { assignableRoles, canManage, COLORS, generatePin, isValidPin } from './lib'
+import { CredentialsCard } from './CredentialsCard'
+import { assignableRoles, canManage, COLORS, generatePin, isValidPin, newMemberIssue, PIN_LENGTH, sanitizePin } from './lib'
 
 function RoleTag({ role }: { role: string }) {
   const { t } = useTranslation('equipo')
@@ -28,7 +29,7 @@ export function MembersView() {
   const columns: Column<Member>[] = [
     {
       key: 'name',
-      header: t('members.col.name'),
+      header: t('members.col.username'),
       cell: (m) => (
         <div className="member-name">
           <span className="dot" style={{ background: m.color ?? 'var(--line-2)' }} aria-hidden="true" />
@@ -77,7 +78,7 @@ export function MembersView() {
   return (
     <div className="stack">
       <div className="toolbar-row">
-        <p className="muted grow">{t('members.hint')}</p>
+        <p className="muted grow small">{t('members.hint')}</p>
         <Button kind="primary" onClick={() => setDialog({ kind: 'new' })}>
           {t('members.new')}
         </Button>
@@ -91,17 +92,32 @@ export function MembersView() {
   )
 }
 
-/** Campo de PIN con validación y "Generar": el PIN lo escribe (o genera) quien administra y se le muestra una sola vez. */
-function PinFields({ pin, setPin, mustChange, setMustChange }: { pin: string; setPin: (p: string) => void; mustChange: boolean; setMustChange: (v: boolean) => void }) {
+/** Campo de PIN con validación y "Generar": el PIN lo escribe (o genera) quien administra y se le muestra una sola vez. Con `pin2` pide repetirlo. */
+function PinFields({ pin, setPin, pin2, setPin2, mustChange, setMustChange }: { pin: string; setPin: (p: string) => void; pin2?: string; setPin2?: (p: string) => void; mustChange: boolean; setMustChange: (v: boolean) => void }) {
   const { t } = useTranslation('equipo')
+  const repeat = pin2 !== undefined && setPin2 !== undefined
   return (
     <>
       <div className="toolbar-row">
         <Field label={t('pin.label')} hint={t('pin.hint')}>
-          <input inputMode="numeric" autoComplete="off" maxLength={6} value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))} aria-invalid={pin !== '' && !isValidPin(pin)} required />
+          <input inputMode="numeric" autoComplete="off" pattern="\d{5}" maxLength={PIN_LENGTH} value={pin} onChange={(e) => setPin(sanitizePin(e.target.value))} aria-invalid={pin !== '' && !isValidPin(pin)} required />
         </Field>
-        <Button onClick={() => setPin(generatePin())}>{t('pin.generate')}</Button>
+        {repeat && (
+          <Field label={t('members.pinRepeat')}>
+            <input inputMode="numeric" autoComplete="off" pattern="\d{5}" maxLength={PIN_LENGTH} value={pin2} onChange={(e) => setPin2(sanitizePin(e.target.value))} aria-invalid={pin2 !== '' && pin2 !== pin} required />
+          </Field>
+        )}
+        <Button
+          onClick={() => {
+            const p = generatePin()
+            setPin(p)
+            setPin2?.(p)
+          }}
+        >
+          {t('pin.generate')}
+        </Button>
       </div>
+      {repeat && pin2 !== '' && isValidPin(pin) && pin !== pin2 && <p className="notice warn">{t('members.pinMismatch')}</p>}
       <label className="check">
         <input type="checkbox" checked={mustChange} onChange={(e) => setMustChange(e.target.checked)} /> {t('pin.mustChange')}
       </label>
@@ -132,11 +148,12 @@ function NewMemberDialog({ viewerRole, onClose, onDone }: { viewerRole: string |
   const [name, setName] = useState('')
   const [role, setRole] = useState<Role>('CASHIER')
   const [pin, setPin] = useState('')
+  const [pin2, setPin2] = useState('')
   const [mustChange, setMustChange] = useState(true)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<unknown>(null)
   const [created, setCreated] = useState<string | null>(null)
-  const valid = name.trim().length > 0 && isValidPin(pin)
+  const valid = newMemberIssue(name, pin, pin2) === null
 
   async function submit(e: FormEvent) {
     e.preventDefault()
@@ -152,12 +169,12 @@ function NewMemberDialog({ viewerRole, onClose, onDone }: { viewerRole: string |
     }
   }
 
-  if (created) return <PinShown name={created} pin={pin} onClose={onDone} />
+  if (created) return <CredentialsCard name={created} pin={pin} onClose={onDone} />
   return (
     <Modal open title={t('members.new')} onClose={onClose}>
       <form className="dialog-form" onSubmit={submit}>
         <p className="muted">{t('members.newHint')}</p>
-        <Field label={t('members.col.name')}>
+        <Field label={t('members.nameLabel')} hint={t('members.nameHint')}>
           <input value={name} maxLength={80} onChange={(e) => setName(e.target.value)} required />
         </Field>
         <Field label={t('members.col.role')}>
@@ -169,7 +186,7 @@ function NewMemberDialog({ viewerRole, onClose, onDone }: { viewerRole: string |
             ))}
           </select>
         </Field>
-        <PinFields pin={pin} setPin={setPin} mustChange={mustChange} setMustChange={setMustChange} />
+        <PinFields pin={pin} setPin={setPin} pin2={pin2} setPin2={setPin2} mustChange={mustChange} setMustChange={setMustChange} />
         {error != null && <ErrorNotice error={error} />}
         <div className="dialog-actions">
           <Button onClick={onClose}>{t('cancel')}</Button>
@@ -216,7 +233,7 @@ function EditMemberDialog({ member, self, viewerRole, onClose, onDone }: { membe
   return (
     <Modal open title={t('members.edit')} onClose={onClose}>
       <form className="dialog-form" onSubmit={submit}>
-        <Field label={t('members.col.name')}>
+        <Field label={t('members.nameLabel')} hint={t('members.nameHint')}>
           <input value={name} maxLength={80} onChange={(e) => setName(e.target.value)} required />
         </Field>
         <fieldset className="colors">

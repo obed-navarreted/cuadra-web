@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { windowLocale, zoneFor, amountOf, cashParts, expectedCash, isEmptyDay, mergeMethods, totals, windowText, type DayClose } from './logic'
+import { windowLocale, zoneFor, amountOf, cashAdjustments, cashParts, expectedCash, syncWarningKind, isEmptyDay, mergeMethods, totals, windowText, type DayClose } from './logic'
 
 const day = (over: Partial<DayClose>): DayClose => ({
   salesCount: 0, salesMinor: 0, byMethod: [], creditCollected: [], drawerExpensesMinor: 0, otherExpensesMinor: 0, withdrawalsMinor: 0, depositsMinor: 0,
-  expectedCashMinor: 0, cancelledCount: 0, cancelledMinor: 0, ...over,
+  expectedCashMinor: 0, cancelledCount: 0, cancelledMinor: 0, returnsCount: 0, returnsMinor: 0, refundsByMethod: [], cashRefundsMinor: 0,
+  priorCancelledCount: 0, priorCancelledMinor: 0, priorCancelledCashMinor: 0, netSalesMinor: 0, laterVoids: [], ...over,
 })
 
 describe('cierre del día', () => {
@@ -53,6 +54,22 @@ describe('cierre del día', () => {
     ])
     expect(t).toMatchObject({ days: 2, salesCount: 3, salesMinor: 7500, expectedCashMinor: 6000, cancelledCount: 1, cancelledMinor: 700, drawerExpensesMinor: 1000, withdrawalsMinor: 200, depositsMinor: 50, otherExpensesMinor: 30 })
     expect(t.byMethod).toEqual([{ method: 'CASH', amountMinor: 7000 }, { method: 'CARD', amountMinor: 500 }])
+  })
+
+  it('devoluciones, ventas de días anteriores anuladas y anulaciones tardías corrigen el esperado de HOY', () => {
+    const d = day({
+      byMethod: [{ method: 'CASH', amountMinor: 10000 }],
+      cashRefundsMinor: 1500, priorCancelledCashMinor: 700,
+      laterVoids: [{ kind: 'EXPENSE_DRAWER', count: 1, amountMinor: 300, cashEffectMinor: 300 }, { kind: 'CREDIT_PAYMENT', count: 1, amountMinor: 200, cashEffectMinor: -200 }],
+    })
+    expect(cashAdjustments(d)).toEqual({ cashRefunds: 1500, priorCancelledCash: 700, later: 100 })
+    expect(expectedCash(d)).toBe(10000 - 1500 - 700 + 100)
+    const t = totals([d, day({ returnsCount: 1, returnsMinor: 900, laterVoids: [{ kind: 'EXPENSE_DRAWER', count: 2, amountMinor: 50, cashEffectMinor: 50 }] })])
+    expect(t.returnsMinor).toBe(900)
+    expect(t.laterVoids).toEqual([{ kind: 'EXPENSE_DRAWER', count: 3, amountMinor: 350, cashEffectMinor: 350 }, { kind: 'CREDIT_PAYMENT', count: 1, amountMinor: 200, cashEffectMinor: -200 }])
+    expect(isEmptyDay(day({ returnsCount: 1 }))).toBe(false)
+    expect(syncWarningKind({ pendingOps: 2, stale: false })).toBe('PENDING')
+    expect(syncWarningKind({ pendingOps: 0, stale: true })).toBe('STALE')
   })
 
   it('reconoce una jornada vacía', () => {

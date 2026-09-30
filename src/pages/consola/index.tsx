@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { useAuth } from '../../auth/context'
 import { LanguageSwitcher } from '../../components/LanguageSwitcher'
+import { SignOutAll } from '../../components/SignOutAll'
 import { Button, Spinner } from '../../components/ui'
 import { AnnouncementsPage } from './AnnouncementsPage'
 import { AuditPage } from './AuditPage'
@@ -75,6 +76,7 @@ function ConsoleShell() {
           <Button small onClick={() => void signOut()}>
             {t('auth.signOut', { ns: 'common' })}
           </Button>
+          <SignOutAll />
         </div>
       </aside>
       <main className="content consola">

@@ -36,6 +36,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/member-login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["memberLogin"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/platform": {
         parameters: {
             query?: never;
@@ -68,6 +84,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/b/{businessId}/access-code": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["setAccessCode"];
+        post: operations["regenerateAccessCode"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/b/{businessId}/activity": {
         parameters: {
             query?: never;
@@ -75,7 +107,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_6"];
+        get: operations["list_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -219,7 +251,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_5"];
+        get: operations["list_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -347,7 +379,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_4"];
+        get: operations["list_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -398,7 +430,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["revoke_1"];
+        delete: operations["revoke"];
         options?: never;
         head?: never;
         patch?: never;
@@ -495,38 +527,6 @@ export interface paths {
         put?: never;
         post: operations["voidExpense"];
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/b/{businessId}/invitations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["list_1"];
-        put?: never;
-        post: operations["create_3"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/b/{businessId}/invitations/{invitationId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["revoke"];
         options?: never;
         head?: never;
         patch?: never;
@@ -731,7 +731,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_3"];
+        get: operations["list_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1307,7 +1307,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_2"];
+        get: operations["list_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1375,6 +1375,22 @@ export interface paths {
         put?: never;
         post: operations["lock"];
         delete: operations["unlock"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/b/{businessId}/sales/{saleId}/returns/{returnId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["createReturn"];
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -1620,6 +1636,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/config/countries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["countries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/devices/link-requests": {
         parameters: {
             query?: never;
@@ -1652,38 +1684,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/invitations/{code}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["preview"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/invitations/{code}/accept": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["accept"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/me": {
         parameters: {
             query?: never;
@@ -1695,6 +1695,22 @@ export interface paths {
         put: operations["update"];
         post?: never;
         delete: operations["delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/me/sessions/revoke-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["revokeAllSessions"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2040,9 +2056,8 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AcceptResponse: {
-            /** Format: uuid */
-            businessId?: string | null;
+        AccessCodeView: {
+            accessCode?: string | null;
         };
         ActiveBody: {
             active?: boolean | null;
@@ -2156,6 +2171,7 @@ export interface components {
             toDays?: number | null;
         };
         BusinessView: {
+            accessCode?: string | null;
             country?: string | null;
             /** Format: int32 */
             creditDefaultDueDays?: number | null;
@@ -2164,6 +2180,7 @@ export interface components {
             creditOverdueDays: number;
             creditRequiresCustomer: boolean;
             currency?: string | null;
+            currencyLocked: boolean;
             dayCutoff?: string | null;
             /** Format: date */
             dayRuleEffectiveFrom?: string | null;
@@ -2266,6 +2283,12 @@ export interface components {
             forcedReason?: string | null;
             note?: string | null;
         };
+        Country: {
+            code?: string | null;
+            currency?: string | null;
+            locale?: string | null;
+            timezone?: string | null;
+        };
         CreateBusinessRequest: {
             country?: string | null;
             currency?: string | null;
@@ -2273,15 +2296,6 @@ export interface components {
             name: string | null;
             timezone?: string | null;
             type?: string | null;
-        };
-        CreateInvitationRequest: {
-            email?: string | null;
-            /** Format: int32 */
-            expiresInDays?: number | null;
-            /** Format: int32 */
-            maxUses?: number | null;
-            /** @enum {string|null} */
-            role: "OWNER" | "ADMIN" | "CASHIER" | null;
         };
         CreateMemberRequest: {
             displayName: string | null;
@@ -2386,6 +2400,7 @@ export interface components {
         DailyClose: {
             days?: components["schemas"]["DayClose"][] | null;
             range?: components["schemas"]["Range"];
+            syncWarnings?: components["schemas"]["DeviceSync"][] | null;
         };
         DayClose: {
             byMethod?: components["schemas"]["MethodAmount"][] | null;
@@ -2393,6 +2408,8 @@ export interface components {
             cancelledCount: number;
             /** Format: int64 */
             cancelledMinor: number;
+            /** Format: int64 */
+            cashRefundsMinor: number;
             creditCollected?: components["schemas"]["MethodAmount"][] | null;
             /** Format: date */
             date?: string | null;
@@ -2404,8 +2421,22 @@ export interface components {
             endsAt?: string | null;
             /** Format: int64 */
             expectedCashMinor: number;
+            laterVoids?: components["schemas"]["LaterVoid"][] | null;
+            /** Format: int64 */
+            netSalesMinor: number;
             /** Format: int64 */
             otherExpensesMinor: number;
+            /** Format: int64 */
+            priorCancelledCashMinor: number;
+            /** Format: int64 */
+            priorCancelledCount: number;
+            /** Format: int64 */
+            priorCancelledMinor: number;
+            refundsByMethod?: components["schemas"]["MethodAmount"][] | null;
+            /** Format: int64 */
+            returnsCount: number;
+            /** Format: int64 */
+            returnsMinor: number;
             /** Format: int64 */
             salesCount: number;
             /** Format: int64 */
@@ -2439,6 +2470,16 @@ export interface components {
             oldestDays: number;
             /** Format: int64 */
             paidLast90Minor: number;
+        };
+        DeviceSync: {
+            /** Format: uuid */
+            deviceId?: string | null;
+            /** Format: date-time */
+            lastSyncAt?: string | null;
+            name?: string | null;
+            /** Format: int32 */
+            pendingOps: number;
+            stale: boolean;
         };
         DeviceView: {
             appVersion?: string | null;
@@ -2595,20 +2636,6 @@ export interface components {
             /** Format: int64 */
             valueAtCostMinor: number;
         };
-        InvitationView: {
-            code?: string | null;
-            email?: string | null;
-            /** Format: date-time */
-            expiresAt?: string | null;
-            /** Format: uuid */
-            id: string;
-            /** Format: int32 */
-            maxUses: number;
-            role?: string | null;
-            url?: string | null;
-            /** Format: int32 */
-            usedCount: number;
-        };
         ItemInput: {
             barcode?: string | null;
             /** Format: int64 */
@@ -2639,6 +2666,8 @@ export interface components {
             productId?: string | null;
             /** Format: int64 */
             quantityMilli: number;
+            /** Format: int64 */
+            returnedMilli: number;
             /** Format: int64 */
             unitCostMinor?: number | null;
             /** Format: int64 */
@@ -2672,6 +2701,15 @@ export interface components {
             /** @deprecated */
             textual?: boolean;
             valueNode?: boolean;
+        };
+        LaterVoid: {
+            /** Format: int64 */
+            amountMinor: number;
+            /** Format: int64 */
+            cashEffectMinor: number;
+            /** Format: int64 */
+            count: number;
+            kind?: string | null;
         };
         Limits: {
             /** Format: int32 */
@@ -2791,6 +2829,27 @@ export interface components {
             /** Format: int64 */
             shifts: number;
         };
+        MemberLoginRequest: {
+            appVersion?: string | null;
+            businessCode: string | null;
+            deviceName?: string | null;
+            model?: string | null;
+            osVersion?: string | null;
+            pin: string | null;
+            username: string | null;
+        };
+        MemberLoginResult: {
+            /** Format: uuid */
+            businessId?: string | null;
+            /** Format: uuid */
+            deviceId?: string | null;
+            deviceToken?: string | null;
+            /** Format: uuid */
+            memberId?: string | null;
+            memberName?: string | null;
+            pinMustChange: boolean;
+            role?: string | null;
+        };
         MemberRef: {
             /** Format: uuid */
             id: string;
@@ -2899,15 +2958,22 @@ export interface components {
             type?: string | null;
         };
         OpInput: {
+            /** Format: date-time */
+            createdAt?: string | null;
             /** Format: uuid */
             entityId?: string | null;
             kind?: string | null;
+            /** Format: uuid */
+            memberId?: string | null;
             /** Format: uuid */
             opId?: string | null;
             payload?: components["schemas"]["JsonNode"];
         };
         OpResult: {
             code?: string | null;
+            detail?: {
+                [key: string]: unknown;
+            } | null;
             /** Format: uuid */
             opId?: string | null;
             /** Format: int64 */
@@ -3341,11 +3407,6 @@ export interface components {
             enabled?: boolean | null;
             type?: string | null;
         };
-        Preview: {
-            businessName?: string | null;
-            role?: string | null;
-            valid: boolean;
-        };
         Product: {
             /** Format: int64 */
             costMinor: number;
@@ -3448,11 +3509,11 @@ export interface components {
         };
         PublicConfig: {
             announcement?: components["schemas"]["AnnouncementBanner"];
-            donationMode?: string | null;
-            donationUrl?: string | null;
             minAppVersion?: string | null;
+            panelUrl?: string | null;
             recommendedAppVersion?: string | null;
             supportEmail?: string | null;
+            supportWhatsapp?: string | null;
         };
         PullResult: {
             changes?: components["schemas"]["Change"][] | null;
@@ -3532,6 +3593,60 @@ export interface components {
             totalMinor: number;
             worst?: components["schemas"]["Debtor"][] | null;
         };
+        RefundView: {
+            /** Format: int64 */
+            amountMinor: number;
+            /** Format: uuid */
+            creditId?: string | null;
+            method?: string | null;
+        };
+        ReturnInput: {
+            items?: components["schemas"]["ReturnItemInput"][] | null;
+            /** Format: date-time */
+            occurredAt?: string | null;
+            reason?: string | null;
+            refundMethod?: string | null;
+            /** Format: uuid */
+            saleId?: string | null;
+        };
+        ReturnItemInput: {
+            /** Format: int64 */
+            quantityMilli?: number | null;
+            /** Format: uuid */
+            saleItemId?: string | null;
+        };
+        ReturnItemView: {
+            /** Format: int64 */
+            amountMinor: number;
+            /** Format: uuid */
+            id: string;
+            name?: string | null;
+            /** Format: uuid */
+            productId?: string | null;
+            /** Format: int64 */
+            quantityMilli: number;
+            /** Format: uuid */
+            saleItemId?: string | null;
+        };
+        ReturnView: {
+            createdBy?: components["schemas"]["MemberRef"];
+            /** Format: uuid */
+            id: string;
+            items?: components["schemas"]["ReturnItemView"][] | null;
+            /** Format: date-time */
+            occurredAt?: string | null;
+            reason?: string | null;
+            refundMethod?: string | null;
+            refunds?: components["schemas"]["RefundView"][] | null;
+            /** Format: uuid */
+            saleId?: string | null;
+            /** Format: int64 */
+            totalMinor: number;
+        };
+        RevokedSessions: {
+            /** Format: int32 */
+            revoked: number;
+        };
         Row: {
             /** Format: int64 */
             count: number;
@@ -3556,6 +3671,7 @@ export interface components {
             createdAt?: string | null;
             /** Format: int64 */
             discountMinor?: number | null;
+            fromStatus?: string | null;
             items?: components["schemas"]["ItemInput"][] | null;
             label?: string | null;
             payments?: components["schemas"]["PaymentInput"][] | null;
@@ -3573,6 +3689,8 @@ export interface components {
             /** Format: date-time */
             completedAt?: string | null;
             completedBy?: components["schemas"]["MemberRef"];
+            /** Format: uuid */
+            conflictOfSaleId?: string | null;
             /** Format: date-time */
             createdAt?: string | null;
             createdBy?: components["schemas"]["MemberRef"];
@@ -3593,7 +3711,11 @@ export interface components {
             lockedUntil?: string | null;
             payments?: components["schemas"]["PaymentView"][] | null;
             /** Format: int64 */
+            returnedMinor: number;
+            returns?: components["schemas"]["ReturnView"][] | null;
+            /** Format: int64 */
             rev: number;
+            reviewFlag?: string | null;
             status?: string | null;
             /** Format: int64 */
             subtotalMinor: number;
@@ -3611,6 +3733,16 @@ export interface components {
             count: number;
             /** Format: int64 */
             discountMinor: number;
+            /** Format: int64 */
+            netMinor: number;
+            /** Format: int64 */
+            priorCancelledCount: number;
+            /** Format: int64 */
+            priorCancelledMinor: number;
+            /** Format: int64 */
+            returnsCount: number;
+            /** Format: int64 */
+            returnsMinor: number;
             /** Format: int64 */
             totalMinor: number;
         };
@@ -3666,6 +3798,9 @@ export interface components {
             /** Format: uuid */
             deviceId?: string | null;
             deviceToken?: string | null;
+        };
+        SetAccessCode: {
+            accessCode: string | null;
         };
         Settings: {
             quietEnd?: string | null;
@@ -3846,6 +3981,7 @@ export interface components {
         UpdateBusiness: {
             clearCreditDefaultDueDays?: boolean | null;
             clearShiftNoteThreshold?: boolean | null;
+            country?: string | null;
             /** Format: int32 */
             creditDefaultDueDays?: number | null;
             creditLimitEnforced?: boolean | null;
@@ -3935,6 +4071,32 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    memberLogin: {
+        parameters: {
+            query?: never;
+            header?: {
+                "User-Agent"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MemberLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MemberLoginResult"];
+                };
             };
         };
     };
@@ -4038,7 +4200,59 @@ export interface operations {
             };
         };
     };
-    list_6: {
+    setAccessCode: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetAccessCode"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessCodeView"];
+                };
+            };
+        };
+    };
+    regenerateAccessCode: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AccessCodeView"];
+                };
+            };
+        };
+    };
+    list_5: {
         parameters: {
             query?: {
                 page?: number;
@@ -4289,7 +4503,7 @@ export interface operations {
             };
         };
     };
-    list_5: {
+    list_4: {
         parameters: {
             query?: {
                 status?: string;
@@ -4567,7 +4781,7 @@ export interface operations {
             };
         };
     };
-    list_4: {
+    list_3: {
         parameters: {
             query?: never;
             header?: {
@@ -4645,7 +4859,7 @@ export interface operations {
             };
         };
     };
-    revoke_1: {
+    revoke: {
         parameters: {
             query?: never;
             header?: {
@@ -4835,81 +5049,6 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["ExpenseView"];
                 };
-            };
-        };
-    };
-    list_1: {
-        parameters: {
-            query?: never;
-            header?: {
-                "X-Member-Id"?: string;
-            };
-            path: {
-                businessId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["InvitationView"][];
-                };
-            };
-        };
-    };
-    create_3: {
-        parameters: {
-            query?: never;
-            header?: {
-                "X-Member-Id"?: string;
-            };
-            path: {
-                businessId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateInvitationRequest"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["InvitationView"];
-                };
-            };
-        };
-    };
-    revoke: {
-        parameters: {
-            query?: never;
-            header?: {
-                "X-Member-Id"?: string;
-            };
-            path: {
-                businessId: string;
-                invitationId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -5364,7 +5503,7 @@ export interface operations {
             };
         };
     };
-    list_3: {
+    list_2: {
         parameters: {
             query?: {
                 unreadOnly?: boolean;
@@ -6392,7 +6531,7 @@ export interface operations {
             };
         };
     };
-    list_2: {
+    list_1: {
         parameters: {
             query?: {
                 status?: string;
@@ -6580,6 +6719,36 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    createReturn: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+                saleId: string;
+                returnId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReturnInput"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ReturnView"];
+                };
             };
         };
     };
@@ -6924,6 +7093,7 @@ export interface operations {
             query?: {
                 since?: number;
                 limit?: number;
+                pendingOps?: number;
             };
             header?: {
                 "X-Member-Id"?: string;
@@ -7018,6 +7188,26 @@ export interface operations {
             };
         };
     };
+    countries: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Country"][];
+                };
+            };
+        };
+    };
     createLinkRequest: {
         parameters: {
             query?: never;
@@ -7062,50 +7252,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LinkStatus"];
-                };
-            };
-        };
-    };
-    preview: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                code: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["Preview"];
-                };
-            };
-        };
-    };
-    accept: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                code: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AcceptResponse"];
                 };
             };
         };
@@ -7169,6 +7315,26 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    revokeAllSessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RevokedSessions"];
+                };
             };
         };
     };

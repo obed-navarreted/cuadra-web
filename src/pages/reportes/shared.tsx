@@ -4,9 +4,6 @@ import { ApiError, downloadFile } from '../../api/http'
 import { Button, Tag } from '../../components/ui'
 import { useFormat } from '../../hooks/useFormat'
 import { errorText } from '../../lib/errors'
-import { usePlan } from '../../plan/context'
-import { canExport } from '../../plan/logic'
-import { ProTag } from '../../plan/ProTag'
 import { closingKind } from './logic'
 import './reportes.css'
 
@@ -31,8 +28,6 @@ export function Difference({ minor }: { minor: number }) {
 /** Descarga un CSV del servidor con la sesión; avisa si falla. `lang` va siempre: los encabezados salen en el idioma de la interfaz. */
 export function CsvButton({ path, params, label }: { path: string; params?: Record<string, string | number | undefined>; label?: ReactNode }) {
   const { t, i18n } = useTranslation('reportes')
-  const { plan } = usePlan()
-  const locked = !canExport(plan)
   const [state, setState] = useState<'idle' | 'busy' | 'error'>('idle')
   const [failure, setFailure] = useState<unknown>(null)
   const run = async () => {
@@ -47,9 +42,8 @@ export function CsvButton({ path, params, label }: { path: string; params?: Reco
   }
   return (
     <span className="report-actions">
-      <Button small disabled={state === 'busy' || locked} onClick={() => void run()} title={locked ? t('plan:limit.EXPORT') : undefined}>
+      <Button small disabled={state === 'busy'} onClick={() => void run()}>
         {state === 'busy' ? t('csv.downloading') : (label ?? t('csv.download'))}
-        {locked && <ProTag />}
       </Button>
       {state === 'error' && (
         <span className="notice error" role="alert">

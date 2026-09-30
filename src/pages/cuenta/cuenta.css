@@ -1,0 +1,5 @@
+.delete-info { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; line-height: 1.55; }
+.delete-info header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.delete-info h1 { font: 800 28px var(--font-display, inherit); margin: 8px 0 12px; }
+.delete-info h2 { font-size: 18px; margin: 22px 0 8px; }
+.delete-info ol, .delete-info ul { padding-left: 22px; display: grid; gap: 6px; }

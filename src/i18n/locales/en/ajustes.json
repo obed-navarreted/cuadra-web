@@ -14,7 +14,10 @@
     "country": "Country",
     "currency": "Currency",
     "timezone": "Time zone",
-    "fixedHint": "The country and currency are set when the business is created: changing them once there are sales would move the books."
+    "fixedHint": "The country and currency are set when the business is created: changing them once there are sales would move the books.",
+    "countryHint": "Sets the WhatsApp prefix for your customers.",
+    "currencyHint": "3-letter code (NIO, HNL, USD…). It can only change before the first sale.",
+    "currencyLocked": "There are sales recorded in this currency: changing it would change the value of everything before, so it is fixed."
   },
   "modules": {
     "title": "Modules",
@@ -77,16 +80,11 @@
     "preview": "How it will look",
     "reset": "Restore the factory text"
   },
-  "plan": {
-    "title": "Plan and billing",
-    "summary": "See what your plan includes, how much you use and what happens when the trial ends.",
-    "open": "See plan and billing"
-  },
   "danger": {
     "title": "Danger zone",
     "transferTitle": "Transfer ownership",
     "transferBody": "Someone with a Google account becomes the owner of the business and you become an admin. There can only be one owner.",
-    "noCandidates": "There is nobody to transfer ownership to: you need an active member with a Google account (invite them from Team).",
+    "noCandidates": "There is nobody to transfer ownership to: you need an active member with a Google account (add them from Team).",
     "newOwner": "New owner",
     "pick": "Pick someone",
     "transfer": "Transfer ownership",
@@ -106,13 +104,15 @@
     "POS_VIEWS": "Keep at least one register tab.",
     "DUE_DAYS": "Due days go from 0 to 365.",
     "OVERDUE_DAYS": "Days to count as overdue go from 1 to 365.",
-    "SHIFT_NOTE": "The amount is not valid for the currency."
+    "SHIFT_NOTE": "The amount is not valid for the currency.",
+    "CURRENCY": "The currency is a 3-letter code, like NIO or USD."
   },
   "err": {
     "INVALID_TIMEZONE": "The time zone is not valid.",
     "INVALID_DAY_CUTOFF": "The cutoff time is not valid.",
     "INVALID_MODULE": "That module does not exist.",
-    "INVALID_POS_VIEWS": "Keep at least one register tab."
+    "INVALID_POS_VIEWS": "Keep at least one register tab.",
+    "CURRENCY_LOCKED": "The currency can no longer change: there is activity recorded in it."
   },
   "unsaved": "You have unsaved changes",
   "discard": "Discard",

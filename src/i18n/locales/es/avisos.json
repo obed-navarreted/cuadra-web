@@ -44,6 +44,18 @@
       "title": "Venta eliminada",
       "body": "{{memberName}} eliminó una venta de {{total}}."
     },
+    "SALE_CONFLICT": {
+      "title": "Venta para revisar",
+      "body": "Una venta de {{total}} de {{memberName}} chocó con una cuenta ya cobrada o descartada en otro teléfono. Se guardó aparte para que no se pierda el dinero: revisa si es un duplicado."
+    },
+    "PRICE_CHANGED": {
+      "title": "Cambio de precio: {{productName}}",
+      "body": "{{memberName}} cambió el precio de {{fromPrice}} a {{toPrice}}."
+    },
+    "PRICE_CHANGED_COST": {
+      "title": "Cambio de costo: {{productName}}",
+      "body": "{{memberName}} cambió el costo."
+    },
     "DEVICE_STALE": {
       "title": "Un teléfono no ha sincronizado",
       "body": "{{deviceName}} tiene {{pending}} operaciones sin enviar."
@@ -54,7 +66,7 @@
     },
     "MEMBER_JOINED": {
       "title": "Se unió alguien al equipo",
-      "body": "{{memberName}} aceptó tu invitación."
+      "body": "{{memberName}} se unió al equipo."
     },
     "DAILY_SUMMARY": {
       "title": "Resumen del día",
@@ -63,6 +75,18 @@
     "SCHEDULED": {
       "title": "Aviso programado",
       "body": "Aviso programado"
+    },
+    "SALE_RETURNED": {
+      "title": "Devolución",
+      "body": "{{memberName}} devolvió {{total}} de una venta. Motivo: {{reason}}."
+    },
+    "SALE_UNDONE": {
+      "title": "Venta anulada",
+      "body": "{{memberName}} anuló su última venta de {{total}} en los primeros minutos. Motivo: {{reason}}."
+    },
+    "LATE_AFTER_DISABLE": {
+      "title": "Llegó después de la baja",
+      "body": "{{count}} operaciones de {{memberName}} ({{lateAmount}}) llegaron después de su baja. Se aceptaron porque se hicieron antes, sin conexión; revísalas en Ventas."
     }
   },
   "unit": {
@@ -81,11 +105,16 @@
       "SHIFT_DIFFERENCE": "Diferencia en un cierre",
       "SHIFT_NOT_CLOSED": "Caja sin cerrar",
       "SALE_DELETED": "Venta eliminada",
+      "SALE_CONFLICT": "Venta en conflicto (para revisar)",
+      "PRICE_CHANGED": "Un cajero cambió un precio o costo",
       "DEVICE_STALE": "Teléfono sin sincronizar",
       "PIN_LOCKOUT": "PIN bloqueado",
       "MEMBER_JOINED": "Alguien se unió al equipo",
       "DAILY_SUMMARY": "Resumen del día",
-      "SCHEDULED": "Avisos programados"
+      "SCHEDULED": "Avisos programados",
+      "SALE_RETURNED": "Devoluciones",
+      "SALE_UNDONE": "Un cajero anuló su última venta",
+      "LATE_AFTER_DISABLE": "Operaciones que llegan después de una baja"
     }
   },
   "biz": {

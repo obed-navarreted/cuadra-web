@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ApiError, call, client } from '../../api/http'
 import { useAuth, useBusiness } from '../../auth/context'
 import { Button, Card, Field } from '../../components/ui'
+import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
 import { errorText } from '../../lib/errors'
 import { dstCutoffTip, sinceForever, timezoneOptions } from './dayRule'
@@ -68,7 +69,7 @@ function Readonly({ label, children }: { label: string; children: ReactNode }) {
  * Cada tarjeta guarda lo suyo y manda solo los campos que cambiaron.
  */
 export function BusinessCards() {
-  const { t } = useTranslation('ajustes')
+  const { t, i18n } = useTranslation('ajustes')
   const { isOwner } = useAuth()
   const { business } = useBusiness()
   const { day } = useFormat()
@@ -85,6 +86,14 @@ export function BusinessCards() {
   const rules = [...(business.dayRules ?? [])].sort((a, b) => (b.from ?? '').localeCompare(a.from ?? ''))
   const pending = business.dayRuleEffectiveFrom ? rules.find((r) => r.from === business.dayRuleEffectiveFrom) : undefined
   const set = (p: Partial<Form>) => (data.clear(), setTried(false), setForm((f) => ({ ...f, ...p })))
+  const countries = useAsync(() => call(client.GET('/api/config/countries')), [])
+  const countryList = countries.data ?? []
+  const locked = business.currencyLocked === true
+  // Elegir el país sugiere su moneda (mientras todavía se pueda cambiar).
+  const pickCountry = (code: string) => {
+    const c = countryList.find((x) => x.code === code)
+    set(locked || !c?.currency ? { country: code } : { country: code, currency: c.currency })
+  }
 
   async function submit() {
     setTried(true)
@@ -141,8 +150,26 @@ export function BusinessCards() {
           <Field label={t('business.cutoff')} hint={t('business.cutoffHint')}>
             <input type="time" value={form.dayCutoff} disabled={!isOwner} onChange={(e) => set({ dayCutoff: e.target.value })} />
           </Field>
-          <Readonly label={t('business.country')}>{business.country}</Readonly>
-          <Readonly label={t('business.currency')}>{currency}</Readonly>
+          <Field label={t('business.country')} hint={t('business.countryHint')}>
+            <select value={form.country} disabled={!isOwner} onChange={(e) => pickCountry(e.target.value)}>
+              {!countryList.some((c) => c.code === form.country) && <option value={form.country}>{form.country}</option>}
+              {countryList.map((c) => (
+                <option key={c.code} value={c.code ?? ''}>
+                  {countryName(c.code ?? '', i18n.language)}
+                </option>
+              ))}
+            </select>
+          </Field>
+          {locked || !isOwner ? (
+            <Readonly label={t('business.currency')}>
+              {currency}
+              {locked && <span className="muted small" style={{ display: 'block' }}>{t('business.currencyLocked')}</span>}
+            </Readonly>
+          ) : (
+            <Field label={t('business.currency')} hint={t('business.currencyHint')}>
+              <input value={form.currency} maxLength={3} onChange={(e) => set({ currency: e.target.value.toUpperCase() })} />
+            </Field>
+          )}
         </div>
         {dayRuleChanged && (
           <p className="notice warn" role="status">
@@ -236,4 +263,13 @@ export function BusinessCards() {
       {saveBar}
     </>
   )
+}
+
+/** Nombre del país en el idioma de la pantalla (el navegador lo sabe); si no, el código. */
+function countryName(code: string, language: string): string {
+  try {
+    return new Intl.DisplayNames([language.startsWith('en') ? 'en' : 'es'], { type: 'region' }).of(code) ?? code
+  } catch {
+    return code
+  }
 }

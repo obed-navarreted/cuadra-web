@@ -3,11 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../auth/context'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
+import { SignOutAll } from '../components/SignOutAll'
 import { Button, Spinner } from '../components/ui'
-import { isSectionLocked } from '../plan/logic'
-import { usePlan } from '../plan/context'
-import { ProTag } from '../plan/ProTag'
 import { SuspendedNotice } from '../plan/SuspendedNotice'
+import { DeleteAccountDialog } from '../pages/cuenta/DeleteAccountDialog'
 import { NAV } from './nav'
 import { ViewAsBar } from './ViewAsBar'
 
@@ -18,8 +17,8 @@ import { ViewAsBar } from './ViewAsBar'
 export function AppShell() {
   const { t } = useTranslation()
   const { me, memberships, membership, business, error, selectBusiness, signOut } = useAuth()
-  const { plan } = usePlan()
   const [open, setOpen] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   // La consola es solo para admins de plataforma y nunca dentro de "Ver como".
   const showConsole = me?.platformAdmin === true && !me.viewAsBusinessId
 
@@ -41,7 +40,6 @@ export function AppShell() {
           {NAV.map((n) => (
             <NavLink key={n.key} to={n.path} onClick={() => setOpen(false)} className={({ isActive }) => (isActive ? 'on' : undefined)}>
               {t(`nav.${n.key}`)}
-              {isSectionLocked(plan, n.key) && <ProTag />}
             </NavLink>
           ))}
           {showConsole && (
@@ -65,14 +63,21 @@ export function AppShell() {
           )}
           <span className="muted small">{me?.email}</span>
           {!me?.viewAsBusinessId && (
-            <Button small onClick={() => void signOut()}>
-              {t('auth.signOut')}
-            </Button>
+            <>
+              <Button small onClick={() => void signOut()}>
+                {t('auth.signOut')}
+              </Button>
+              <SignOutAll />
+              <button type="button" className="link-danger" onClick={() => setDeleting(true)}>
+                {t('account.delete')}
+              </button>
+            </>
           )}
         </div>
       </aside>
       <main className="content">{business ? <Outlet /> : error === 'BUSINESS_SUSPENDED' ? <SuspendedNotice /> : <Spinner />}</main>
     </div>
+    <DeleteAccountDialog open={deleting} onClose={() => setDeleting(false)} />
     </>
   )
 }

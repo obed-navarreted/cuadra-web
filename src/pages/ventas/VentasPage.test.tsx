@@ -5,7 +5,7 @@ import { fail, ok, renderPanel } from '../../test/renderPanel'
 import { client } from '../../api/http'
 import VentasPage from './index'
 
-vi.mock('../../api/http', async (importOriginal) => ({ ...(await importOriginal<typeof import('../../api/http')>()), client: { GET: vi.fn(), POST: vi.fn() } }))
+vi.mock('../../api/http', async (importOriginal) => ({ ...(await importOriginal<typeof import('../../api/http')>()), client: { GET: vi.fn(), POST: vi.fn(), PUT: vi.fn() } }))
 
 const sale = {
   id: 's1', status: 'COMPLETED', subtotalMinor: 8500, discountMinor: 0, totalMinor: 8500, rev: 1, completedAt: new Date().toISOString(), createdAt: new Date().toISOString(),
@@ -126,5 +126,51 @@ describe('Ventas', () => {
     fireEvent.click((await screen.findByText('Kevin', { selector: 'td' })).closest('tr') as HTMLElement)
     expect(await screen.findByText('Editó')).toBeInTheDocument()
     expect(screen.getByText(/^Ana · /)).toBeInTheDocument()
+  })
+
+  it('devolver productos: se elige la cantidad, el motivo y cómo se devuelve el dinero, y se manda la devolución', async () => {
+    vi.mocked(client.PUT).mockImplementation((() => ok({ id: 'r1', totalMinor: 4250 })) as never)
+    renderPanel(<VentasPage />)
+    fireEvent.click((await screen.findByText('Kevin', { selector: 'td' })).closest('tr') as HTMLElement)
+    fireEvent.click(await screen.findByRole('button', { name: 'Devolver productos' }))
+    const qty = await screen.findByLabelText('Cantidad a devolver de Queso seco')
+    fireEvent.change(qty, { target: { value: '3' } })
+    expect(screen.getByText(/No puedes devolver más/)).toBeInTheDocument()
+    fireEvent.change(qty, { target: { value: '1' } })
+    // La venta fue en parte a fiado: se puede bajar el fiado.
+    fireEvent.click(screen.getByRole('radio', { name: /Bajar el fiado/ }))
+    const confirm = screen.getByRole('button', { name: /^Devolver .*42\.50/ })
+    expect(confirm).toBeDisabled()
+    fireEvent.change(screen.getByLabelText(/^Motivo/), { target: { value: 'venía roto' } })
+    expect(confirm).toBeEnabled()
+    fireEvent.click(confirm)
+    await waitFor(() => expect(client.PUT).toHaveBeenCalled())
+    const [path, options] = vi.mocked(client.PUT).mock.calls[0] as unknown as [string, { params: { path: { saleId: string; returnId: string } }; body: { items: { saleItemId: string; quantityMilli: number }[]; reason: string; refundMethod: string } }]
+    expect(path).toBe('/api/b/{businessId}/sales/{saleId}/returns/{returnId}')
+    expect(options.params.path.saleId).toBe('s1')
+    expect(options.params.path.returnId).toMatch(/^[0-9a-f-]{36}$/)
+    expect(options.body).toEqual({ items: [{ saleItemId: 'i1', quantityMilli: 1000 }], reason: 'venía roto', refundMethod: 'CREDIT_NOTE' })
+  })
+
+  it('marca las ventas para revisar y muestra sus devoluciones', async () => {
+    const flagged = {
+      ...sale, id: 's3', conflictOfSaleId: 's0', reviewFlag: 'LATE_AFTER_DISABLE', returnedMinor: 4250,
+      items: [{ ...sale.items[0], returnedMilli: 1000 }],
+      returns: [{ id: 'r1', saleId: 's3', reason: 'venía roto', refundMethod: 'CASH', totalMinor: 4250, occurredAt: new Date().toISOString(), createdBy: { id: 'a', name: 'Ana' }, items: [{ id: 'x', saleItemId: 'i1', name: 'Queso seco', quantityMilli: 1000, amountMinor: 4250 }], refunds: [{ method: 'CASH', amountMinor: 4250 }] }],
+    }
+    vi.mocked(client.GET).mockImplementation(((path: string) => {
+      if (path.endsWith('/members')) return ok([])
+      if (path.endsWith('/reports/sales')) return ok({ sales: { count: 1, totalMinor: 8500, discountMinor: 0, averageTicketMinor: 8500, cancelledCount: 0, returnsMinor: 4250, returnsCount: 1, priorCancelledMinor: 0, priorCancelledCount: 0, netMinor: 4250 }, byMethod: [] })
+      return ok({ items: [flagged], total: 1, page: 0, size: 25, last: true })
+    }) as never)
+    renderPanel(<VentasPage />)
+    expect(await screen.findByText('Conflicto: revisar')).toBeInTheDocument()
+    expect(screen.getByText('Llegó después de la baja')).toBeInTheDocument()
+    expect(screen.getByText('Neto del periodo')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Conflicto: revisar').closest('tr') as HTMLElement)
+    expect(await screen.findByText('Devoluciones')).toBeInTheDocument()
+    expect(screen.getByText('Motivo: venía roto')).toBeInTheDocument()
+    // Con devoluciones ya no se elimina entera (se devuelve el resto).
+    expect(screen.queryByRole('button', { name: 'Eliminar venta' })).not.toBeInTheDocument()
   })
 })

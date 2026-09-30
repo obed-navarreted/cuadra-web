@@ -10,7 +10,6 @@ export const NAV = [
   { key: 'equipo', path: '/equipo' },
   { key: 'avisos', path: '/avisos' },
   { key: 'ajustes', path: '/ajustes' },
-  { key: 'plan', path: '/plan' },
   { key: 'ayuda', path: '/ayuda' },
 ] as const
 

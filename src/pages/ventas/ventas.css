@@ -16,3 +16,18 @@ td.nowrap { white-space: nowrap; }
 @media (max-width: 599px) { .kpis.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpis.compact .kpi-value { font-size: 20px; } .kpis.compact .kpi { padding: 12px; } }
 tr.row-cancelled td { background: var(--red-soft, #fbeceb); color: var(--muted); }
 .struck { text-decoration: line-through; }
+.sale-returns { display: grid; gap: 8px; }
+.sale-returns h3 { margin: 0; font-size: 15px; }
+.sale-return { display: grid; gap: 2px; padding: 8px 10px; border-radius: 8px; background: var(--surface-2, #f5f3ef); }
+.sale-return .row.between { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.return-dialog { display: grid; gap: 12px; }
+.return-lines { width: 100%; border-collapse: collapse; font-size: 14px; }
+.return-lines th, .return-lines td { padding: 6px 4px; border-bottom: 1px solid var(--line, #e7e3dc); text-align: left; vertical-align: middle; }
+.return-lines .right { text-align: right; }
+.return-lines input { width: 72px; text-align: right; }
+.return-lines input.invalid { border-color: var(--red, #c0392b); }
+.return-lines button.link { margin-left: 6px; background: none; border: 0; color: var(--accent, #1b6b4a); cursor: pointer; padding: 4px; font-size: 13px; }
+.return-lines button.link:disabled { color: var(--muted); cursor: default; }
+.return-dialog .radios { display: flex; gap: 14px; flex-wrap: wrap; border: 0; padding: 0; margin: 0; }
+.return-dialog .radios legend { font-weight: 700; font-size: 14px; margin-bottom: 6px; width: 100%; }
+.return-dialog .radios label { display: inline-flex; gap: 6px; align-items: center; }

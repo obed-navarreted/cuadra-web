@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildTicket, donationLink, validateTicket, type TicketDraft } from './support'
+import { buildTicket, whatsappLink, validateTicket, type TicketDraft } from './support'
 
 const ok: TicketDraft = { category: 'QUESTION', message: 'No me sincroniza el teléfono', email: '', phone: '' }
 
@@ -23,12 +23,11 @@ describe('ayuda y contacto', () => {
     expect(JSON.parse(t.diagnostics ?? '{}')).toEqual({ client: 'web', language: 'en', userAgent: 'Mozilla/5.0' })
   })
 
-  it('el botón del café solo aparece con una dirección web válida', () => {
-    expect(donationLink('https://buymeacoffee.com/x', 'external_link')).toBe('https://buymeacoffee.com/x')
-    expect(donationLink('', 'external_link')).toBeNull()
-    expect(donationLink(undefined, undefined)).toBeNull()
-    expect(donationLink('javascript:alert(1)', 'external_link')).toBeNull()
-    expect(donationLink('not a url', 'external_link')).toBeNull()
-    expect(donationLink('https://buymeacoffee.com/x', 'off')).toBeNull()
+  it('el enlace de WhatsApp lleva solo dígitos y el mensaje escrito', () => {
+    expect(whatsappLink('50582724138', 'Hola, quiero apoyar Cuentiva')).toBe('https://wa.me/50582724138?text=Hola%2C%20quiero%20apoyar%20Cuentiva')
+    expect(whatsappLink('+505 8272-4138', 'x')).toBe('https://wa.me/50582724138?text=x')
+    expect(whatsappLink('', 'x')).toBeNull()
+    expect(whatsappLink(undefined, 'x')).toBeNull()
+    expect(whatsappLink('abc', 'x')).toBeNull()
   })
 })

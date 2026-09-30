@@ -8,7 +8,7 @@ import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
 import type { DateRange } from '../../lib/dates'
 import { DayCard } from './DayCard'
-import { isEmptyDay, totals, windowLocale, windowText, zoneFor, type DayClose } from './logic'
+import { isEmptyDay, syncWarningKind, totals, windowLocale, windowText, zoneFor, type DayClose } from './logic'
 import './cierres.css'
 
 /**
@@ -19,7 +19,7 @@ export default function CierresPage() {
   const { t, i18n } = useTranslation('cierres')
   const { business } = useBusiness()
   const businessId = business.id
-  const { money, day, today, timezone } = useFormat()
+  const { money, day, today, timezone, dateTime } = useFormat()
   const [range, setRange] = useState<DateRange>(() => ({ from: today(), to: today() }))
 
   const state = useAsync(() => call(client.GET('/api/b/{businessId}/reports/daily-close', { params: { path: { businessId }, query: { from: range.from, to: range.to } } })), [businessId, range.from, range.to])
@@ -41,6 +41,13 @@ export default function CierresPage() {
         <p className="muted">{t('empty')}</p>
       ) : (
         <>
+          {(state.data?.syncWarnings ?? []).map((w) => (
+            <p key={w.deviceId} className="notice warn" role="status">
+              {syncWarningKind(w) === 'PENDING'
+                ? t('sync.pending', { count: w.pendingOps, device: w.name })
+                : t('sync.stale', { device: w.name, when: w.lastSyncAt ? dateTime(w.lastSyncAt) : '—' })}
+            </p>
+          ))}
           <div className="kpis compact">
             <Kpi label={t('kpi.days')} value={sum.days} />
             <Kpi label={t('kpi.sales')} value={money(sum.salesMinor)} hint={t('sales.count', { count: sum.salesCount })} />

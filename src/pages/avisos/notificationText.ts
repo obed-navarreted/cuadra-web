@@ -3,7 +3,7 @@ import type { components } from '../../api/schema'
 
 export type NotificationView = components['schemas']['NotificationView']
 
-const KNOWN = ['LOW_STOCK', 'OUT_OF_STOCK', 'SHIFT_CLOSED', 'SHIFT_DIFFERENCE', 'SHIFT_NOT_CLOSED', 'SALE_DELETED', 'DEVICE_STALE', 'PIN_LOCKOUT', 'MEMBER_JOINED', 'DAILY_SUMMARY', 'SCHEDULED'] as const
+const KNOWN = ['LOW_STOCK', 'OUT_OF_STOCK', 'SHIFT_CLOSED', 'SHIFT_DIFFERENCE', 'SHIFT_NOT_CLOSED', 'SALE_DELETED', 'SALE_CONFLICT', 'SALE_RETURNED', 'SALE_UNDONE', 'LATE_AFTER_DISABLE', 'PRICE_CHANGED', 'DEVICE_STALE', 'PIN_LOCKOUT', 'MEMBER_JOINED', 'DAILY_SUMMARY', 'SCHEDULED'] as const
 export const NOTIFICATION_TYPES = KNOWN
 
 type Formatters = { money: (minor: number) => string; quantity: (milli: number) => string }
@@ -41,8 +41,15 @@ export function notificationText(t: TFunction, n: NotificationView, f: Formatter
     deviceName: str(a, 'deviceName'),
     pending: str(a, 'pending'),
     salesCount: str(a, 'salesCount'),
+    fromPrice: f.money(num(a, 'fromPriceMinor')),
+    toPrice: f.money(num(a, 'toPriceMinor')),
+    reason: str(a, 'reason'),
+    count: num(a, 'count'),
+    lateAmount: f.money(num(a, 'amountMinor')),
   }
-  return { title: t(`avisos:text.${type}.title`, p), body: t(`avisos:text.${type}.body`, p) }
+  // Cambio de precio: el texto dice el antes y el después si cambió el precio; si solo cambió el costo, lo dice así.
+  const key = type === 'PRICE_CHANGED' && a?.toPriceMinor == null ? 'PRICE_CHANGED_COST' : type
+  return { title: t(`avisos:text.${key}.title`, p), body: t(`avisos:text.${key}.body`, p) }
 }
 
 function unitLabel(t: TFunction, unit: string): string {
@@ -64,6 +71,8 @@ export function panelRoute(deepLink: string | undefined | null): string | null {
       return '/cierres'
     case 'notificaciones':
       return '/avisos'
+    case 'ventas':
+      return '/ventas'
     default:
       return null
   }

@@ -33,7 +33,10 @@
     "count_other": "{{count}} ventas",
     "ticket": "Ticket promedio",
     "discounts": "Descuentos",
-    "cancelled": "Ventas eliminadas"
+    "cancelled": "Ventas eliminadas",
+    "net": "Neto del periodo",
+    "returns": "devoluciones {{amount}}",
+    "priorCancelled": "anuladas de días anteriores {{amount}}"
   },
   "byMethod": "Por método de pago",
   "export": {
@@ -67,7 +70,13 @@
     "close": "Cerrar",
     "cancel": "Eliminar venta",
     "editedBy": "Editó",
-    "byAt": "{{name}} · {{when}}"
+    "byAt": "{{name}} · {{when}}",
+    "returned": "Devuelto",
+    "returnsTitle": "Devoluciones",
+    "returnLine": "{{when}} · {{name}}",
+    "reasonLine": "Motivo: {{reason}}",
+    "returnedTotal": "Devuelto",
+    "return": "Devolver productos"
   },
   "cancel": {
     "title": "Eliminar venta",
@@ -78,5 +87,39 @@
   },
   "list": {
     "cancelledBy": "por {{name}}"
+  },
+  "tag": {
+    "CONFLICT": "Conflicto: revisar",
+    "LATE_AFTER_DISABLE": "Llegó después de la baja",
+    "CLOCK_ADJUSTED": "Hora corregida",
+    "RETURNED": "Con devolución"
+  },
+  "return": {
+    "title": "Devolver productos",
+    "body": "Elige qué devuelve el cliente y cuánto. La devolución cuenta en la jornada de hoy (no cambia el día de la venta) y las existencias vuelven al inventario.",
+    "sold": "Vendido",
+    "left": "Se puede devolver",
+    "qty": "Devolver",
+    "qtyFor": "Cantidad a devolver de {{name}}",
+    "all": "Todo",
+    "method": "Cómo se devuelve el dinero",
+    "methods": {
+      "CASH": "Efectivo del cajón",
+      "SAME": "Por el mismo medio del pago",
+      "CREDIT_NOTE": "Bajar el fiado (nota de crédito)"
+    },
+    "reasonHint": "Obligatorio, mínimo {{min}} letras. Queda registrado con tu nombre y el dueño recibe un aviso.",
+    "estimate": "A devolver",
+    "todayNote": "Cuenta en el cierre de hoy como «Devoluciones».",
+    "confirm": "Devolver {{amount}}",
+    "creditNote": "Nota de crédito",
+    "error": {
+      "RETURN_EXCEEDS_SOLD": "No puedes devolver más de lo que queda por devolver de una línea.",
+      "CREDIT_NOTE_EXCEEDS": "La devolución es mayor que lo que aún se debe de ese fiado: elige otro medio.",
+      "NO_CREDIT_TO_REDUCE": "Esta venta no tiene fiado pendiente que bajar: elige otro medio.",
+      "REASON_REQUIRED": "Escribe un motivo de al menos {{min}} letras.",
+      "RETURN_NOT_ALLOWED": "No tienes permiso para devolver esta venta.",
+      "SALE_NOT_COMPLETED": "Solo se puede devolver una venta cobrada."
+    }
   }
 }

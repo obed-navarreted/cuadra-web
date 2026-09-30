@@ -1,45 +1,20 @@
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBusiness } from '../../auth/context'
 import { DataTable, type Column } from '../../components/DataTable'
 import { Modal } from '../../components/Modal'
-import { Button, Card, ErrorNotice, Field, Spinner, Tag } from '../../components/ui'
+import { Button, ErrorNotice, Spinner, Tag } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
-import { claimDevice, listDevices, revokeDevice, type Device } from './api'
-import { normalizeCode } from './lib'
+import { listDevices, revokeDevice, type Device } from './api'
 
 export function DevicesView() {
   const { t } = useTranslation('equipo')
   const { business } = useBusiness()
   const { dateTime } = useFormat()
   const list = useAsync(() => listDevices(business.id), [business.id])
-  const [code, setCode] = useState('')
-  const [name, setName] = useState('')
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState<unknown>(null)
-  const [linked, setLinked] = useState<string | null>(null)
   const [revoking, setRevoking] = useState<Device | null>(null)
   const [revokeError, setRevokeError] = useState<unknown>(null)
-
-  async function claim(e: FormEvent) {
-    e.preventDefault()
-    const clean = normalizeCode(code)
-    if (!clean) return
-    setBusy(true)
-    setError(null)
-    setLinked(null)
-    try {
-      const d = await claimDevice(business.id, clean, name)
-      setLinked(d.name ?? clean)
-      setCode('')
-      setName('')
-      list.reload()
-    } catch (err) {
-      setError(err)
-    }
-    setBusy(false)
-  }
 
   const columns: Column<Device>[] = [
     {
@@ -72,26 +47,7 @@ export function DevicesView() {
 
   return (
     <div className="stack">
-      <Card title={t('devices.linkTitle')}>
-        <p className="muted">{t('devices.linkHint')}</p>
-        <form className="toolbar-row" onSubmit={claim}>
-          <Field label={t('devices.code')}>
-            <input value={code} onChange={(e) => setCode(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} maxLength={16} className="code-input" required />
-          </Field>
-          <Field label={t('devices.nameLabel')}>
-            <input value={name} maxLength={80} onChange={(e) => setName(e.target.value)} />
-          </Field>
-          <Button type="submit" kind="primary" disabled={busy || !normalizeCode(code)}>
-            {t('devices.link')}
-          </Button>
-        </form>
-        {error != null && <ErrorNotice error={error} />}
-        {linked && (
-          <p className="notice ok" role="status">
-            {t('devices.linked', { name: linked })}
-          </p>
-        )}
-      </Card>
+      <p className="muted">{t('devices.note')}</p>
       {list.error && <ErrorNotice error={list.error} onRetry={list.reload} />}
       {list.loading && !list.data ? <Spinner /> : <DataTable columns={columns} rows={list.data ?? []} rowKey={(d) => d.id} empty={t('devices.empty')} />}
       {revoking && (

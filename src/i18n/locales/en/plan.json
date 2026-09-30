@@ -1,102 +1,12 @@
 {
-  "title": "Plan and billing",
-  "subtitle": "What your plan includes, how much you use and what happens if something changes.",
-  "proTag": "Pro",
-  "viewPlan": "See my plan",
-  "loadError": "We could not check your plan right now. No worries: you keep working as usual.",
-  "current": {
-    "title": "Your plan today",
-    "FREE": "Free",
-    "PRO": "Pro",
-    "status": {
-      "TRIALING": "On trial",
-      "ACTIVE": "Active",
-      "PAST_DUE": "Payment pending",
-      "CANCELED": "Canceled",
-      "MANUAL": "Set by support"
-    },
-    "free": "You are on the Free plan. Selling, collecting, credit and phone sync are never limited: the plan only caps how much you can add and a few conveniences.",
-    "trial_one": "You are trying Pro and have {{count}} day left. Enjoy everything at your own pace: there is nothing to do now.",
-    "trial_other": "You are trying Pro and have {{count}} days left. Enjoy everything at your own pace: there is nothing to do now.",
-    "trialLast": "Today is the last day of your Pro trial. Nothing bad happens: your business keeps running and your data stays.",
-    "pro": "You have the Pro plan: everything is available.",
-    "pastDue": "A payment is pending. You keep Pro for a few more days while it gets sorted out; write to us and we will look into it.",
-    "canceled": "Your Pro plan is canceled and stays active until the end of the period already paid.",
-    "trialEnds": "The trial ends on {{date}}.",
-    "periodEnd": "The current period ends on {{date}}.",
-    "noEnd": "No expiry date."
-  },
-  "usage": {
-    "title": "What you use",
-    "hint": "The cap only stops you from adding more; what you already have keeps working.",
-    "members": "{{used}} of {{limit}} team members",
-    "devices": "{{used}} of {{limit}} phones",
-    "schedules": "{{used}} of {{limit}} scheduled notices",
-    "full": "You reached the cap",
-    "near": "Close to the cap"
-  },
-  "compare": {
-    "title": "Free and Pro",
-    "feature": "Feature",
-    "free": "Free",
-    "pro": "Pro",
-    "yourPlan": "Your plan",
-    "members": "Team members",
-    "devices": "Phones",
-    "schedules": "Scheduled notices",
-    "history": "Report history",
-    "export": "CSV export",
-    "sections": "Web panel sections",
-    "businesses": "Businesses per account",
-    "history30": "Last 30 days",
-    "historyAll": "Unlimited",
-    "yes": "Yes",
-    "no": "No",
-    "sectionsAll": "All",
-    "one": "1",
-    "several": "Several",
-    "note": "Selling, collecting, credit, expenses and sync work the same on both plans."
-  },
-  "sections": {
-    "resumen": "Overview",
-    "ventas": "Sales",
-    "fiados": "Credit",
-    "gastos": "Expenses",
-    "inventario": "Inventory",
-    "cierres": "Daily close",
-    "reportes": "Reports",
-    "equipo": "Team",
-    "avisos": "Notifications",
-    "ajustes": "Settings",
-    "ayuda": "Help"
-  },
-  "afterTrial": {
-    "title": "What happens when the trial ends?",
-    "nothingDeleted": "Nothing is deleted: sales, customers, products and accounts stay as they are.",
-    "onlyLimits": "Only adding more than the Free plan allows (team, phones, notices) and a few Pro conveniences get limited.",
-    "keepWorking": "The register, credit and sync keep working the same.",
-    "existing": "If you already have more than the Free plan allows, what exists keeps working; you just cannot add more."
-  },
-  "payment": {
-    "title": "Paying and changing plan",
-    "body": "You cannot pay from the app yet. When it is ready we will tell you here, and you will not be charged without knowing. If you want to stay on Pro or have questions, write to us.",
-    "contact": "Write to support"
-  },
   "limit": {
-    "generic": "Your current plan does not allow this. See what each plan includes.",
-    "MEMBERS": "Your plan allows up to {{limit}} team members. To add more, move to Pro.",
-    "DEVICES": "Your Free plan allows up to {{limit}} phones. To connect another one, move to Pro.",
-    "SCHEDULES": "Your plan allows up to {{limit}} scheduled notices. To create another one, move to Pro.",
-    "REPORT_HISTORY": "Your Free plan shows reports for the last {{limit}} days. To look further back, move to Pro.",
-    "EXPORT": "CSV export is part of Pro.",
-    "BUSINESSES": "Your Free plan allows {{limit}} business. To have more than one, move to Pro."
-  },
-  "gate": {
-    "title": "{{section}} is part of Pro",
-    "body": "Your Free plan does not include this section of the web panel. You did not lose anything: your data is saved and the phone app keeps working the same.",
-    "trialTip": "If your business is new, the 30-day trial includes everything.",
-    "seePlan": "See what Pro includes",
-    "back": "Go to Overview"
+    "generic": "You reached a limit. Selling is not affected.",
+    "MEMBERS": "Maximum {{limit}} people per business.",
+    "DEVICES": "Maximum {{limit}} phones per business.",
+    "SCHEDULES": "Maximum {{limit}} active scheduled notices.",
+    "REPORT_HISTORY": "That date range is not available.",
+    "EXPORT": "Exporting is not available right now.",
+    "BUSINESSES": "Another business cannot be created right now."
   },
   "suspended": {
     "title": "This business is suspended",

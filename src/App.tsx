@@ -8,6 +8,7 @@ import { NAV } from './layout/nav'
 import { ViewAsExitRedirect } from './layout/ViewAsBar'
 import { LoginPage } from './pages/LoginPage'
 import { NoAccessPage } from './pages/NoAccessPage'
+import { DeleteAccountInfo } from './pages/cuenta/DeleteAccountInfo'
 import { PlanProvider } from './plan/PlanProvider'
 import { SectionGuard } from './plan/SectionGuard'
 
@@ -23,7 +24,6 @@ const pages = {
   equipo: lazy(() => import('./pages/equipo')),
   avisos: lazy(() => import('./pages/avisos')),
   ajustes: lazy(() => import('./pages/ajustes')),
-  plan: lazy(() => import('./pages/plan')),
   ayuda: lazy(() => import('./pages/ayuda')),
 }
 
@@ -54,6 +54,9 @@ export default function App() {
         <ViewAsExitRedirect />
         <Routes>
           <Route path="/login" element={<Login />} />
+          {/* Públicas: cómo eliminar la cuenta y los datos (la dirección que pide la ficha de Google Play). */}
+          <Route path="/eliminar-cuenta" element={<DeleteAccountInfo lang="es" />} />
+          <Route path="/delete-account" element={<DeleteAccountInfo lang="en" />} />
           <Route
             path="/console/*"
             element={
@@ -87,6 +90,8 @@ export default function App() {
                   />
                 )
               })}
+              {/* La pantalla «Plan y facturación» ya no existe: todo es gratis. */}
+              <Route path="plan/*" element={<Navigate to="/resumen" replace />} />
               <Route path="*" element={<Navigate to="/resumen" replace />} />
             </Route>
           </Route>

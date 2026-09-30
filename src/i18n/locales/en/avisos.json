@@ -44,6 +44,18 @@
       "title": "Sale deleted",
       "body": "{{memberName}} deleted a sale of {{total}}."
     },
+    "SALE_CONFLICT": {
+      "title": "Sale to review",
+      "body": "A sale of {{total}} by {{memberName}} clashed with a ticket already charged or discarded on another phone. It was saved separately so no money is lost: check whether it is a duplicate."
+    },
+    "PRICE_CHANGED": {
+      "title": "Price change: {{productName}}",
+      "body": "{{memberName}} changed the price from {{fromPrice}} to {{toPrice}}."
+    },
+    "PRICE_CHANGED_COST": {
+      "title": "Cost change: {{productName}}",
+      "body": "{{memberName}} changed the cost."
+    },
     "DEVICE_STALE": {
       "title": "A phone has not synced",
       "body": "{{deviceName}} has {{pending}} operations waiting."
@@ -54,7 +66,7 @@
     },
     "MEMBER_JOINED": {
       "title": "Someone joined the team",
-      "body": "{{memberName}} accepted your invitation."
+      "body": "{{memberName}} joined the team."
     },
     "DAILY_SUMMARY": {
       "title": "Daily summary",
@@ -63,6 +75,18 @@
     "SCHEDULED": {
       "title": "Scheduled alert",
       "body": "Scheduled alert"
+    },
+    "SALE_RETURNED": {
+      "title": "Return",
+      "body": "{{memberName}} refunded {{total}} of a sale. Reason: {{reason}}."
+    },
+    "SALE_UNDONE": {
+      "title": "Sale undone",
+      "body": "{{memberName}} undid their last sale of {{total}} within the first minutes. Reason: {{reason}}."
+    },
+    "LATE_AFTER_DISABLE": {
+      "title": "Arrived after deactivation",
+      "body": "{{count}} operations by {{memberName}} ({{lateAmount}}) arrived after they were deactivated. They were accepted because they were made before, offline; review them in Sales."
     }
   },
   "unit": {
@@ -81,11 +105,16 @@
       "SHIFT_DIFFERENCE": "Difference in a closing",
       "SHIFT_NOT_CLOSED": "Register not closed",
       "SALE_DELETED": "Sale deleted",
+      "SALE_CONFLICT": "Sale in conflict (to review)",
+      "PRICE_CHANGED": "A cashier changed a price or cost",
       "DEVICE_STALE": "Phone not synced",
       "PIN_LOCKOUT": "PIN locked",
       "MEMBER_JOINED": "Someone joined the team",
       "DAILY_SUMMARY": "Daily summary",
-      "SCHEDULED": "Scheduled alerts"
+      "SCHEDULED": "Scheduled alerts",
+      "SALE_RETURNED": "Returns",
+      "SALE_UNDONE": "A cashier undid their last sale",
+      "LATE_AFTER_DISABLE": "Operations arriving after a deactivation"
     }
   },
   "biz": {

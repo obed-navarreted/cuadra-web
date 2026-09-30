@@ -33,4 +33,13 @@ describe('dinero', () => {
     expect(parseMoney('1250', 'CRC')).toBe(1250)
     expect(parseMoney('12.5', 'CRC')).toBeNull()
   })
+
+  it('con separadores de miles decide por el último separador', () => {
+    expect(parseMoney('1,000.00', 'NIO')).toBe(100000)
+    expect(parseMoney('1.000,00', 'NIO')).toBe(100000)
+    expect(parseMoney('1,234,567.89', 'NIO')).toBe(123456789)
+    expect(parseMoney('1.000.000', 'CRC')).toBe(1000000)
+    expect(parseMoney('1.000.00', 'NIO')).toBeNull()
+    expect(parseMoney('10,00,000.00', 'NIO')).toBeNull()
+  })
 })

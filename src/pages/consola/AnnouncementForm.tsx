@@ -7,6 +7,7 @@ import {
   AUDIENCES,
   BODY_MAX,
   EMPTY_ANNOUNCEMENT,
+  SHOW_PLANS,
   TITLE_MAX,
   buildAnnouncementInput,
   buildSegment,
@@ -102,9 +103,11 @@ export function AnnouncementForm({ onCreated }: { onCreated: () => void }) {
           <Field label={t('announcements.countries')} hint={t('announcements.countriesHint')}>
             <input value={f.countries} onChange={(e) => set({ countries: e.target.value })} />
           </Field>
-          <Field label={t('announcements.plans')} hint={t('announcements.plansHint')}>
-            <input value={f.plans} onChange={(e) => set({ plans: e.target.value })} />
-          </Field>
+          {SHOW_PLANS && (
+            <Field label={t('announcements.plans')} hint={t('announcements.plansHint')}>
+              <input value={f.plans} onChange={(e) => set({ plans: e.target.value })} />
+            </Field>
+          )}
           <Field label={t('announcements.appVersions')} hint={t('announcements.appVersionsHint')}>
             <input value={f.appVersions} onChange={(e) => set({ appVersions: e.target.value })} />
           </Field>

@@ -7,7 +7,7 @@ import { Card, ErrorNotice, Field, Page, Spinner, Tag } from '../../components/u
 import { useAsync } from '../../hooks/useAsync'
 import { listBusinesses, type BusinessRow } from './api'
 import { useConsoleFormat } from './format'
-import { PLANS } from './lib'
+import { PLANS, SHOW_PLANS } from './lib'
 import { BusinessStatusTag } from './StatusTag'
 
 const SIZE = 25
@@ -46,6 +46,7 @@ export function BusinessesPage() {
     },
     { key: 'country', header: t('businesses.col.country'), cell: (b) => b.country ?? '—' },
     { key: 'status', header: t('businesses.col.status'), cell: (b) => <BusinessStatusTag status={b.status} /> },
+    ...(SHOW_PLANS ? ([
     {
       key: 'plan',
       header: t('businesses.col.plan'),
@@ -59,7 +60,8 @@ export function BusinessesPage() {
           )}
         </div>
       ),
-    },
+    }
+    ] as Column<BusinessRow>[]) : []),
     { key: 'members', header: t('businesses.col.members'), align: 'right', cell: (b) => b.members },
     { key: 'devices', header: t('businesses.col.devices'), align: 'right', cell: (b) => b.devices },
     { key: 'lastSale', header: t('businesses.col.lastSale'), cell: (b) => dateTime(b.lastSaleAt) },
@@ -73,16 +75,18 @@ export function BusinessesPage() {
           <Field label={t('businesses.search')} hint={t('businesses.searchHint')}>
             <input type="search" value={q} onChange={(e) => setQ(e.target.value)} />
           </Field>
-          <Field label={t('businesses.col.plan')}>
-            <select value={plan} onChange={(e) => (setPlan(e.target.value), setPage(0))}>
-              <option value="">{t('all')}</option>
-              {PLANS.map((p) => (
-                <option key={p} value={p}>
-                  {t(`plan.${p}`)}
-                </option>
-              ))}
-            </select>
-          </Field>
+          {SHOW_PLANS && (
+            <Field label={t('businesses.col.plan')}>
+              <select value={plan} onChange={(e) => (setPlan(e.target.value), setPage(0))}>
+                <option value="">{t('all')}</option>
+                {PLANS.map((p) => (
+                  <option key={p} value={p}>
+                    {t(`plan.${p}`)}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
           <Field label={t('businesses.col.country')} hint={t('businesses.countryHint')}>
             <input value={cc} maxLength={2} onChange={(e) => (setCc(e.target.value), setPage(0))} />
           </Field>

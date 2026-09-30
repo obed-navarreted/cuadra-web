@@ -186,3 +186,9 @@ export function bannerIsLive(a: { banner: boolean; state?: string | null; banner
   if (!a.banner || a.state === 'CANCELLED') return false
   return !a.bannerUntil || Date.parse(a.bannerUntil) > now
 }
+
+/**
+ * Los planes (Gratis/Pro, prueba) están apagados en esta versión: todo es gratis y el único límite es de 10 personas por negocio. El servidor conserva
+ * los endpoints y la consola su código, pero no se muestra nada de planes hasta que vuelvan las suscripciones.
+ */
+export const SHOW_PLANS = false

@@ -38,4 +38,29 @@ describe('Cierre del día', () => {
     const call = vi.mocked(client.GET).mock.calls[0]
     expect(call[0]).toBe('/api/b/{businessId}/reports/daily-close')
   })
+
+  it('muestra devoluciones, ventas de días anteriores anuladas, anulaciones tardías y avisa de teléfonos sin sincronizar', async () => {
+    vi.mocked(client.GET).mockImplementation((() =>
+      ok({
+        range: {},
+        syncWarnings: [{ deviceId: 'd1', name: 'Caja de Ana', pendingOps: 4, stale: false }, { deviceId: 'd2', name: 'Tablet', pendingOps: 0, stale: true, lastSyncAt: '2026-09-29T10:00:00Z' }],
+        days: [
+          day('2026-09-29', '2026-09-29T08:00:00Z', '2026-09-30T08:00:00Z', {
+            returnsCount: 1, returnsMinor: 9000, cashRefundsMinor: 9000, refundsByMethod: [{ method: 'CASH', amountMinor: 9000 }],
+            priorCancelledCount: 1, priorCancelledMinor: 4000, priorCancelledCashMinor: 4000, netSalesMinor: 17000,
+            laterVoids: [{ kind: 'EXPENSE_DRAWER', count: 1, amountMinor: 1500, cashEffectMinor: 1500 }],
+          }),
+        ],
+      })) as never)
+    renderPanel(<CierresPage />)
+    expect(await screen.findByText(/Hay 4 operaciones sin sincronizar en Caja de Ana/)).toBeInTheDocument()
+    expect(screen.getByText(/Tablet no se sincroniza desde/)).toBeInTheDocument()
+    expect(screen.getByText('Devoluciones (1)')).toBeInTheDocument()
+    expect(screen.getByText('Ventas anuladas de días anteriores (1)')).toBeInTheDocument()
+    expect(screen.getByText('Neto del día')).toBeInTheDocument()
+    expect(screen.getByText('Devuelto en efectivo')).toBeInTheDocument()
+    expect(screen.getByText('Gasto del cajón de días anteriores anulado')).toBeInTheDocument()
+    expect(screen.getByText(/^Además hoy:/)).toBeInTheDocument()
+  })
 })
+

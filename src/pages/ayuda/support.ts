@@ -1,7 +1,8 @@
 import type { components } from '../../api/schema'
 
 export type TicketRequest = components['schemas']['TicketRequest']
-export const CATEGORIES = ['QUESTION', 'PROBLEM', 'SUGGESTION', 'BILLING'] as const
+/** «Cobros y planes» ya no se ofrece (no hay planes); el servidor aún lo acepta. */
+export const CATEGORIES = ['QUESTION', 'PROBLEM', 'SUGGESTION'] as const
 export type Category = (typeof CATEGORIES)[number]
 
 export const MESSAGE_MIN = 10
@@ -40,13 +41,13 @@ export function buildTicket(d: TicketDraft, businessId: string | null | undefine
   }
 }
 
-/** Enlace de Buy Me a Coffee solo si es una dirección web segura y el modo no lo apaga. */
-export function donationLink(url: string | null | undefined, mode: string | null | undefined): string | null {
-  if (!url || /^(off|none|disabled|hidden)$/i.test(mode ?? '')) return null
-  try {
-    const u = new URL(url)
-    return u.protocol === 'https:' || u.protocol === 'http:' ? u.toString() : null
-  } catch {
-    return null
-  }
+/** Datos de contacto y apoyo si el servidor aún no los manda (se pueden cambiar sin lanzar versión desde `/api/config`). */
+export const DEFAULT_SUPPORT_WHATSAPP = '50582724138'
+export const DEFAULT_SUPPORT_EMAIL = 'ndiazobed@gmail.com'
+
+/** Enlace de WhatsApp con el mensaje escrito; solo dígitos en el número (se quita «+», espacios y guiones). Sin número válido, `null`. */
+export function whatsappLink(number: string | null | undefined, message: string): string | null {
+  const digits = (number ?? '').replace(/\D/g, '')
+  if (digits.length < 8 || digits.length > 15) return null
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`
 }

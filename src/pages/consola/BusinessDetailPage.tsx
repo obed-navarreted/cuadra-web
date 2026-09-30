@@ -7,7 +7,7 @@ import { Button, Card, ErrorNotice, Field, Page, Spinner, Tag } from '../../comp
 import { useAsync } from '../../hooks/useAsync'
 import { changePlan, extendTrial, getBusiness, markDeletion, setFlag, suspend, unsuspend, viewAs, type BusinessDetail } from './api'
 import { useConsoleFormat } from './format'
-import { FLAG_KEYS, PLANS, PLAN_STATUSES, REASON_MIN, localToIso } from './lib'
+import { FLAG_KEYS, PLANS, PLAN_STATUSES, REASON_MIN, SHOW_PLANS, localToIso } from './lib'
 import { BusinessStatusTag } from './StatusTag'
 
 type Action = { kind: 'plan' } | { kind: 'trial' } | { kind: 'suspend' } | { kind: 'unsuspend' } | { kind: 'delete' } | { kind: 'viewas' } | { kind: 'flag'; key: string; enabled: boolean }
@@ -110,19 +110,21 @@ export function BusinessDetailPage() {
             <Row label={t('detail.openTickets')}>{number(b.openTickets)}</Row>
           </dl>
         </Card>
-        <Card title={t('detail.plan')}>
-          <dl className="kvs">
-            <Row label={t('detail.effectivePlan')}>
-              <Tag tone={b.effectivePlan === 'PRO' ? 'green' : 'neutral'}>{t(`plan.${b.effectivePlan}`, { defaultValue: b.effectivePlan ?? '—' })}</Tag>
-            </Row>
-            <Row label={t('detail.subscription')}>
-              {b.plan ? `${t(`plan.${b.plan}`, { defaultValue: b.plan })} · ${t(`planStatus.${b.planStatus}`, { defaultValue: b.planStatus ?? '' })}` : '—'}
-            </Row>
-            <Row label={t('detail.trialEnds')}>{dateTime(b.trialEndsAt)}</Row>
-            <Row label={t('detail.periodEnd')}>{dateTime(b.currentPeriodEnd)}</Row>
-            <Row label={t('detail.planNote')}>{b.planNote || '—'}</Row>
-          </dl>
-        </Card>
+        {SHOW_PLANS && (
+          <Card title={t('detail.plan')}>
+            <dl className="kvs">
+              <Row label={t('detail.effectivePlan')}>
+                <Tag tone={b.effectivePlan === 'PRO' ? 'green' : 'neutral'}>{t(`plan.${b.effectivePlan}`, { defaultValue: b.effectivePlan ?? '—' })}</Tag>
+              </Row>
+              <Row label={t('detail.subscription')}>
+                {b.plan ? `${t(`plan.${b.plan}`, { defaultValue: b.plan })} · ${t(`planStatus.${b.planStatus}`, { defaultValue: b.planStatus ?? '' })}` : '—'}
+              </Row>
+              <Row label={t('detail.trialEnds')}>{dateTime(b.trialEndsAt)}</Row>
+              <Row label={t('detail.periodEnd')}>{dateTime(b.currentPeriodEnd)}</Row>
+              <Row label={t('detail.planNote')}>{b.planNote || '—'}</Row>
+            </dl>
+          </Card>
+        )}
       </div>
 
       <Card title={t('detail.owners')}>
@@ -162,8 +164,8 @@ export function BusinessDetailPage() {
           <Button kind="primary" onClick={() => open({ kind: 'viewas' })}>
             {t('actions.viewAs')}
           </Button>
-          <Button onClick={() => open({ kind: 'plan' })}>{t('actions.changePlan')}</Button>
-          <Button onClick={() => open({ kind: 'trial' })}>{t('actions.extendTrial')}</Button>
+          {SHOW_PLANS && <Button onClick={() => open({ kind: 'plan' })}>{t('actions.changePlan')}</Button>}
+          {SHOW_PLANS && <Button onClick={() => open({ kind: 'trial' })}>{t('actions.extendTrial')}</Button>}
           {suspended ? <Button onClick={() => open({ kind: 'unsuspend' })}>{t('actions.unsuspend')}</Button> : <Button onClick={() => open({ kind: 'suspend' })}>{t('actions.suspend')}</Button>}
           <Button kind="danger" onClick={() => open({ kind: 'delete' })}>
             {t('actions.markDeletion')}
@@ -189,7 +191,7 @@ export function BusinessDetailPage() {
         }}
       />
       <ReasonDialog
-        open={action?.kind === 'plan'}
+        open={SHOW_PLANS && action?.kind === 'plan'}
         title={t('planDialog.title')}
         confirmLabel={t('planDialog.save')}
         minLength={REASON_MIN}
@@ -230,7 +232,7 @@ export function BusinessDetailPage() {
         }
       />
       <ReasonDialog
-        open={action?.kind === 'trial'}
+        open={SHOW_PLANS && action?.kind === 'trial'}
         title={t('trialDialog.title')}
         body={t('trialDialog.body')}
         confirmLabel={t('trialDialog.confirm')}

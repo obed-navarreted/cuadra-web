@@ -50,6 +50,10 @@ src/
 
 `GET /plan` manda los límites; el panel solo los muestra y cierra las secciones que `limits.webSections` no incluye (Resumen, Ajustes, Ayuda y Plan nunca se cierran). Los errores `PLAN_LIMIT` (con `feature` y `limit`, disponibles en `ApiError`) y `BUSINESS_SUSPENDED` se explican en `errorText`/`ErrorNotice`. Los botones de CSV se marcan "Pro" si el plan no exporta. Ajustes tiene la pestaña Actividad (`/ajustes/actividad`, solo dueño).
 
+### Equipo (`/equipo`)
+
+Sin invitaciones: solo el dueño usa Google. El dueño agrega personas con **nombre (su usuario) y PIN de exactamente 5 números**; cada una entra desde su teléfono con el **código del negocio** (5 dígitos, `PUT/POST /api/b/{id}/access-code`: el dueño puede elegir el suyo o renovarlo al azar), su usuario y su PIN. La validación del PIN y del código vive en `src/pages/equipo/lib.ts` (mismas reglas que el servidor: `INVALID_PIN`, `INVALID_ACCESS_CODE`, `ACCESS_CODE_TAKEN`).
+
 ### Consola de la plataforma (`/console/*`)
 
 `src/pages/consola/` (área de idioma `consola`): métricas, negocios (con acciones y "Ver como"), usuarios, teléfonos, tickets, configuración remota, anuncios y auditoría. Tiene su propio marco (no necesita un negocio). Solo entra quien tiene `me.platformAdmin`; para los demás la ruta se ve como "no encontrada" (la API contesta 404). Toda acción que cambia algo usa `ReasonDialog` con motivo de al menos 5 letras. Los códigos de error de la consola y `VIEW_AS_READ_ONLY` están en `consola.json` (`errors.*`); `lib/errors.ts` los busca ahí.
@@ -102,7 +106,6 @@ Pasos:
 2. **Settings > Pages > Source: GitHub Actions**.
 3. En la **API**: `CUADRA_CORS_ORIGINS=https://<usuario>.github.io` (solo el origen, sin ruta ni barra final).
 4. En **Google Cloud > Credenciales** del cliente OAuth Web: agrega `https://<usuario>.github.io` a "Orígenes autorizados de JavaScript".
-5. En la API, `APP_BASE_URL=https://<usuario>.github.io/<repo>` para que los enlaces de invitación apunten al panel publicado.
 
 Detalles del build: se copia `dist/index.html` a `dist/404.html` (GitHub Pages no tiene fallback de SPA: un enlace directo como `/<repo>/resumen` sirve el 404.html, que es la propia app, y el router resuelve la ruta) y se crea `dist/.nojekyll`. El router usa `basename` = `VITE_BASE`.
 

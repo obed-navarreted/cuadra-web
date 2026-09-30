@@ -14,7 +14,10 @@
     "country": "País",
     "currency": "Moneda",
     "timezone": "Zona horaria",
-    "fixedHint": "El país y la moneda se fijan al crear el negocio: cambiarlos con ventas hechas movería las cuentas."
+    "fixedHint": "El país y la moneda se fijan al crear el negocio: cambiarlos con ventas hechas movería las cuentas.",
+    "countryHint": "Da el prefijo de WhatsApp de tus clientes.",
+    "currencyHint": "Código de 3 letras (NIO, HNL, USD…). Solo se puede cambiar antes de la primera venta.",
+    "currencyLocked": "Ya hay ventas registradas en esta moneda: cambiarla cambiaría el valor de todo lo anterior, por eso quedó fija."
   },
   "modules": {
     "title": "Módulos",
@@ -77,16 +80,11 @@
     "preview": "Así se vería",
     "reset": "Restaurar el de fábrica"
   },
-  "plan": {
-    "title": "Plan y facturación",
-    "summary": "Mira qué incluye tu plan, cuánto usas y qué pasa al terminar la prueba.",
-    "open": "Ver plan y facturación"
-  },
   "danger": {
     "title": "Zona de peligro",
     "transferTitle": "Pasar la propiedad",
     "transferBody": "Otra persona con cuenta de Google pasa a ser la dueña del negocio, y tú quedas como administrador. Solo puede haber una dueña.",
-    "noCandidates": "No hay nadie a quien pasarle la propiedad: necesitas un miembro activo con cuenta de Google (invítalo desde Equipo).",
+    "noCandidates": "No hay nadie a quien pasarle la propiedad: necesitas un miembro activo con cuenta de Google (agrégalo desde Equipo).",
     "newOwner": "Nueva persona dueña",
     "pick": "Elige a alguien",
     "transfer": "Pasar la propiedad",
@@ -106,13 +104,15 @@
     "POS_VIEWS": "Deja al menos una pestaña de la caja.",
     "DUE_DAYS": "Los días de vencimiento van de 0 a 365.",
     "OVERDUE_DAYS": "Los días para considerar vencido van de 1 a 365.",
-    "SHIFT_NOTE": "El monto no es válido para la moneda."
+    "SHIFT_NOTE": "El monto no es válido para la moneda.",
+    "CURRENCY": "La moneda es un código de 3 letras, como NIO o USD."
   },
   "err": {
     "INVALID_TIMEZONE": "La zona horaria no es válida.",
     "INVALID_DAY_CUTOFF": "La hora de corte no es válida.",
     "INVALID_MODULE": "Ese módulo no existe.",
-    "INVALID_POS_VIEWS": "Deja al menos una pestaña de la caja."
+    "INVALID_POS_VIEWS": "Deja al menos una pestaña de la caja.",
+    "CURRENCY_LOCKED": "La moneda ya no se puede cambiar: hay actividad registrada en ella."
   },
   "unsaved": "Tienes cambios sin guardar",
   "discard": "Descartar",

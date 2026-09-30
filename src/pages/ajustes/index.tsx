@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { Link, NavLink, useMatch } from 'react-router-dom'
+import { NavLink, useMatch } from 'react-router-dom'
 import { useAuth, useBusiness } from '../../auth/context'
-import { Card, Page } from '../../components/ui'
+import { Page } from '../../components/ui'
 import './ajustes.css'
 import { Activity } from './Activity'
 import { BusinessCards } from './BusinessCards'
@@ -34,16 +34,6 @@ export default function AjustesPage() {
           {/* La clave reinicia los formularios si se elige otro negocio. */}
           <BusinessCards key={business.id} />
           <Templates />
-          {isOwner && (
-            <Card title={t('plan.title')}>
-              <p className="muted">{t('plan.summary')}</p>
-              <p>
-                <Link className="btn" to="/plan">
-                  {t('plan.open')}
-                </Link>
-              </p>
-            </Card>
-          )}
           {isOwner && <DangerZone />}
         </>
       )}

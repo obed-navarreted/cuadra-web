@@ -34,6 +34,8 @@ export type Form = {
   creditOverdueDays: string
   shiftRequired: boolean
   shiftNote: string
+  country: string
+  currency: string
 }
 
 /** Monto en unidad menor → texto para un campo ("1000" → "10.00"; sin usar coma flotante). */
@@ -58,10 +60,12 @@ export function formOf(b: BusinessView): Form {
     creditOverdueDays: b.creditOverdueDays != null ? String(b.creditOverdueDays) : '',
     shiftRequired: b.shiftRequired === true,
     shiftNote: b.shiftNoteThresholdMinor != null ? minorToInput(b.shiftNoteThresholdMinor, b.currency ?? 'USD') : '',
+    country: b.country ?? '',
+    currency: b.currency ?? '',
   }
 }
 
-export type FormError = 'NAME' | 'CUTOFF' | 'POS_VIEWS' | 'DUE_DAYS' | 'OVERDUE_DAYS' | 'SHIFT_NOTE'
+export type FormError = 'NAME' | 'CUTOFF' | 'POS_VIEWS' | 'DUE_DAYS' | 'OVERDUE_DAYS' | 'SHIFT_NOTE' | 'CURRENCY'
 
 const TIME = /^([01]\d|2[0-3]):[0-5]\d$/
 
@@ -78,6 +82,7 @@ export function validateForm(f: Form, currency: string): FormError | null {
   if (f.creditDefaultDueDays.trim() && wholeNumber(f.creditDefaultDueDays, 0, 365) == null) return 'DUE_DAYS'
   if (f.creditOverdueDays.trim() && wholeNumber(f.creditOverdueDays, 1, 365) == null) return 'OVERDUE_DAYS'
   if (f.shiftNote.trim() && parseMoney(f.shiftNote, currency) == null) return 'SHIFT_NOTE'
+  if (f.currency.trim() && !/^[A-Za-z]{3}$/.test(f.currency.trim())) return 'CURRENCY'
   return null
 }
 
@@ -100,6 +105,9 @@ export function patchOf(f: Form, b: BusinessView): UpdateBusiness {
   if (f.creditOverdueDays.trim() && f.creditOverdueDays.trim() !== cur.creditOverdueDays) patch.creditOverdueDays = Number(f.creditOverdueDays)
   if (f.shiftRequired !== cur.shiftRequired) patch.shiftRequired = f.shiftRequired
   if (f.shiftNote.trim() && f.shiftNote.trim() !== cur.shiftNote) patch.shiftNoteThresholdMinor = parseMoney(f.shiftNote, b.currency ?? 'USD') ?? undefined
+  if (f.country && f.country !== cur.country) patch.country = f.country
+  // La moneda solo se cambia antes de la primera venta (el servidor lo exige igual: CURRENCY_LOCKED).
+  if (!b.currencyLocked && f.currency.trim() && f.currency.trim().toUpperCase() !== cur.currency) patch.currency = f.currency.trim().toUpperCase()
   return patch
 }
 

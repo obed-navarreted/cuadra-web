@@ -9,11 +9,10 @@ import { ReasonDialog } from '../../components/ReasonDialog'
 import { Button, Card, ErrorNotice, Field, Kpi, Page, Spinner, Tag } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
-import { usePlan } from '../../plan/context'
-import { canExport } from '../../plan/logic'
-import { ProTag } from '../../plan/ProTag'
 import type { DateRange } from '../../lib/dates'
+import { ReturnDialog } from './ReturnDialog'
 import { SaleDetail } from './SaleDetail'
+import { SaleTags } from './SaleTags'
 import { distinctMethods, METHODS, MIN_REASON, saleInstant, type SaleRow } from './types'
 import './ventas.css'
 
@@ -32,6 +31,7 @@ export default function VentasPage() {
   const [page, setPage] = useState(0)
   const [selected, setSelected] = useState<SaleRow | null>(null)
   const [toCancel, setToCancel] = useState<SaleRow | null>(null)
+  const [toReturn, setToReturn] = useState<SaleRow | null>(null)
   const [exportError, setExportError] = useState<unknown>(null)
 
   const members = useAsync(() => call(client.GET('/api/b/{businessId}/members', { params: { path: { businessId } } })), [businessId])
@@ -79,7 +79,10 @@ export default function VentasPage() {
               {s.cancelledBy?.name && <div className="muted small">{t('list.cancelledBy', { name: s.cancelledBy.name })}</div>}
             </>
           ) : (
-            <Tag tone="green">{t('status.COMPLETED')}</Tag>
+            <span className="ventas-methods">
+              <Tag tone="green">{t('status.COMPLETED')}</Tag>
+              <SaleTags sale={s} />
+            </span>
           ),
       },
       { key: 'total', header: t('col.total'), align: 'right', cell: (s) => (s.status === 'CANCELLED' ? <strong className="struck">{money(s.totalMinor)}</strong> : <strong>{money(s.totalMinor)}</strong>) },
@@ -100,20 +103,17 @@ export default function VentasPage() {
     }
   }
   const s = report.data?.sales
-  const exportOk = canExport(usePlan().plan)
 
   return (
     <Page
       title={t('title')}
       actions={
         <>
-          <Button small disabled={!exportOk} onClick={() => void download('sales')}>
+          <Button small onClick={() => void download('sales')}>
             {t('export.sales')}
-            {!exportOk && <ProTag />}
           </Button>
-          <Button small disabled={!exportOk} onClick={() => void download('sale-items')}>
+          <Button small onClick={() => void download('sale-items')}>
             {t('export.items')}
-            {!exportOk && <ProTag />}
           </Button>
         </>
       }
@@ -159,6 +159,15 @@ export default function VentasPage() {
           <Kpi label={t('kpi.ticket')} value={money(s.averageTicketMinor)} />
           <Kpi label={t('kpi.discounts')} value={money(s.discountMinor)} />
           <Kpi label={t('kpi.cancelled')} value={s.cancelledCount} tone={s.cancelledCount > 0 ? 'orange' : undefined} />
+          {(s.returnsMinor > 0 || s.priorCancelledMinor > 0) && (
+            <Kpi
+              label={t('kpi.net')}
+              value={money(s.netMinor)}
+              hint={[s.returnsMinor > 0 ? t('kpi.returns', { amount: money(s.returnsMinor) }) : null, s.priorCancelledMinor > 0 ? t('kpi.priorCancelled', { amount: money(s.priorCancelledMinor) }) : null]
+                .filter(Boolean)
+                .join(' · ')}
+            />
+          )}
         </div>
       )}
       {report.data && (report.data.byMethod?.length ?? 0) > 0 && (
@@ -184,7 +193,17 @@ export default function VentasPage() {
         </>
       )}
 
-      <SaleDetail sale={selected} onClose={() => setSelected(null)} onCancel={(sale) => setToCancel(sale)} />
+      <SaleDetail sale={selected} onClose={() => setSelected(null)} onCancel={(sale) => setToCancel(sale)} onReturn={(sale) => setToReturn(sale)} />
+      <ReturnDialog
+        businessId={businessId}
+        sale={toReturn}
+        onClose={() => setToReturn(null)}
+        onDone={() => {
+          setSelected(null)
+          list.reload()
+          report.reload()
+        }}
+      />
       <ReasonDialog
         open={toCancel !== null}
         title={t('cancel.title')}

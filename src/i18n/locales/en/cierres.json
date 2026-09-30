@@ -1,6 +1,6 @@
 {
   "title": "Daily close",
-  "subtitle": "The close is automatic: each business day runs from one day's cutoff time to the next. Expected cash = cash sales and payments + cash in − drawer expenses − withdrawals.",
+  "subtitle": "The close is automatic: each business day runs from one day's cutoff time to the next, and a day already lived does not change: whatever is voided or returned later counts on the day it happens. Expected cash = cash sales and payments + deposits − drawer expenses − withdrawals − cash refunds.",
   "empty": "There are no business days in this period.",
   "total": "Period total ({{count}} days)",
   "method": {
@@ -25,11 +25,13 @@
     "drawerExpenses": "Expenses paid from the drawer",
     "otherExpenses": "Other expenses",
     "withdrawals": "Withdrawals",
-    "deposits": "Cash in"
+    "deposits": "Cash in",
+    "cashRefunds": "Refunded in cash"
   },
   "expected": {
     "label": "Expected cash",
-    "formula": "{{cashSales}} cash sales + {{cashCollected}} cash payments + {{deposits}} cash in − {{drawerExpenses}} drawer expenses − {{withdrawals}} withdrawals = {{total}}"
+    "formula": "{{cashSales}} cash sales + {{cashCollected}} cash payments + {{deposits}} cash in − {{drawerExpenses}} drawer expenses − {{withdrawals}} withdrawals = {{total}}",
+    "adjustments": "Also today: − {{cashRefunds}} refunded in cash − {{priorCash}} from voided sales of earlier days {{later}} from voids of earlier days."
   },
   "cancelled_one": "{{count}} deleted sale ({{amount}})",
   "cancelled_other": "{{count}} deleted sales ({{amount}})",
@@ -39,5 +41,33 @@
     "expected": "Expected cash",
     "expectedHint": "sum of the days",
     "cancelled": "Deleted sales"
+  },
+  "returns": {
+    "line_one": "Returns ({{count}})",
+    "line_other": "Returns ({{count}})"
+  },
+  "priorCancelled": {
+    "line_one": "Sales from earlier days voided ({{count}})",
+    "line_other": "Sales from earlier days voided ({{count}})"
+  },
+  "net": {
+    "label": "Net for the day"
+  },
+  "laterVoid": {
+    "EXPENSE_DRAWER_one": "Drawer expense from an earlier day voided",
+    "EXPENSE_DRAWER_other": "{{count}} drawer expenses from earlier days voided",
+    "EXPENSE_OTHER_one": "Expense from an earlier day voided",
+    "EXPENSE_OTHER_other": "{{count}} expenses from earlier days voided",
+    "CREDIT_PAYMENT_one": "Credit payment from an earlier day voided",
+    "CREDIT_PAYMENT_other": "{{count}} credit payments from earlier days voided",
+    "WITHDRAWAL_one": "Withdrawal from an earlier day voided",
+    "WITHDRAWAL_other": "{{count}} withdrawals from earlier days voided",
+    "DEPOSIT_one": "Deposit from an earlier day voided",
+    "DEPOSIT_other": "{{count}} deposits from earlier days voided"
+  },
+  "sync": {
+    "pending_one": "{{count}} operation not yet synced on {{device}}: this close may be incomplete.",
+    "pending_other": "{{count}} operations not yet synced on {{device}}: this close may be incomplete.",
+    "stale": "{{device}} has not synced since {{when}}: it may have sales that have not arrived yet."
   }
 }

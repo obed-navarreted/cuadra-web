@@ -1,6 +1,8 @@
 import type { components } from '../../api/schema'
 
 export type DayClose = components['schemas']['DayClose']
+export type LaterVoid = components['schemas']['LaterVoid']
+export type DeviceSync = components['schemas']['DeviceSync']
 type MethodAmount = components['schemas']['MethodAmount']
 
 /** Orden en que se listan los métodos; los desconocidos van al final. */
@@ -29,10 +31,37 @@ export function cashParts(d: Pick<DayClose, 'byMethod' | 'creditCollected' | 'de
   }
 }
 
-/** Efectivo esperado = ventas en efectivo + abonos en efectivo + entradas − gastos del cajón − retiros. */
-export function expectedCash(d: Parameters<typeof cashParts>[0]): number {
+/**
+ * Lo que HOY corrige días anteriores o devuelve dinero (los días ya cerrados no cambian): devoluciones en efectivo, ventas de días anteriores anuladas hoy
+ * (su efectivo sale del esperado) y gastos, abonos, retiros o entradas de días anteriores anulados hoy (con su efecto en el efectivo, con signo).
+ */
+export function cashAdjustments(d: Partial<Pick<DayClose, 'cashRefundsMinor' | 'priorCancelledCashMinor' | 'laterVoids'>>) {
+  const later = (d.laterVoids ?? []).reduce((n, v) => n + v.cashEffectMinor, 0)
+  return { cashRefunds: d.cashRefundsMinor ?? 0, priorCancelledCash: d.priorCancelledCashMinor ?? 0, later }
+}
+
+/** Efectivo esperado = ventas y abonos en efectivo + entradas − gastos del cajón − retiros − devoluciones en efectivo − anuladas de días anteriores ± anulaciones tardías. */
+export function expectedCash(d: Parameters<typeof cashParts>[0] & Partial<Pick<DayClose, 'cashRefundsMinor' | 'priorCancelledCashMinor' | 'laterVoids'>>): number {
   const p = cashParts(d)
-  return p.cashSales + p.cashCollected + p.deposits - p.drawerExpenses - p.withdrawals
+  const a = cashAdjustments(d)
+  return p.cashSales + p.cashCollected + p.deposits - p.drawerExpenses - p.withdrawals - a.cashRefunds - a.priorCancelledCash + a.later
+}
+
+/** Une las anulaciones tardías de varios días por tipo. */
+export function mergeLaterVoids(lists: (LaterVoid[] | null | undefined)[]): LaterVoid[] {
+  const by = new Map<string, LaterVoid>()
+  for (const l of lists)
+    for (const v of l ?? []) {
+      const k = v.kind ?? ''
+      const cur = by.get(k)
+      by.set(k, cur ? { kind: k, count: cur.count + v.count, amountMinor: cur.amountMinor + v.amountMinor, cashEffectMinor: cur.cashEffectMinor + v.cashEffectMinor } : { ...v, kind: k })
+    }
+  return [...by.values()]
+}
+
+/** Aviso de teléfonos que aún no envían todo: el cierre puede estar incompleto. `stale`: sin sincronizar hace más de una hora. */
+export function syncWarningKind(w: Pick<DeviceSync, 'pendingOps' | 'stale'>): 'PENDING' | 'STALE' {
+  return w.pendingOps > 0 ? 'PENDING' : 'STALE'
 }
 
 /** Suma de todas las jornadas de un rango (el "efectivo esperado" total es la suma de los de cada día). */
@@ -51,6 +80,15 @@ export function totals(days: DayClose[]) {
     expectedCashMinor: sum((d) => d.expectedCashMinor),
     cancelledCount: sum((d) => d.cancelledCount),
     cancelledMinor: sum((d) => d.cancelledMinor),
+    returnsCount: sum((d) => d.returnsCount ?? 0),
+    returnsMinor: sum((d) => d.returnsMinor ?? 0),
+    refundsByMethod: mergeMethods(days.map((d) => d.refundsByMethod)),
+    cashRefundsMinor: sum((d) => d.cashRefundsMinor ?? 0),
+    priorCancelledCount: sum((d) => d.priorCancelledCount ?? 0),
+    priorCancelledMinor: sum((d) => d.priorCancelledMinor ?? 0),
+    priorCancelledCashMinor: sum((d) => d.priorCancelledCashMinor ?? 0),
+    netSalesMinor: sum((d) => d.netSalesMinor ?? d.salesMinor),
+    laterVoids: mergeLaterVoids(days.map((d) => d.laterVoids)),
   }
 }
 
@@ -85,7 +123,7 @@ export function windowText(startsAt: string, endsAt: string, timeZone: string, l
 
 /** Una jornada sin nada que mostrar (para atenuarla en la lista). */
 export function isEmptyDay(d: DayClose): boolean {
-  return d.salesCount === 0 && d.cancelledCount === 0 && d.drawerExpensesMinor === 0 && d.otherExpensesMinor === 0 && d.withdrawalsMinor === 0 && d.depositsMinor === 0 && (d.creditCollected ?? []).length === 0
+  return d.salesCount === 0 && d.cancelledCount === 0 && (d.returnsCount ?? 0) === 0 && (d.priorCancelledCount ?? 0) === 0 && (d.laterVoids ?? []).length === 0 && d.drawerExpensesMinor === 0 && d.otherExpensesMinor === 0 && d.withdrawalsMinor === 0 && d.depositsMinor === 0 && (d.creditCollected ?? []).length === 0
 }
 
 /** La zona que regía en una jornada: la de la última regla que empezó ese día o antes (el negocio puede haber cambiado de zona desde entonces). */

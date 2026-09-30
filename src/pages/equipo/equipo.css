@@ -43,3 +43,16 @@
 
 .equipo-page dialog.modal:focus { outline: none; }
 .equipo-page .lock { display: inline-flex; align-items: center; max-width: 220px; text-align: right; }
+
+.equipo-page .access-code { display: flex; gap: 14px 20px; flex-wrap: wrap; align-items: center; }
+.equipo-page .access-code-value { font-size: clamp(32px, 9vw, 48px); letter-spacing: 0.4em; padding: 8px 8px 8px 22px; background: var(--surface); border: 1px dashed var(--line-2); border-radius: 14px; line-height: 1.1; user-select: all; }
+.equipo-page .access-code-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.equipo-page .access-code-explain { margin: 10px 0 0; }
+.equipo-page .feedback { margin: 8px 0 0; }
+.equipo-page .creds { display: grid; gap: 6px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin: 0; }
+.equipo-page .creds > div { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.equipo-page .creds dt { font-size: 12px; font-weight: 800; color: var(--muted); }
+.equipo-page .creds dd { margin: 0; font-weight: 800; overflow-wrap: anywhere; }
+.equipo-page .creds dd.code { font-size: 20px; letter-spacing: 0.15em; }
+.equipo-page .code-input-big { font-size: 28px; letter-spacing: 0.3em; text-align: center; width: 100%; min-width: 0; box-sizing: border-box; padding-left: 0.3em; }
+.equipo-page .ok-text { color: var(--green); font-weight: 700; margin: 0; }

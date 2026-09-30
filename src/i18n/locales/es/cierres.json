@@ -1,6 +1,6 @@
 {
   "title": "Cierre del día",
-  "subtitle": "El cierre es automático: cada jornada va de la hora de corte de un día a la del siguiente. Efectivo esperado = ventas y abonos en efectivo + entradas − gastos del cajón − retiros.",
+  "subtitle": "El cierre es automático: cada jornada va de la hora de corte de un día a la del siguiente, y un día ya vivido no cambia: lo que se anula o devuelve después cuenta en el día en que se hace. Efectivo esperado = ventas y abonos en efectivo + entradas − gastos del cajón − retiros − devoluciones en efectivo.",
   "empty": "No hay jornadas en este periodo.",
   "total": "Total del periodo ({{count}} días)",
   "method": {
@@ -25,11 +25,13 @@
     "drawerExpenses": "Gastos pagados del cajón",
     "otherExpenses": "Otros gastos",
     "withdrawals": "Retiros",
-    "deposits": "Entradas de efectivo"
+    "deposits": "Entradas de efectivo",
+    "cashRefunds": "Devuelto en efectivo"
   },
   "expected": {
     "label": "Efectivo esperado",
-    "formula": "{{cashSales}} ventas en efectivo + {{cashCollected}} abonos en efectivo + {{deposits}} entradas − {{drawerExpenses}} gastos del cajón − {{withdrawals}} retiros = {{total}}"
+    "formula": "{{cashSales}} ventas en efectivo + {{cashCollected}} abonos en efectivo + {{deposits}} entradas − {{drawerExpenses}} gastos del cajón − {{withdrawals}} retiros = {{total}}",
+    "adjustments": "Además hoy: − {{cashRefunds}} devuelto en efectivo − {{priorCash}} de ventas de días anteriores anuladas {{later}} por anulaciones de días anteriores."
   },
   "cancelled_one": "{{count}} venta eliminada ({{amount}})",
   "cancelled_other": "{{count}} ventas eliminadas ({{amount}})",
@@ -39,5 +41,33 @@
     "expected": "Efectivo esperado",
     "expectedHint": "suma de los días",
     "cancelled": "Ventas eliminadas"
+  },
+  "returns": {
+    "line_one": "Devoluciones ({{count}})",
+    "line_other": "Devoluciones ({{count}})"
+  },
+  "priorCancelled": {
+    "line_one": "Ventas anuladas de días anteriores ({{count}})",
+    "line_other": "Ventas anuladas de días anteriores ({{count}})"
+  },
+  "net": {
+    "label": "Neto del día"
+  },
+  "laterVoid": {
+    "EXPENSE_DRAWER_one": "Gasto del cajón de días anteriores anulado",
+    "EXPENSE_DRAWER_other": "{{count}} gastos del cajón de días anteriores anulados",
+    "EXPENSE_OTHER_one": "Gasto de días anteriores anulado",
+    "EXPENSE_OTHER_other": "{{count}} gastos de días anteriores anulados",
+    "CREDIT_PAYMENT_one": "Abono de días anteriores anulado",
+    "CREDIT_PAYMENT_other": "{{count}} abonos de días anteriores anulados",
+    "WITHDRAWAL_one": "Retiro de días anteriores anulado",
+    "WITHDRAWAL_other": "{{count}} retiros de días anteriores anulados",
+    "DEPOSIT_one": "Entrada de días anteriores anulada",
+    "DEPOSIT_other": "{{count}} entradas de días anteriores anuladas"
+  },
+  "sync": {
+    "pending_one": "Hay {{count}} operación sin sincronizar en {{device}}: este cierre puede estar incompleto.",
+    "pending_other": "Hay {{count}} operaciones sin sincronizar en {{device}}: este cierre puede estar incompleto.",
+    "stale": "{{device}} no se sincroniza desde {{when}}: puede tener ventas que aún no llegan."
   }
 }

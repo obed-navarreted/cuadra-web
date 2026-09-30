@@ -33,7 +33,10 @@
     "count_other": "{{count}} sales",
     "ticket": "Average ticket",
     "discounts": "Discounts",
-    "cancelled": "Deleted sales"
+    "cancelled": "Deleted sales",
+    "net": "Net for the period",
+    "returns": "returns {{amount}}",
+    "priorCancelled": "earlier days voided {{amount}}"
   },
   "byMethod": "By payment method",
   "export": {
@@ -67,7 +70,13 @@
     "close": "Close",
     "cancel": "Delete sale",
     "editedBy": "Edited by",
-    "byAt": "{{name}} · {{when}}"
+    "byAt": "{{name}} · {{when}}",
+    "returned": "Returned",
+    "returnsTitle": "Returns",
+    "returnLine": "{{when}} · {{name}}",
+    "reasonLine": "Reason: {{reason}}",
+    "returnedTotal": "Returned",
+    "return": "Return items"
   },
   "cancel": {
     "title": "Delete sale",
@@ -78,5 +87,39 @@
   },
   "list": {
     "cancelledBy": "by {{name}}"
+  },
+  "tag": {
+    "CONFLICT": "Conflict: review",
+    "LATE_AFTER_DISABLE": "Arrived after deactivation",
+    "CLOCK_ADJUSTED": "Time corrected",
+    "RETURNED": "With return"
+  },
+  "return": {
+    "title": "Return items",
+    "body": "Choose what the customer brings back and how much. The return counts on today's business day (the sale's day does not change) and the stock goes back to inventory.",
+    "sold": "Sold",
+    "left": "Can return",
+    "qty": "Return",
+    "qtyFor": "Quantity to return of {{name}}",
+    "all": "All",
+    "method": "How the money is refunded",
+    "methods": {
+      "CASH": "Cash from the drawer",
+      "SAME": "Same method as the payment",
+      "CREDIT_NOTE": "Reduce the credit (credit note)"
+    },
+    "reasonHint": "Required, at least {{min}} letters. It is recorded with your name and the owner is notified.",
+    "estimate": "To refund",
+    "todayNote": "Counts in today's close as \"Returns\".",
+    "confirm": "Refund {{amount}}",
+    "creditNote": "Credit note",
+    "error": {
+      "RETURN_EXCEEDS_SOLD": "You cannot return more than what is left to return on a line.",
+      "CREDIT_NOTE_EXCEEDS": "The return is larger than what is still owed on that credit: choose another method.",
+      "NO_CREDIT_TO_REDUCE": "This sale has no open credit to reduce: choose another method.",
+      "REASON_REQUIRED": "Write a reason of at least {{min}} letters.",
+      "RETURN_NOT_ALLOWED": "You are not allowed to return this sale.",
+      "SALE_NOT_COMPLETED": "Only a paid sale can be returned."
+    }
   }
 }

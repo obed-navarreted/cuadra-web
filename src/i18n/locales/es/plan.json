@@ -1,102 +1,12 @@
 {
-  "title": "Plan y facturación",
-  "subtitle": "Qué incluye tu plan, cuánto usas y qué pasa si algo cambia.",
-  "proTag": "Pro",
-  "viewPlan": "Ver mi plan",
-  "loadError": "No pudimos consultar tu plan ahora. No pasa nada: sigues trabajando con normalidad.",
-  "current": {
-    "title": "Tu plan hoy",
-    "FREE": "Gratis",
-    "PRO": "Pro",
-    "status": {
-      "TRIALING": "En prueba",
-      "ACTIVE": "Activo",
-      "PAST_DUE": "Pago pendiente",
-      "CANCELED": "Cancelado",
-      "MANUAL": "Asignado por soporte"
-    },
-    "free": "Estás en el plan Gratis. Vender, cobrar, fiar y sincronizar los teléfonos nunca se limita: el plan solo pone tope a cuánto puedes agregar y a algunas comodidades.",
-    "trial_one": "Estás probando Pro y te queda {{count}} día. Aprovecha todo con calma: no tienes que hacer nada ahora.",
-    "trial_other": "Estás probando Pro y te quedan {{count}} días. Aprovecha todo con calma: no tienes que hacer nada ahora.",
-    "trialLast": "Hoy es el último día de tu prueba de Pro. No pasa nada grave: tu negocio sigue funcionando y tus datos se quedan.",
-    "pro": "Tienes el plan Pro: todo está disponible.",
-    "pastDue": "Hay un pago pendiente. Sigues con Pro unos días más mientras se resuelve; escríbenos y lo vemos.",
-    "canceled": "Tu plan Pro está cancelado y sigue activo hasta el final del periodo ya pagado.",
-    "trialEnds": "La prueba termina el {{date}}.",
-    "periodEnd": "El periodo actual termina el {{date}}.",
-    "noEnd": "Sin fecha de vencimiento."
-  },
-  "usage": {
-    "title": "Lo que usas",
-    "hint": "El tope solo impide agregar más; lo que ya tienes sigue funcionando.",
-    "members": "{{used}} de {{limit}} personas en el equipo",
-    "devices": "{{used}} de {{limit}} teléfonos",
-    "schedules": "{{used}} de {{limit}} avisos programados",
-    "full": "Llegaste al tope",
-    "near": "Cerca del tope"
-  },
-  "compare": {
-    "title": "Gratis y Pro",
-    "feature": "Función",
-    "free": "Gratis",
-    "pro": "Pro",
-    "yourPlan": "Tu plan",
-    "members": "Personas en el equipo",
-    "devices": "Teléfonos",
-    "schedules": "Avisos programados",
-    "history": "Historial en reportes",
-    "export": "Exportar a CSV",
-    "sections": "Secciones del panel web",
-    "businesses": "Negocios por cuenta",
-    "history30": "Últimos 30 días",
-    "historyAll": "Sin límite",
-    "yes": "Sí",
-    "no": "No",
-    "sectionsAll": "Todas",
-    "one": "1",
-    "several": "Varios",
-    "note": "Vender, cobrar, fiar, los gastos y la sincronización funcionan igual en los dos planes."
-  },
-  "sections": {
-    "resumen": "Resumen",
-    "ventas": "Ventas",
-    "fiados": "Fiados",
-    "gastos": "Gastos",
-    "inventario": "Inventario",
-    "cierres": "Cierre del día",
-    "reportes": "Reportes",
-    "equipo": "Equipo",
-    "avisos": "Notificaciones",
-    "ajustes": "Ajustes",
-    "ayuda": "Ayuda"
-  },
-  "afterTrial": {
-    "title": "¿Y cuando termina la prueba?",
-    "nothingDeleted": "Nada se borra: ventas, clientes, productos y cuentas se quedan como están.",
-    "onlyLimits": "Solo se limita agregar más de la cuenta del plan Gratis (equipo, teléfonos, avisos) y algunas comodidades de Pro.",
-    "keepWorking": "La caja, el fiado y la sincronización siguen funcionando igual.",
-    "existing": "Si ya tienes más de lo que permite el plan Gratis, lo que existe sigue funcionando; solo no podrás agregar más."
-  },
-  "payment": {
-    "title": "Pagar y cambiar de plan",
-    "body": "Todavía no se puede pagar desde la app. Cuando esté listo te avisaremos aquí y no se te cobrará nada sin que lo sepas. Si quieres seguir con Pro o tienes dudas, escríbenos.",
-    "contact": "Escribir a soporte"
-  },
   "limit": {
-    "generic": "Tu plan actual no permite esto. Mira qué incluye cada plan.",
-    "MEMBERS": "Tu plan permite hasta {{limit}} personas en el equipo. Para agregar más, pasa a Pro.",
-    "DEVICES": "Tu plan Gratis permite hasta {{limit}} teléfonos. Para conectar otro, pasa a Pro.",
-    "SCHEDULES": "Tu plan permite hasta {{limit}} avisos programados. Para crear otro, pasa a Pro.",
-    "REPORT_HISTORY": "Tu plan Gratis muestra los reportes de los últimos {{limit}} días. Para ver más atrás, pasa a Pro.",
-    "EXPORT": "Exportar a CSV es parte de Pro.",
-    "BUSINESSES": "Tu plan Gratis permite {{limit}} negocio. Para tener más de uno, pasa a Pro."
-  },
-  "gate": {
-    "title": "{{section}} es parte de Pro",
-    "body": "Tu plan Gratis no incluye esta sección del panel web. No perdiste nada: tus datos están guardados y la app del teléfono sigue funcionando igual.",
-    "trialTip": "Si tu negocio es nuevo, la prueba de 30 días incluye todo.",
-    "seePlan": "Ver qué incluye Pro",
-    "back": "Ir al Resumen"
+    "generic": "Llegaste a un límite. Vender no se ve afectado.",
+    "MEMBERS": "Máximo {{limit}} personas por negocio.",
+    "DEVICES": "Máximo {{limit}} teléfonos por negocio.",
+    "SCHEDULES": "Máximo {{limit}} avisos programados activos.",
+    "REPORT_HISTORY": "Ese rango de fechas no está disponible.",
+    "EXPORT": "No se puede exportar ahora.",
+    "BUSINESSES": "No se puede crear otro negocio ahora."
   },
   "suspended": {
     "title": "Este negocio está suspendido",

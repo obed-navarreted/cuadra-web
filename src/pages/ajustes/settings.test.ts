@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { MODULES, formOf, minorToInput, moduleOn, patchOf, previewTemplate, unknownVariables, validateForm, type BusinessView } from './settings'
 
-const b: BusinessView = { id: 'b', name: 'Quesería', type: 'Lácteos', country: 'NI', currency: 'NIO', timezone: 'America/Managua', defaultLocale: 'es', dayCutoff: '02:00:00', posViews: ['TYPE'], creditRequiresCustomer: false, creditLimitEnforced: false, creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, modules: {} }
+const b: BusinessView = { id: 'b', name: 'Quesería', type: 'Lácteos', country: 'NI', currency: 'NIO', timezone: 'America/Managua', defaultLocale: 'es', dayCutoff: '02:00:00', posViews: ['TYPE'], creditRequiresCustomer: false, creditLimitEnforced: false, creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, modules: {}, currencyLocked: false }
 
 describe('ajustes del negocio', () => {
   it('convierte la hora de corte y el umbral a lo que muestra el formulario', () => {

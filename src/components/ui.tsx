@@ -1,7 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useInRouterContext } from 'react-router-dom'
-import { ApiError } from '../api/http'
 import { errorText } from '../lib/errors'
 
 /** Encabezado de una pantalla: título, subtítulo y acciones a la derecha (en el celular pasan debajo). */
@@ -65,16 +63,9 @@ export function EmptyState({ children }: { children: ReactNode }) {
 /** Un error de la API en lenguaje simple, con "Reintentar" si se puede repetir. */
 export function ErrorNotice({ error, onRetry }: { error: unknown; onRetry?: () => void }) {
   const { t } = useTranslation()
-  const inRouter = useInRouterContext()
-  const planLimit = error instanceof ApiError && error.code === 'PLAN_LIMIT'
   return (
     <div className="notice error" role="alert">
       <span className="grow">{errorText(t, error)}</span>
-      {planLimit && inRouter && (
-        <Link className="btn small" to="/plan">
-          {t('plan:viewPlan')}
-        </Link>
-      )}
       {onRetry && (
         <button type="button" className="btn small" onClick={onRetry}>
           {t('shell.retry')}
