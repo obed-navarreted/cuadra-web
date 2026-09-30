@@ -8,7 +8,7 @@ import './equipo.css'
 
 type Tab = 'members' | 'devices'
 
-/** Equipo: código del negocio, personas (usuario + PIN) y teléfonos. Lo que un admin no puede hacer no se le muestra. */
+/** Equipo: código del negocio, personas (nombre + PIN) y teléfonos. Lo que un admin no puede hacer no se le muestra. */
 export default function EquipoPage() {
   const { t } = useTranslation('equipo')
   const [tab, setTab] = useState<Tab>('members')

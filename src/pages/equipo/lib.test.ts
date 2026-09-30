@@ -92,9 +92,9 @@ describe('equipo: código del negocio y alta de personas', () => {
   it('los mensajes para compartir salen en cada idioma', () => {
     const es = i18n.getFixedT('es', 'equipo') as never
     const en = i18n.getFixedT('en', 'equipo') as never
-    expect(accessShareMessage(es, 'Panadería', '13085')).toBe('Para entrar a Panadería en la app Cuentiva: código 13085, tu usuario y tu PIN.')
-    expect(accessShareMessage(en, 'Bakery', '13085')).toBe('To join Bakery in the Cuentiva app: code 13085, your username and your PIN.')
-    expect(credentialsMessage(es, 'Panadería', '13085', 'Rosa', '48213')).toBe('Para entrar a Panadería en la app Cuentiva: código 13085, usuario Rosa, PIN 48213.')
+    expect(accessShareMessage(es, 'Panadería', '13085')).toBe('Para entrar a Panadería en la app Cuentiva: código 13085 y tu PIN.')
+    expect(accessShareMessage(en, 'Bakery', '13085')).toBe('To join Bakery in the Cuentiva app: code 13085 and your PIN.')
+    expect(credentialsMessage(es, 'Panadería', '13085', 'Rosa', '48213')).toBe('Rosa: para entrar a Panadería en la app Cuentiva usa el código 13085 y tu PIN 48213.')
   })
 
   it('validación del alta: nombre, PIN de exactamente 5 dígitos y PIN repetido igual', () => {
@@ -105,6 +105,14 @@ describe('equipo: código del negocio y alta de personas', () => {
     expect(newMemberIssue('Rosa', '12345', '12346')).toBe('pinMismatch')
     expect(newMemberIssue('Rosa', '12345', '')).toBe('pinMismatch')
     expect(newMemberIssue('Rosa', '12345', '12345')).toBeNull()
+  })
+
+  it('PIN_TAKEN tiene texto en los dos idiomas', async () => {
+    const { ApiError } = await import('../../api/http')
+    const { errorText } = await import('../../lib/errors')
+    const err = new ApiError(409, 'PIN_TAKEN', 'x')
+    expect(errorText(i18n.getFixedT('es') as never, err)).toBe('Ese PIN ya lo usa otra persona del negocio. Elige otro.')
+    expect(errorText(i18n.getFixedT('en') as never, err)).toBe('Someone else in this business already uses that PIN. Pick another.')
   })
 
   it('NAME_TAKEN tiene texto en los dos idiomas', async () => {

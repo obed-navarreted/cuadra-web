@@ -5,7 +5,7 @@ import { Button } from '../../components/ui'
 import { credentialsMessage, formatAccessCode, normalizeAccessCode } from './lib'
 import { copyText, shareText, useFeedback } from './share'
 
-/** Después de crear a una persona: lo que hay que decirle (código del negocio + usuario + PIN). El PIN se ve una sola vez. */
+/** Después de crear a una persona: lo que hay que decirle (código del negocio + PIN; el nombre, de referencia). El PIN se ve una sola vez. */
 export function CredentialsCard({ name, pin, onClose }: { name: string; pin: string; onClose: () => void }) {
   const { t } = useTranslation('equipo')
   const { business } = useBusiness()
@@ -27,12 +27,12 @@ export function CredentialsCard({ name, pin, onClose }: { name: string; pin: str
           </dd>
         </div>
         <div>
-          <dt>{t('created.username')}</dt>
-          <dd>{name}</dd>
-        </div>
-        <div>
           <dt>{t('created.pin')}</dt>
           <dd className="code">{pin}</dd>
+        </div>
+        <div>
+          <dt>{t('created.username')}</dt>
+          <dd>{name}</dd>
         </div>
       </dl>
       <p className="notice warn">{t('created.once')}</p>

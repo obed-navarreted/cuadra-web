@@ -60,6 +60,10 @@
       "title": "A phone has not synced",
       "body": "{{deviceName}} has {{pending}} operations waiting."
     },
+    "PIN_LOCKOUT_BUSINESS": {
+      "title": "Code sign-in paused",
+      "body": "10 wrong PINs were tried with the business code. Nobody can sign in with code and PIN for 15 minutes."
+    },
     "PIN_LOCKOUT": {
       "title": "PIN locked",
       "body": "{{memberName}} entered the wrong PIN several times."

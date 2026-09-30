@@ -63,19 +63,19 @@ export function formatAccessCode(raw: string | null | undefined): string {
 
 type Translate = (key: string, options?: Record<string, unknown>) => string
 
-/** Mensaje listo para compartir el acceso al negocio (sin usuario ni PIN: cada persona ya conoce los suyos). */
+/** Mensaje listo para compartir el acceso al negocio (sin PIN: cada persona ya conoce el suyo). */
 export function accessShareMessage(t: Translate, businessName: string, code: string): string {
   return t('accessCode.shareMessage', { business: businessName, code: normalizeAccessCode(code) })
 }
 
-/** Mensaje para una persona recién creada: negocio, código, usuario y PIN. */
-export function credentialsMessage(t: Translate, businessName: string, code: string, username: string, pin: string): string {
-  return t('created.message', { business: businessName, code: normalizeAccessCode(code), username, pin })
+/** Mensaje para una persona recién creada: negocio, código y PIN (su nombre, de referencia). */
+export function credentialsMessage(t: Translate, businessName: string, code: string, name: string, pin: string): string {
+  return t('created.message', { business: businessName, code: normalizeAccessCode(code), name, pin })
 }
 
 export type NewMemberIssue = 'name' | 'pin' | 'pinMismatch'
 
-/** Qué falta para poder crear a la persona (null si todo está bien). El nombre es su usuario: no puede estar vacío. */
+/** Qué falta para poder crear a la persona (null si todo está bien). El nombre no puede estar vacío. */
 export function newMemberIssue(name: string, pin: string, pin2: string): NewMemberIssue | null {
   if (name.trim().length === 0) return 'name'
   if (!isValidPin(pin)) return 'pin'

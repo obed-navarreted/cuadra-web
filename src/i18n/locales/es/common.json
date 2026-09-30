@@ -60,6 +60,7 @@
     "USE_OWNER_TRANSFER": "Para dar la propiedad a otra persona usa «Pasar la propiedad» en Ajustes.",
     "INVALID_PIN": "El PIN debe tener exactamente 5 números.",
     "NAME_TAKEN": "Ya hay alguien con ese nombre en este negocio.",
+    "PIN_TAKEN": "Ese PIN ya lo usa otra persona del negocio. Elige otro.",
     "ACCESS_CODE_TAKEN": "Ese código ya lo usa otro negocio, prueba con otro",
     "INVALID_ACCESS_CODE": "El código debe tener 5 números y no empezar en 0."
   },
@@ -122,8 +123,8 @@
       "Si tienes un negocio: en la app ve a Más › Ajustes del negocio › «Eliminar negocio» (o en el panel web: Ajustes › Zona de peligro). Confirma escribiendo el nombre del negocio. El negocio deja de funcionar de inmediato en todos los teléfonos y todos sus datos (ventas, productos, clientes, fiados, gastos, equipo) se borran definitivamente a los 30 días.",
       "Después, en la app ve a Más › Mi cuenta › «Eliminar mi cuenta» (o en el panel web: menú › «Eliminar mi cuenta»). Se borran tu nombre, tu correo y tu foto y se cierran todas tus sesiones."
     ],
-    "teamTitle": "Si eres parte de un equipo (entras con código del negocio, usuario y PIN)",
-    "teamBody": "No tienes una cuenta propia: tu usuario lo creó el dueño del negocio. Para eliminarlo, pide al dueño o a un administrador que te dé de baja en Más › Equipo. Tu nombre deja de poder entrar; las ventas que registraste se conservan en los libros del negocio.",
+    "teamTitle": "Si eres parte de un equipo (entras con código del negocio y PIN)",
+    "teamBody": "No tienes una cuenta propia: tu acceso lo creó el dueño del negocio. Para eliminarlo, pide al dueño o a un administrador que te dé de baja en Más › Equipo. Tu nombre deja de poder entrar; las ventas que registraste se conservan en los libros del negocio.",
     "dataTitle": "Qué se borra y qué se conserva",
     "dataBody": "Al eliminar un negocio se borra todo lo suyo a los 30 días. Al eliminar tu cuenta se borran tus datos personales de inmediato. Solo se conserva, por seguridad y obligaciones legales:",
     "keptItems": [

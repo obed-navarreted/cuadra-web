@@ -2836,7 +2836,7 @@ export interface components {
             model?: string | null;
             osVersion?: string | null;
             pin: string | null;
-            username: string | null;
+            username?: string | null;
         };
         MemberLoginResult: {
             /** Format: uuid */

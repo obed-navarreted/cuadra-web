@@ -91,6 +91,20 @@ describe('bandeja', () => {
     expect(screen.getByText(/Una venta de .*40\.00 de Lucía chocó/)).toBeInTheDocument()
   })
 
+  it('PIN bloqueado: de una persona (con nombre) o de todo el negocio (sin nombre)', async () => {
+    api.responses[NOTIFS] = {
+      last: true,
+      items: [
+        { id: 'l1', type: 'PIN_LOCKOUT', args: { memberName: 'Kevin' }, createdAt: '2026-09-29T02:00:00Z', push: true, rev: 1 },
+        { id: 'l2', type: 'PIN_LOCKOUT', args: { scope: 'BUSINESS' }, createdAt: '2026-09-29T02:00:00Z', push: true, rev: 2 },
+      ],
+    }
+    renderPanel(<AvisosPage />)
+    expect(await screen.findByText('Kevin se equivocó varias veces con el PIN.')).toBeInTheDocument()
+    expect(screen.getByText('Entrada con código en pausa')).toBeInTheDocument()
+    expect(screen.getByText(/Se probaron 10 PIN incorrectos con el código del negocio/)).toBeInTheDocument()
+  })
+
   it('un aviso de un tipo desconocido muestra el texto del servidor', async () => {
     api.responses[NOTIFS] = { last: true, items: [{ id: 'n1', type: 'FUTURE_TYPE', title: 'Novedad', body: 'Algo nuevo', args: {}, createdAt: '2026-09-29T02:00:00Z', push: true, rev: 1 }] }
     renderPanel(<AvisosPage />)

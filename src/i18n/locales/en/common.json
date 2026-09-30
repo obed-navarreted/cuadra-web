@@ -60,6 +60,7 @@
     "USE_OWNER_TRANSFER": "To hand ownership to someone else use the ownership transfer in Settings.",
     "INVALID_PIN": "The PIN must be exactly 5 digits.",
     "NAME_TAKEN": "There is already someone with that name in this business.",
+    "PIN_TAKEN": "Someone else in this business already uses that PIN. Pick another.",
     "ACCESS_CODE_TAKEN": "That code is already used by another business, try another one",
     "INVALID_ACCESS_CODE": "The code must be 5 digits and not start with 0."
   },
@@ -122,8 +123,8 @@
       "If you have a business: in the app go to More › Business settings › \"Delete business\" (or in the web panel: Settings › Danger zone). Confirm by typing the business name. The business stops working immediately on every phone and all its data (sales, products, customers, credit, expenses, team) is permanently erased after 30 days.",
       "Then, in the app go to More › My account › \"Delete my account\" (or in the web panel: menu › \"Delete my account\"). Your name, email and photo are deleted and all your sessions are closed."
     ],
-    "teamTitle": "If you are part of a team (you sign in with the business code, username and PIN)",
-    "teamBody": "You do not have an account of your own: the business owner created your user. To delete it, ask the owner or an admin to deactivate you in More › Team. Your name can no longer sign in; the sales you recorded stay in the business's books.",
+    "teamTitle": "If you are part of a team (you sign in with the business code and PIN)",
+    "teamBody": "You do not have an account of your own: the business owner created your access. To delete it, ask the owner or an admin to deactivate you in More › Team. Your name can no longer sign in; the sales you recorded stay in the business's books.",
     "dataTitle": "What is deleted and what is kept",
     "dataBody": "Deleting a business erases everything that belongs to it after 30 days. Deleting your account removes your personal data immediately. Only this is kept, for security and legal obligations:",
     "keptItems": [

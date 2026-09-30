@@ -34,7 +34,7 @@
     "title": "Preguntas frecuentes",
     "link": {
       "q": "¿Cómo agrego a mi equipo?",
-      "a": "Agrega a tu equipo con nombre y PIN de 5 números; cada persona entra desde su teléfono con el código del negocio, su usuario (su nombre) y su PIN. Solo el dueño entra con Google."
+      "a": "Agrega a tu equipo con nombre y PIN de 5 números; cada persona entra desde su teléfono con el código del negocio y su PIN (el PIN dice quién es, así que no se repite dentro del negocio). Solo el dueño entra con Google."
     },
     "offline": {
       "q": "¿Qué pasa si se cae el internet?",

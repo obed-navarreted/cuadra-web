@@ -71,7 +71,7 @@ describe('equipo', () => {
     renderAs(<MembersView />, 'OWNER')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
     fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
-    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Rosa' } })
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: 'Rosa' } })
     fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '48213' } })
     fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '48213' } })
     fireEvent.click(screen.getByRole('button', { name: 'Crear persona' }))
@@ -82,7 +82,7 @@ describe('equipo', () => {
     renderAs(<MembersView />, 'OWNER')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
     fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
-    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Rosa' } })
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: 'Rosa' } })
     fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '12' } })
     const create = screen.getByRole('button', { name: 'Crear persona' })
     expect(create).toBeDisabled()
@@ -101,7 +101,7 @@ describe('equipo', () => {
     expect(create).toBeEnabled()
     fireEvent.click(create)
     await waitFor(() => expect(api.createMember).toHaveBeenCalledWith('b1', { displayName: 'Rosa', role: 'CASHIER', pin: '48213', mustChangePin: true }))
-    // Tarjeta de confirmación: negocio, código, usuario y PIN.
+    // Tarjeta de confirmación: negocio, código y PIN (el nombre, de referencia).
     await waitFor(() => expect(screen.getByText('48213')).toBeInTheDocument())
     expect(screen.getByText('13085')).toBeInTheDocument()
     expect(screen.getByText('Rosa', { selector: 'dd' })).toBeInTheDocument()
@@ -109,7 +109,7 @@ describe('equipo', () => {
     const writeText = vi.fn(async () => undefined)
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
     fireEvent.click(screen.getByRole('button', { name: 'Copiar datos' }))
-    await waitFor(() => expect(writeText).toHaveBeenCalledWith('Para entrar a Negocio en la app Cuentiva: código 13085, usuario Rosa, PIN 48213.'))
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('Rosa: para entrar a Negocio en la app Cuentiva usa el código 13085 y tu PIN 48213.'))
   })
 
   it('NAME_TAKEN se explica al crear y al renombrar', async () => {
@@ -118,7 +118,7 @@ describe('equipo', () => {
     renderAs(<MembersView />, 'OWNER')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
     fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
-    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Kevin' } })
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: 'Kevin' } })
     fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '48213' } })
     fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '48213' } })
     fireEvent.click(screen.getByRole('button', { name: 'Crear persona' }))
@@ -126,15 +126,28 @@ describe('equipo', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
     vi.mocked(api.updateMember).mockRejectedValueOnce(new ApiError(409, 'NAME_TAKEN', 'x'))
     fireEvent.click(within(screen.getAllByRole('row')[2]).getByRole('button', { name: 'Editar' }))
-    fireEvent.change(screen.getByLabelText(/^Nombre \(es su usuario\)/), { target: { value: 'Kevin' } })
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: 'Kevin' } })
     fireEvent.click(screen.getByRole('button', { name: 'Guardar' }))
     expect(await screen.findByText('Ya hay alguien con ese nombre en este negocio.')).toBeInTheDocument()
   })
 
-  it('la columna se llama Usuario y no hay pestaña de invitaciones', async () => {
+  it('PIN_TAKEN se explica al crear: el PIN no se repite dentro del negocio', async () => {
+    const { ApiError } = await import('../../api/http')
+    vi.mocked(api.createMember).mockRejectedValueOnce(new ApiError(409, 'PIN_TAKEN', 'x'))
+    renderAs(<MembersView />, 'OWNER')
+    await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
+    fireEvent.click(screen.getByRole('button', { name: 'Agregar persona' }))
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: 'Rosa' } })
+    fireEvent.change(screen.getByLabelText(/^PIN \(5 números\)/), { target: { value: '00001' } })
+    fireEvent.change(screen.getByLabelText('Repetir PIN'), { target: { value: '00001' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Crear persona' }))
+    expect(await screen.findByText('Ese PIN ya lo usa otra persona del negocio. Elige otro.')).toBeInTheDocument()
+  })
+
+  it('la columna se llama Nombre y no hay pestaña de invitaciones', async () => {
     renderAs(<EquipoPage />, 'OWNER')
     await waitFor(() => expect(screen.getByText('Kevin')).toBeInTheDocument())
-    expect(screen.getByRole('columnheader', { name: 'Usuario' })).toBeInTheDocument()
+    expect(screen.getByRole('columnheader', { name: 'Nombre' })).toBeInTheDocument()
     expect(screen.queryByRole('tab', { name: 'Invitaciones' })).not.toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'Teléfonos' })).toBeInTheDocument()
   })
@@ -157,14 +170,14 @@ describe('equipo', () => {
     Object.defineProperty(navigator, 'share', { value: share, configurable: true })
     const { unmount } = renderAs(<AccessCodeCard />, 'OWNER')
     fireEvent.click(screen.getByRole('button', { name: 'Compartir' }))
-    await waitFor(() => expect(share).toHaveBeenCalledWith({ title: 'Acceso a Negocio', text: 'Para entrar a Negocio en la app Cuentiva: código 13085, tu usuario y tu PIN.' }))
+    await waitFor(() => expect(share).toHaveBeenCalledWith({ title: 'Acceso a Negocio', text: 'Para entrar a Negocio en la app Cuentiva: código 13085 y tu PIN.' }))
     unmount()
     Object.defineProperty(navigator, 'share', { value: undefined, configurable: true })
     const writeText = vi.fn(async () => undefined)
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
     renderAs(<AccessCodeCard />, 'OWNER')
     fireEvent.click(screen.getByRole('button', { name: 'Compartir' }))
-    await waitFor(() => expect(writeText).toHaveBeenCalledWith('Para entrar a Negocio en la app Cuentiva: código 13085, tu usuario y tu PIN.'))
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('Para entrar a Negocio en la app Cuentiva: código 13085 y tu PIN.'))
   })
 
   it('renovar pide confirmación y llama a la API; cancelar no hace nada', async () => {

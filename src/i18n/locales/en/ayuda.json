@@ -34,7 +34,7 @@
     "title": "Frequently asked questions",
     "link": {
       "q": "How do I add my team?",
-      "a": "Add your team with a name and a 5-digit PIN; each person signs in from their own phone with the business code, their username (their name) and their PIN. Only the owner signs in with Google."
+      "a": "Add your team with a name and a 5-digit PIN; each person signs in from their own phone with the business code and their PIN (the PIN tells who they are, so it cannot repeat inside the business). Only the owner signs in with Google."
     },
     "offline": {
       "q": "What happens if the internet goes down?",

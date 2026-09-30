@@ -60,6 +60,10 @@
       "title": "Un teléfono no ha sincronizado",
       "body": "{{deviceName}} tiene {{pending}} operaciones sin enviar."
     },
+    "PIN_LOCKOUT_BUSINESS": {
+      "title": "Entrada con código en pausa",
+      "body": "Se probaron 10 PIN incorrectos con el código del negocio. Nadie puede entrar con código y PIN durante 15 minutos."
+    },
     "PIN_LOCKOUT": {
       "title": "PIN bloqueado",
       "body": "{{memberName}} se equivocó varias veces con el PIN."

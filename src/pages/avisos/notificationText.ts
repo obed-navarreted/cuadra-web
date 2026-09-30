@@ -48,7 +48,8 @@ export function notificationText(t: TFunction, n: NotificationView, f: Formatter
     lateAmount: f.money(num(a, 'amountMinor')),
   }
   // Cambio de precio: el texto dice el antes y el después si cambió el precio; si solo cambió el costo, lo dice así.
-  const key = type === 'PRICE_CHANGED' && a?.toPriceMinor == null ? 'PRICE_CHANGED_COST' : type
+  // Bloqueo de la entrada con código de TODO el negocio (10 PIN incorrectos): no trae nombre, nadie sabe quién se equivocó.
+  const key = type === 'PRICE_CHANGED' && a?.toPriceMinor == null ? 'PRICE_CHANGED_COST' : type === 'PIN_LOCKOUT' && str(a, 'scope') === 'BUSINESS' ? 'PIN_LOCKOUT_BUSINESS' : type
   return { title: t(`avisos:text.${key}.title`, p), body: t(`avisos:text.${key}.body`, p) }
 }
 
