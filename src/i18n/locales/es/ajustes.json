@@ -109,7 +109,15 @@
     "SHIFT_NOTE": "El monto no es válido para la moneda.",
     "CURRENCY": "La moneda es un código de 3 letras, como NIO o USD."
   },
+  "queue": {
+    "title": "¿Desactivar el cobro en caja?",
+    "body_other": "Hay {{count}} cuentas por cobrar en caja ({{amount}}). Si desactivas el cobro en caja, se anularán. ¿Desactivar?",
+    "body_one": "Hay {{count}} cuenta por cobrar en caja ({{amount}}). Si desactivas el cobro en caja, se anulará. ¿Desactivar?",
+    "cancel": "Cancelar",
+    "confirm": "Desactivar y anular"
+  },
   "err": {
+    "REGISTER_QUEUE_BUSY": "Alguien está cobrando una cuenta en este momento; intenta en un momento.",
     "INVALID_TIMEZONE": "La zona horaria no es válida.",
     "INVALID_DAY_CUTOFF": "La hora de corte no es válida.",
     "INVALID_MODULE": "Ese módulo no existe.",

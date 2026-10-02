@@ -8,7 +8,8 @@ vi.mock('../../api/http', () => ({
   client: { GET: (path: string, opts?: { params?: { query?: Record<string, unknown> } }) => ({ path, query: opts?.params?.query }) },
   call: async (r: { path: string; query?: Record<string, unknown> }) => {
     mocks.calls.push(r)
-    return mocks.responses[r.path]
+    const v = mocks.responses[r.path]
+    return typeof v === 'function' ? (v as (q?: Record<string, unknown>) => unknown)(r.query) : v
   },
   downloadFile: mocks.download,
   ApiError: class extends Error {},
@@ -93,6 +94,28 @@ describe('Reportes', () => {
     expect(screen.getByText('68 %')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('tab', { name: 'Por hora' }))
     await waitFor(() => expect(mocks.calls.some((c) => c.path === P('sales/breakdown') && c.query?.by === 'hour')).toBe(true))
+  })
+
+  it('ventas: «Promedio por venta» (no «ticket») y el control Cobró / Atendió pide member_served', async () => {
+    const charged = [{ key: 'l', label: 'Lucía', count: 3, totalMinor: 30000 }, { key: 'k', label: 'Kevin', count: 1, totalMinor: 10000 }]
+    const served = [{ key: 'k', label: 'Kevin', count: 3, totalMinor: 30000 }, { key: 'l', label: 'Lucía', count: 1, totalMinor: 10000 }]
+    mocks.responses[P('sales/breakdown')] = (q?: Record<string, unknown>) => (q?.by === 'member_served' ? served : charged)
+    await open('sales')
+    expect(await screen.findByText('Promedio por venta')).toBeInTheDocument()
+    expect(screen.queryByText(/ticket/i)).toBeNull()
+    expect(await screen.findByText('Lucía')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('tab', { name: 'Atendió' }))
+    await waitFor(() => expect(mocks.calls.some((c) => c.path === P('sales/breakdown') && c.query?.by === 'member_served')).toBe(true))
+    expect(await screen.findByText('Quién tomó la cuenta o la envió a caja.')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('tab', { name: 'Por método de pago' }))
+    await waitFor(() => expect(screen.queryByRole('tab', { name: 'Atendió' })).toBeNull())
+  })
+
+  it('ventas: sin diferencia entre quien cobró y quien atendió no hay control', async () => {
+    mocks.responses[P('sales/breakdown')] = [{ key: 'k', label: 'Kevin', count: 2, totalMinor: 30000 }]
+    await open('sales')
+    expect(await screen.findByText('Kevin')).toBeInTheDocument()
+    expect(screen.queryByRole('tab', { name: 'Atendió' })).toBeNull()
   })
 
   it('ganancia: muestra la fórmula traducida y NO el texto del servidor, con el desglose', async () => {

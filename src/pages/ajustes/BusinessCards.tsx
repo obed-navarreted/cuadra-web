@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ApiError, call, client } from '../../api/http'
 import { useAuth, useBusiness } from '../../auth/context'
+import { Modal } from '../../components/Modal'
 import { Button, Card, Field } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
@@ -16,6 +17,8 @@ function useSaver() {
   const { reloadBusiness } = useAuth()
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null)
+  // Apagar «Cobro en caja» con cuentas por cobrar: el servidor pide confirmar antes de anularlas (ADR 0015).
+  const [queue, setQueue] = useState<{ count: number; totalMinor: number } | null>(null)
   async function save(body: UpdateBusiness): Promise<boolean> {
     setSaving(true)
     setMessage(null)
@@ -25,13 +28,17 @@ function useSaver() {
       setMessage({ tone: 'ok', text: t('saved') })
       return true
     } catch (e) {
+      if (e instanceof ApiError && e.code === 'REGISTER_QUEUE_NOT_EMPTY') {
+        setQueue({ count: e.count ?? 0, totalMinor: e.totalMinor ?? 0 })
+        return false
+      }
       setMessage({ tone: 'error', text: e instanceof ApiError ? t(`err.${e.code}`, { defaultValue: errorText(t, e) }) : errorText(t, e) })
       return false
     } finally {
       setSaving(false)
     }
   }
-  return { saving, message, save, clear: () => setMessage(null) }
+  return { saving, message, save, queue, dismissQueue: () => setQueue(null), clear: () => setMessage(null) }
 }
 
 function Notice({ message }: { message: { tone: 'ok' | 'error'; text: string } | null }) {
@@ -72,7 +79,7 @@ export function BusinessCards() {
   const { t, i18n } = useTranslation('ajustes')
   const { isOwner } = useAuth()
   const { business } = useBusiness()
-  const { day } = useFormat()
+  const { day, money } = useFormat()
   const currency = business.currency ?? 'USD'
   const [form, setForm] = useState<Form>(() => formOf(business))
   const [tried, setTried] = useState(false)
@@ -99,6 +106,10 @@ export function BusinessCards() {
     setTried(true)
     if (error || !dirty) return
     if (await data.save(patch)) setTried(false)
+  }
+  async function confirmDiscard() {
+    data.dismissQueue()
+    if (await data.save({ ...patch, confirmDiscardPending: true })) setTried(false)
   }
 
   // Una sola barra de guardado para todo el formulario: aparece cuando hay cambios y se queda fija abajo (también en el celular).
@@ -262,6 +273,15 @@ export function BusinessCards() {
       </Card>
       )}
       {saveBar}
+      <Modal open={data.queue != null} title={t('queue.title')} onClose={data.dismissQueue}>
+        <p>{t('queue.body', { count: data.queue?.count ?? 0, amount: money(data.queue?.totalMinor ?? 0) })}</p>
+        <div className="row">
+          <Button onClick={data.dismissQueue}>{t('queue.cancel')}</Button>
+          <Button kind="danger" disabled={data.saving} onClick={() => void confirmDiscard()}>
+            {t('queue.confirm')}
+          </Button>
+        </div>
+      </Modal>
     </>
   )
 }

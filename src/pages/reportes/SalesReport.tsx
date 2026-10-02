@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { call, client } from '../../api/http'
+import { useBusiness } from '../../auth/context'
 import { DataTable } from '../../components/DataTable'
 import { Card, ErrorNotice, Kpi, Spinner, Tabs } from '../../components/ui'
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
 import type { DateRange } from '../../lib/dates'
 import { Bar, CsvButton } from './shared'
-import { barPercent, share, type BreakdownRow } from './logic'
+import { barPercent, share, showServedToggle, type BreakdownRow } from './logic'
 
 type By = 'member' | 'register' | 'method' | 'hour' | 'day'
 const BY: By[] = ['member', 'register', 'method', 'hour', 'day']
@@ -19,19 +20,27 @@ const NO_SALES = { count: 0, totalMinor: 0, discountMinor: 0, averageTicketMinor
 export function SalesReport({ businessId, range }: { businessId: string; range: DateRange }) {
   const { t } = useTranslation('reportes')
   const { money, day } = useFormat()
+  const { business } = useBusiness()
   const [by, setBy] = useState<By>('member')
+  // «Cobró / Atendió» solo en «Por persona»: quien cobró la venta (member) o quien la atendió (member_served).
+  const [served, setServed] = useState(false)
   const q = { from: range.from, to: range.to }
   const state = useAsync(async () => {
-    const [summary, rows] = await Promise.all([
+    const get = (b: string) => call(client.GET('/api/b/{businessId}/reports/sales/breakdown', { params: { path: { businessId }, query: { by: b, ...q } } }))
+    const [summary, rows, other] = await Promise.all([
       call(client.GET('/api/b/{businessId}/reports/sales', { params: { path: { businessId }, query: q } })),
-      call(client.GET('/api/b/{businessId}/reports/sales/breakdown', { params: { path: { businessId }, query: { by, ...q } } })),
+      get(by === 'member' && served ? 'member_served' : by),
+      // Para saber si hay ventas atendidas por una persona y cobradas por otra, aunque el negocio no use «Cobro en caja».
+      by === 'member' ? get(served ? 'member' : 'member_served') : Promise.resolve(undefined),
     ])
-    return { sales: summary.sales ?? NO_SALES, rows }
-  }, [businessId, range.from, range.to, by])
+    return { sales: summary.sales ?? NO_SALES, rows, other }
+  }, [businessId, range.from, range.to, by, served])
 
   if (state.error) return <ErrorNotice error={state.error} onRetry={state.reload} />
   if (!state.data) return <Spinner />
-  const { sales, rows } = state.data
+  const { sales, rows, other } = state.data
+  const showToggle = by === 'member' && showServedToggle(business.registerCheckout === true, served ? other : rows, served ? rows : other)
+  const effectiveBy = by === 'member' && served ? 'member_served' : by
   const total = rows.reduce((s, r) => s + r.totalMinor, 0)
   const max = Math.max(0, ...rows.map((r) => r.totalMinor))
   const label = (r: BreakdownRow) => (by === 'method' ? t(`methods.${r.key}`, { defaultValue: r.label ?? '' }) : by === 'day' ? day(r.key ?? '') : (r.label ?? '—'))
@@ -49,13 +58,26 @@ export function SalesReport({ businessId, range }: { businessId: string; range: 
         title={t(`sales.by.${by}`)}
         actions={
           <span className="report-actions">
-            <CsvButton path={`${base}/sales/breakdown.csv`} params={{ by, ...q }} label={t('csv.breakdown')} />
+            <CsvButton path={`${base}/sales/breakdown.csv`} params={{ by: effectiveBy, ...q }} label={t('csv.breakdown')} />
             <CsvButton path={`${base}/sales.csv`} params={q} label={t('csv.sales')} />
             <CsvButton path={`${base}/sale-items.csv`} params={q} label={t('csv.items')} />
           </span>
         }
       >
         <Tabs value={by} onChange={setBy} items={BY.map((k) => ({ key: k, label: t(`sales.by.${k}`) }))} />
+        {showToggle && (
+          <>
+            <Tabs
+              value={served ? 'served' : 'charged'}
+              onChange={(k) => setServed(k === 'served')}
+              items={[
+                { key: 'charged', label: t('sales.charged') },
+                { key: 'served', label: t('sales.served') },
+              ]}
+            />
+            <p className="report-note">{t(served ? 'sales.servedHelp' : 'sales.chargedHelp')}</p>
+          </>
+        )}
         <DataTable
           columns={[
             { key: 'group', header: t('sales.group'), className: 'name-cell', cell: (r: BreakdownRow) => label(r) },

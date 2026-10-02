@@ -14,16 +14,21 @@ vi.mock('../../api/http', () => {
       api.calls.push(r)
       const v = api.responses[`${r.method} ${r.path}`]
       if (v instanceof Error) throw v
+      if (typeof v === 'function') return (v as (c: unknown) => unknown)(r)
       return v
     },
     downloadFile: vi.fn(),
     ApiError: class ApiError extends Error {
       code: string
       status: number
-      constructor(status: number, code: string, message: string) {
+      count?: number
+      totalMinor?: number
+      constructor(status: number, code: string, message: string, extra: { count?: number; totalMinor?: number } = {}) {
         super(message)
         this.status = status
         this.code = code
+        this.count = extra.count
+        this.totalMinor = extra.totalMinor
       }
     },
   }
@@ -118,6 +123,25 @@ describe('ajustes del negocio', () => {
     expect(screen.getByText('Historial de reglas de la jornada')).toBeInTheDocument()
     expect(screen.getByText('Desde el inicio')).toBeInTheDocument()
     expect(screen.getByText('corte 04:00')).toBeInTheDocument()
+  })
+
+  it('apagar el cobro en caja con cuentas pendientes pide confirmar y reenvía con la bandera', async () => {
+    const { ApiError } = await import('../../api/http')
+    api.responses['PUT /api/b/{businessId}'] = (r: Call) => {
+      if (r.opts?.body?.confirmDiscardPending !== true) throw new ApiError(409, 'REGISTER_QUEUE_NOT_EMPTY', 'x', { count: 2, totalMinor: 15000 } as never)
+      return {}
+    }
+    renderPanel(<AjustesPage />, { business: { registerCheckout: true } })
+    fireEvent.click(screen.getByLabelText(/^Cobro en caja/))
+    fireEvent.click(screen.getAllByRole('button', { name: 'Guardar cambios' })[0])
+    expect(await screen.findByText(/Hay 2 cuentas por cobrar en caja \(.*150.*\)\. Si desactivas el cobro en caja, se anularán/)).toBeInTheDocument()
+    expect(put()?.opts?.body).toEqual({ registerCheckout: false })
+    // Cancelar no manda nada más.
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
+    expect(calls().filter((c) => c.method === 'PUT')).toHaveLength(1)
+    fireEvent.click(screen.getAllByRole('button', { name: 'Guardar cambios' })[0])
+    fireEvent.click(await screen.findByRole('button', { name: 'Desactivar y anular' }))
+    await waitFor(() => expect(calls().filter((c) => c.method === 'PUT').at(-1)?.opts?.body).toEqual({ registerCheckout: false, confirmDiscardPending: true }))
   })
 
   it('un error del servidor se explica por su código', async () => {

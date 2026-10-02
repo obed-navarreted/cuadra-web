@@ -109,7 +109,15 @@
     "SHIFT_NOTE": "The amount is not valid for the currency.",
     "CURRENCY": "The currency is a 3-letter code, like NIO or USD."
   },
+  "queue": {
+    "title": "Turn off register checkout?",
+    "body_other": "There are {{count}} tickets to collect at the register ({{amount}}). If you turn register checkout off, they will be cancelled. Turn it off?",
+    "body_one": "There are {{count}} ticket to collect at the register ({{amount}}). If you turn register checkout off, it will be cancelled. Turn it off?",
+    "cancel": "Cancel",
+    "confirm": "Turn off and cancel"
+  },
   "err": {
+    "REGISTER_QUEUE_BUSY": "Someone is charging a ticket right now; try again in a moment.",
     "INVALID_TIMEZONE": "The time zone is not valid.",
     "INVALID_DAY_CUTOFF": "The cutoff time is not valid.",
     "INVALID_MODULE": "That module does not exist.",

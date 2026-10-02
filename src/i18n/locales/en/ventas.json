@@ -31,7 +31,7 @@
     "sales": "Sales in the period",
     "count_one": "{{count}} sale",
     "count_other": "{{count}} sales",
-    "ticket": "Average ticket",
+    "ticket": "Average per sale",
     "discounts": "Discounts",
     "cancelled": "Deleted sales",
     "net": "Net for the period",
@@ -140,5 +140,17 @@
     "lockedBy": "{{name}} is charging it",
     "summary_one": "{{count}} ticket · {{amount}}",
     "summary_other": "{{count}} tickets · {{amount}}"
+  },
+  "people": {
+    "title": "By person",
+    "charged": "Charged",
+    "served": "Served",
+    "chargedHelp": "Who charged each sale at the register.",
+    "servedHelp": "Who took the order or sent it to the register.",
+    "sales_one": "{{count}} sale · {{percent}} %",
+    "sales_other": "{{count}} sales · {{percent}} %",
+    "showAll": "See all ({{count}})",
+    "showLess": "Show less",
+    "filterHint": "Tap a person to filter the list; tap again to clear the filter."
   }
 }

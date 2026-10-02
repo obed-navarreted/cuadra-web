@@ -31,7 +31,7 @@
     "sales": "Ventas del periodo",
     "count_one": "{{count}} venta",
     "count_other": "{{count}} ventas",
-    "ticket": "Ticket promedio",
+    "ticket": "Promedio por venta",
     "discounts": "Descuentos",
     "cancelled": "Ventas eliminadas",
     "net": "Neto del periodo",
@@ -140,5 +140,17 @@
     "lockedBy": "La está cobrando {{name}}",
     "summary_one": "{{count}} cuenta · {{amount}}",
     "summary_other": "{{count}} cuentas · {{amount}}"
+  },
+  "people": {
+    "title": "Por persona",
+    "charged": "Cobró",
+    "served": "Atendió",
+    "chargedHelp": "Quién cobró cada venta en la caja.",
+    "servedHelp": "Quién tomó la cuenta o la envió a caja.",
+    "sales_one": "{{count}} venta · {{percent}} %",
+    "sales_other": "{{count}} ventas · {{percent}} %",
+    "showAll": "Ver todos ({{count}})",
+    "showLess": "Ver menos",
+    "filterHint": "Toca una persona para filtrar la lista; vuelve a tocarla para quitar el filtro."
   }
 }

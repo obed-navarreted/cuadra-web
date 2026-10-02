@@ -23,8 +23,18 @@ const queued = {
   items: [{ id: 'i9', name: 'Cerveza', quantityMilli: 2000, unitPriceMinor: 6000, discountMinor: 0, lineTotalMinor: 12000 }], payments: [],
 }
 
-function serve(queue: unknown[] = [], rows: unknown[] = [sale]) {
-  vi.mocked(client.GET).mockImplementation(((path: string) => {
+const charged = [
+  { key: 'l', label: 'Lucía', count: 3, totalMinor: 30000 },
+  { key: 'k', label: 'Kevin', count: 1, totalMinor: 10000 },
+]
+const served = [
+  { key: 'k', label: 'Kevin', count: 3, totalMinor: 30000 },
+  { key: 'l', label: 'Lucía', count: 1, totalMinor: 10000 },
+]
+
+function serve(queue: unknown[] = [], rows: unknown[] = [sale], people: { charged: unknown[]; served: unknown[] } = { charged, served }) {
+  vi.mocked(client.GET).mockImplementation(((path: string, opts?: { params?: { query?: { by?: string } } }) => {
+    if (path.endsWith('/reports/sales/breakdown')) return ok(opts?.params?.query?.by === 'member_served' ? people.served : people.charged)
     if (path.endsWith('/register-queue')) return ok(queue)
     if (path.endsWith('/members')) return ok([{ id: 'k', displayName: 'Kevin' }])
     if (path.endsWith('/reports/sales')) return ok({ sales: { count: 1, totalMinor: 8500, discountMinor: 0, averageTicketMinor: 8500, cancelledCount: 2 }, byMethod: [{ method: 'CASH', amountMinor: 5000 }, { method: 'CREDIT', amountMinor: 3500 }] })
@@ -47,6 +57,65 @@ describe('Ventas', () => {
     expect(screen.getAllByText(/85\.00/).length).toBeGreaterThan(0)
     // Ventas eliminadas del periodo viene del reporte, no de la página.
     expect(await screen.findByText('Ventas eliminadas')).toBeInTheDocument()
+  })
+
+  it('«Promedio por venta» reemplaza al confuso «ticket»', async () => {
+    renderPanel(<VentasPage />)
+    expect(await screen.findByText('Promedio por venta')).toBeInTheDocument()
+    expect(screen.queryByText(/ticket promedio/i)).toBeNull()
+  })
+
+  it('«Por persona»: ordenadas con su porcentaje, y tocar una persona filtra la lista (otra vez la quita)', async () => {
+    renderPanel(<VentasPage />)
+    expect(await screen.findByText('Por persona', { selector: 'h2' })).toBeInTheDocument()
+    const rows = await screen.findAllByRole('button', { pressed: false })
+    const names = rows.filter((b) => b.classList.contains('people-row')).map((b) => b.querySelector('.people-name')?.textContent)
+    expect(names).toEqual(['Lucía', 'Kevin'])
+    expect(screen.getByText('3 ventas · 75 %')).toBeInTheDocument()
+    expect(screen.getByText('1 venta · 25 %')).toBeInTheDocument()
+    // Sin «Cobro en caja» y con el mismo reparto de cobró y atendió… aquí difieren: el control aparece.
+    expect(screen.getByRole('tab', { name: 'Cobró' })).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Lucía').closest('button') as HTMLElement)
+    await waitFor(() => {
+      const calls = vi.mocked(client.GET).mock.calls.filter((c) => (c[0] as string).endsWith('/sales'))
+      const options = calls[calls.length - 1][1] as unknown as { params: { query: { byMember?: string } } }
+      expect(options.params.query.byMember).toBe('l')
+    })
+    expect(screen.getByText('Lucía').closest('button')).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.click(screen.getByText('Lucía').closest('button') as HTMLElement)
+    await waitFor(() => {
+      const calls = vi.mocked(client.GET).mock.calls.filter((c) => (c[0] as string).endsWith('/sales'))
+      const options = calls[calls.length - 1][1] as unknown as { params: { query: { byMember?: string } } }
+      expect(options.params.query.byMember).toBeUndefined()
+    })
+  })
+
+  it('«Por persona»: Cobró y Atendió muestran el reparto de cada uno', async () => {
+    renderPanel(<VentasPage />)
+    await screen.findByText('Por persona', { selector: 'h2' })
+    const first = () => Array.from(document.querySelectorAll('.people-row .people-name')).map((n) => n.textContent)
+    expect(first()).toEqual(['Lucía', 'Kevin'])
+    fireEvent.click(screen.getByRole('tab', { name: 'Atendió' }))
+    await waitFor(() => expect(first()).toEqual(['Kevin', 'Lucía']))
+    expect(screen.getByText('Quién tomó la cuenta o la envió a caja.')).toBeInTheDocument()
+  })
+
+  it('«Por persona»: sin diferencia entre quien cobró y quien atendió no hay control; con 12 personas, 5 y «Ver todos (12)»', async () => {
+    const twelve = Array.from({ length: 12 }, (_, i) => ({ key: `m${i}`, label: `Persona ${i + 1}`, count: 1, totalMinor: (12 - i) * 1000 }))
+    serve([], [sale], { charged: twelve, served: twelve })
+    renderPanel(<VentasPage />)
+    await screen.findByText('Por persona', { selector: 'h2' })
+    expect(screen.queryByRole('tab', { name: 'Cobró' })).toBeNull()
+    expect(document.querySelectorAll('.people-row')).toHaveLength(5)
+    fireEvent.click(screen.getByRole('button', { name: 'Ver todos (12)' }))
+    expect(document.querySelectorAll('.people-row')).toHaveLength(12)
+  })
+
+  it('«Por persona» no se muestra cuando el filtro es solo «eliminadas»', async () => {
+    renderPanel(<VentasPage />)
+    await screen.findByText('Por persona', { selector: 'h2' })
+    fireEvent.change(screen.getByLabelText('Estado'), { target: { value: 'CANCELLED' } })
+    await waitFor(() => expect(screen.queryByText('Por persona', { selector: 'h2' })).toBeNull())
   })
 
   it('muestra «Por cobrar en caja» (solo lectura) y quién atendió y quién cobró', async () => {

@@ -10,13 +10,18 @@ export class ApiError extends Error {
   /** Solo en `PLAN_LIMIT`: qué función topó (MEMBERS, DEVICES…) y el tope del plan. */
   readonly feature?: string
   readonly limit?: number
+  /** Solo en `REGISTER_QUEUE_NOT_EMPTY`: cuántas cuentas por cobrar en caja hay y cuánto suman. */
+  readonly count?: number
+  readonly totalMinor?: number
 
-  constructor(status: number, code: string, message: string, extra: { feature?: string; limit?: number } = {}) {
+  constructor(status: number, code: string, message: string, extra: { feature?: string; limit?: number; count?: number; totalMinor?: number } = {}) {
     super(message)
     this.status = status
     this.code = code
     this.feature = extra.feature
     this.limit = extra.limit
+    this.count = extra.count
+    this.totalMinor = extra.totalMinor
   }
 }
 
@@ -53,8 +58,8 @@ export async function call<T>(request: Promise<Reply<T>>): Promise<T> {
     throw new ApiError(0, 'OFFLINE', 'Cannot reach the server')
   }
   if (!reply.response.ok) {
-    const body = reply.error as { code?: string; detail?: string; feature?: string; limit?: number } | undefined
-    throw new ApiError(reply.response.status, body?.code ?? `HTTP_${reply.response.status}`, body?.detail ?? reply.response.statusText, { feature: body?.feature, limit: body?.limit })
+    const body = reply.error as { code?: string; detail?: string; feature?: string; limit?: number; count?: number; totalMinor?: number } | undefined
+    throw new ApiError(reply.response.status, body?.code ?? `HTTP_${reply.response.status}`, body?.detail ?? reply.response.statusText, { feature: body?.feature, limit: body?.limit, count: body?.count, totalMinor: body?.totalMinor })
   }
   return reply.data as T
 }

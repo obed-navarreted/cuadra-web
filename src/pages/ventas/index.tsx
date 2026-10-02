@@ -13,6 +13,7 @@ import type { DateRange } from '../../lib/dates'
 import { ReturnDialog } from './ReturnDialog'
 import { SaleDetail } from './SaleDetail'
 import { SaleTags } from './SaleTags'
+import { PeopleCard } from './PeopleCard'
 import { RegisterQueue } from './RegisterQueue'
 import { distinctMethods, METHODS, MIN_REASON, saleInstant, servedAndCharged, type SaleRow } from './types'
 import './ventas.css'
@@ -178,6 +179,7 @@ export default function VentasPage() {
           )}
         </div>
       )}
+      {status !== 'CANCELLED' && <PeopleCard businessId={businessId} range={range} registerCheckout={business.registerCheckout === true} selected={member} onSelect={reset(setMember)} refreshKey={report.data} />}
       {report.data && (report.data.byMethod?.length ?? 0) > 0 && (
         <Card title={t('byMethod')}>
           <div className="ventas-methods">

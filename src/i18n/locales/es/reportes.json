@@ -37,7 +37,7 @@
     "count": "Ventas",
     "total": "Total vendido",
     "discount": "Descuentos",
-    "ticket": "Ticket promedio",
+    "ticket": "Promedio por venta",
     "cancelled": "Ventas eliminadas",
     "by": {
       "member": "Por persona",
@@ -51,7 +51,11 @@
     "amount": "Total",
     "share": "% del total",
     "empty": "No hay ventas en este rango.",
-    "methodNote": "Un mismo pago mixto cuenta en cada método que usó, por lo que las ventas pueden sumar más que el total."
+    "methodNote": "Un mismo pago mixto cuenta en cada método que usó, por lo que las ventas pueden sumar más que el total.",
+    "charged": "Cobró",
+    "served": "Atendió",
+    "chargedHelp": "Quién cobró cada venta en la caja.",
+    "servedHelp": "Quién tomó la cuenta o la envió a caja."
   },
   "profit": {
     "formula": "ganancia = ventas − costo de lo vendido − gastos operativos (sin compras de mercadería ni retiros de caja)",

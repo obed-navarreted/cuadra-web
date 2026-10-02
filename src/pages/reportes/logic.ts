@@ -8,6 +8,27 @@ export function share(part: number, total: number): number {
   return total > 0 ? Math.round((100 * part) / total) : 0
 }
 
+/** Una fila del desglose por persona (lo mínimo que usa la lógica de «Cobró / Atendió»). */
+type PersonRow = { key?: string | null; count: number; totalMinor: number }
+
+/**
+ * ¿Se ofrece «Cobró / Atendió»? Si el negocio usa «Cobro en caja», o si en el rango alguna venta la atendió una persona y la cobró otra
+ * (los dos desgloses se reparten distinto).
+ */
+export function showServedToggle(registerCheckout: boolean, charged: PersonRow[] | undefined, served: PersonRow[] | undefined): boolean {
+  if (registerCheckout) return true
+  if (!charged || !served) return false
+  const sig = (rows: PersonRow[]) => rows.map((r) => `${r.key ?? ''}|${r.count}|${r.totalMinor}`).sort().join(';')
+  return sig(charged) !== sig(served)
+}
+
+/** Las primeras `limit` personas, de más a menos vendido; con 6 se ven las 6 (esconder una sola fila no ahorra nada). */
+export function topPeople<T extends { totalMinor: number }>(rows: T[], showAll: boolean, limit = 5): { shown: T[]; hidden: number } {
+  const sorted = [...rows].sort((a, b) => b.totalMinor - a.totalMinor)
+  if (showAll || sorted.length <= limit + 1) return { shown: sorted, hidden: 0 }
+  return { shown: sorted.slice(0, limit), hidden: sorted.length - limit }
+}
+
 /** Ancho de una barra respecto al mayor valor (nunca negativo ni mayor a 100). */
 export function barPercent(value: number, max: number): number {
   return max > 0 ? Math.max(0, Math.min(100, (100 * value) / max)) : 0

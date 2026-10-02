@@ -4176,6 +4176,7 @@ export interface components {
         UpdateBusiness: {
             clearCreditDefaultDueDays?: boolean | null;
             clearShiftNoteThreshold?: boolean | null;
+            confirmDiscardPending?: boolean | null;
             country?: string | null;
             /** Format: int32 */
             creditDefaultDueDays?: number | null;

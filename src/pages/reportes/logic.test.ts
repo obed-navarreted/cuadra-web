@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { plainAmount, axisLabel, barPercent, closingKind, coverageIncomplete, labelEvery, niceScale, share, toCsv } from './logic'
+import { plainAmount, axisLabel, barPercent, closingKind, coverageIncomplete, labelEvery, niceScale, share, showServedToggle, toCsv, topPeople } from './logic'
 
 describe('porcentajes', () => {
   it('share redondea y protege contra total cero', () => {
@@ -73,5 +73,27 @@ describe('monto para CSV', () => {
     expect(plainAmount(1284050, 'NIO')).toBe('12840.50')
     expect(plainAmount(-1000, 'NIO')).toBe('-10.00')
     expect(plainAmount(12500, 'CRC')).toBe('12500')
+  })
+})
+
+describe('por persona: Cobró / Atendió y las primeras cinco', () => {
+  const a = [{ key: 'l', count: 1, totalMinor: 450 }]
+  const b = [{ key: 'k', count: 1, totalMinor: 450 }]
+  it('el control aparece con «Cobro en caja» o si los dos repartos difieren', () => {
+    expect(showServedToggle(true, a, a)).toBe(true)
+    expect(showServedToggle(false, a, b)).toBe(true)
+    expect(showServedToggle(false, a, a)).toBe(false)
+    expect(showServedToggle(false, undefined, a)).toBe(false)
+    expect(showServedToggle(false, [{ key: 'x', count: 1, totalMinor: 1 }, { key: 'y', count: 2, totalMinor: 2 }], [{ key: 'y', count: 2, totalMinor: 2 }, { key: 'x', count: 1, totalMinor: 1 }])).toBe(false)
+  })
+  it('muestra 5 (o todas con 6 o menos) y «Ver todos» muestra el resto', () => {
+    const n = (k: number) => Array.from({ length: k }, (_, i) => ({ totalMinor: (i + 1) * 100 }))
+    expect(topPeople(n(1), false)).toEqual({ shown: [{ totalMinor: 100 }], hidden: 0 })
+    expect(topPeople(n(6), false).shown).toHaveLength(6)
+    const twelve = topPeople(n(12), false)
+    expect(twelve.shown.map((r) => r.totalMinor)).toEqual([1200, 1100, 1000, 900, 800])
+    expect(twelve.hidden).toBe(7)
+    expect(topPeople(n(12), true)).toMatchObject({ hidden: 0 })
+    expect(topPeople(n(12), true).shown).toHaveLength(12)
   })
 })

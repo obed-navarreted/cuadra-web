@@ -37,7 +37,7 @@
     "count": "Sales",
     "total": "Total sold",
     "discount": "Discounts",
-    "ticket": "Average ticket",
+    "ticket": "Average per sale",
     "cancelled": "Deleted sales",
     "by": {
       "member": "By person",
@@ -51,7 +51,11 @@
     "amount": "Total",
     "share": "% of total",
     "empty": "There are no sales in this range.",
-    "methodNote": "A mixed payment counts under every method it used, so sale counts may add up to more than the total."
+    "methodNote": "A mixed payment counts under every method it used, so sale counts may add up to more than the total.",
+    "charged": "Charged",
+    "served": "Served",
+    "chargedHelp": "Who charged each sale at the register.",
+    "servedHelp": "Who took the order or sent it to the register."
   },
   "profit": {
     "formula": "profit = sales − cost of goods sold − operating expenses (excluding merchandise purchases and cash withdrawals)",
