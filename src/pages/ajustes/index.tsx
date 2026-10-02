@@ -11,12 +11,12 @@ import { Templates } from './Templates'
 /** Ajustes del negocio. El dueño y los admins editan los ajustes; la zona de peligro (eliminar, traspasar) y el código de acceso son solo del dueño. */
 export default function AjustesPage() {
   const { t } = useTranslation('ajustes')
-  const { isOwner } = useAuth()
+  const { isOwner, canUsePanel } = useAuth()
   const { business } = useBusiness()
-  const onActivity = useMatch('/ajustes/actividad') !== null && isOwner
+  const onActivity = useMatch('/ajustes/actividad') !== null && canUsePanel
   return (
     <Page title={t('common:nav.ajustes')} subtitle={business.name}>
-      {isOwner && (
+      {canUsePanel && (
         <nav className="aj-tabs" aria-label={t('common:nav.ajustes')}>
           <NavLink end to="/ajustes" className={({ isActive }) => `chip${isActive ? ' on' : ''}`}>
             {t('activity.tab')}

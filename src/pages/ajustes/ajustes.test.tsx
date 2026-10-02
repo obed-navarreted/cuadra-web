@@ -169,6 +169,13 @@ describe('ajustes del negocio', () => {
   })
 })
 
+describe('actividad del negocio', () => {
+  it('el administrador ve la pestana Actividad igual que el dueño', () => {
+    renderPanel(<AjustesPage />, { role: 'ADMIN' })
+    expect(screen.getByRole('link', { name: 'Actividad' })).toBeInTheDocument()
+  })
+})
+
 describe('plantillas de mensajes', () => {
   it('muestra el texto propio, avisa de variables inventadas y guarda el cambio', async () => {
     api.responses['PUT /api/b/{businessId}/message-templates/{kind}/{locale}'] = { id: 't1' }
