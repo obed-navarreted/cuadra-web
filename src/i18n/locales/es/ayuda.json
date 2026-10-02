@@ -42,7 +42,7 @@
     },
     "closing": {
       "q": "¿Cómo funciona el cierre del día?",
-      "a": "El cierre es automático: nadie abre ni cierra nada. Cada jornada va de la hora de corte de un día (02:00 por defecto) a la del siguiente, así que lo vendido a la 1 a. m. cuenta para el día anterior, y «ayer» es de ayer 02:00 a hoy 02:00. En Cierre del día ves, por jornada, las ventas por método de pago, los gastos, los retiros y el efectivo esperado = ventas en efectivo + abonos en efectivo + entradas − gastos del cajón − retiros. Transferencias, tarjeta y fiado no entran al cajón."
+      "a": "El cierre es automático: nadie abre ni cierra nada. Cada jornada va de la hora de corte de un día (2:00 AM por defecto) a la del siguiente, así que lo vendido a la 1 AM cuenta para el día anterior, y «ayer» es de ayer 2:00 AM a hoy 2:00 AM. En Cierre del día ves, por jornada, las ventas por método de pago, los gastos, los retiros y el efectivo esperado = ventas en efectivo + abonos en efectivo + entradas − gastos del cajón − retiros. Transferencias, tarjeta y fiado no entran al cajón."
     },
     "import": {
       "q": "¿Cómo importo mis productos desde un archivo?",

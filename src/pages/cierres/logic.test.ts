@@ -11,9 +11,9 @@ describe('cierre del día', () => {
   it('la ventana muestra corte a corte en la zona del negocio', () => {
     // 02:00 en Managua (UTC-6) = 08:00 UTC
     const text = windowText('2026-09-28T08:00:00Z', '2026-09-29T08:00:00Z', 'America/Managua', 'es-NI')
-    expect(text).toMatch(/^28 sept? 2:00\sa\.\sm\. → 29 sept? 2:00\sa\.\sm\.$/)
+    expect(text).toMatch(/^28 sept? 2:00 AM → 29 sept? 2:00 AM$/)
     const en = windowText('2026-09-28T08:00:00Z', '2026-09-29T08:00:00Z', 'America/Managua', 'en')
-    expect(en).toMatch(/^28 Sep 2:00\s?AM → 29 Sep 2:00\s?AM$/)
+    expect(en).toBe('28 Sep 2:00 AM → 29 Sep 2:00 AM')
   })
 
   it('en español usa el idioma del país del negocio', () => {
@@ -23,7 +23,7 @@ describe('cierre del día', () => {
   })
 
   it('la ventana respeta la zona, no la del navegador', () => {
-    expect(windowText('2026-09-28T08:00:00Z', '2026-09-29T08:00:00Z', 'UTC', 'en')).toMatch(/^28 Sep 8:00\s?AM → 29 Sep 8:00\s?AM$/)
+    expect(windowText('2026-09-28T08:00:00Z', '2026-09-29T08:00:00Z', 'UTC', 'en')).toBe('28 Sep 8:00 AM → 29 Sep 8:00 AM')
   })
 
   it('efectivo esperado = ventas y abonos en efectivo + entradas − gastos del cajón − retiros', () => {

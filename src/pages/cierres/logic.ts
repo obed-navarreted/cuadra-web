@@ -1,3 +1,4 @@
+import { formatTime } from '../../lib/dates'
 import type { components } from '../../api/schema'
 
 export type DayClose = components['schemas']['DayClose']
@@ -94,19 +95,13 @@ export function totals(days: DayClose[]) {
 }
 
 function stamp(instant: string, timeZone: string, language: string): string {
-  const parts = new Intl.DateTimeFormat(language, { timeZone, day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }).formatToParts(new Date(instant))
+  const parts = new Intl.DateTimeFormat(language, { timeZone, day: 'numeric', month: 'short' }).formatToParts(new Date(instant))
   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? ''
-  const time = parts
-    .filter((p) => ['hour', 'minute', 'dayPeriod', 'literal'].includes(p.type))
-    .map((p) => p.value)
-    .join('')
-    .replace(/^[\s,]+/, '')
-    .trim()
-  return `${get('day')} ${get('month').replace(/\.$/, '')} ${time}`
+  return `${get('day')} ${get('month').replace(/\.$/, '')} ${formatTime(instant, timeZone)}`
 }
 
 /**
- * El idioma para las horas: en español se usa el del país del negocio (es-NI da "2:00 a. m."; el `es` a secas da 24 horas), si el navegador lo conoce.
+ * El idioma para las horas: en español se usa el del país del negocio (los meses cambian poco entre países; la hora ya no depende del idioma), si el navegador lo conoce.
  */
 export function windowLocale(language: string, country: string | null | undefined): string {
   if (language !== 'es' || !country) return language
@@ -117,7 +112,7 @@ export function windowLocale(language: string, country: string | null | undefine
   }
 }
 
-/** La ventana exacta de una jornada en la zona del negocio: "28 sep 2:00 a. m. → 29 sep 2:00 a. m.". */
+/** La ventana exacta de una jornada en la zona del negocio: "28 sep 2:00 AM → 29 sep 2:00 AM". */
 export function windowText(startsAt: string, endsAt: string, timeZone: string, language: string): string {
   return `${stamp(startsAt, timeZone, language)} → ${stamp(endsAt, timeZone, language)}`
 }

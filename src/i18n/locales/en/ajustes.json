@@ -2,7 +2,8 @@
   "saved": "Changes saved.",
   "saveChanges": "Save changes",
   "cancel": "Cancel",
-  "ownerOnly": "Only the owner changes these settings. You can view them and edit the message templates.",
+  "ownerOnly": "Only the owner and admins change these settings. You can view them.",
+  "ownerOnlyActions": "Only the owner can delete the business, transfer it or change the access code.",
   "business": {
     "title": "Business details",
     "name": "Name",

@@ -12,7 +12,7 @@ export function addDays(iso: string, days: number): string {
 }
 
 /**
- * La jornada comercial de un instante: la hora local del negocio menos su hora de corte ("02:00" por defecto). Una venta a la 1:30 a. m.
+ * La jornada comercial de un instante: la hora local del negocio menos su hora de corte ("02:00" por defecto). Una venta a la 1:30 AM
  * pertenece al día anterior, igual que en el servidor (`BusinessDayService`).
  */
 export function businessDate(now: Date, timeZone: string, cutoff = '02:00'): string {
@@ -56,9 +56,28 @@ export function formatDay(iso: string, language: string): string {
   return new Intl.DateTimeFormat(language, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
 }
 
-/** Un instante ISO → fecha y hora en la zona del negocio. */
-export function formatDateTime(instant: string, timeZone: string, language: string): string {
-  return new Intl.DateTimeFormat(language, { timeZone, dateStyle: 'medium', timeStyle: 'short' }).format(new Date(instant))
+/** Horas y minutos → "3:18 PM", "12:05 PM", "12:00 AM": de 12 horas, AM/PM en TODOS los idiomas, sin segundos. Se arma a mano, sin depender de los datos del navegador. */
+export function clockText(hour24: number, minute: number): string {
+  return `${hour24 % 12 === 0 ? 12 : hour24 % 12}:${pad(minute)} ${hour24 >= 12 ? 'PM' : 'AM'}`
+}
+
+/** "02:00" (o "02:00:00") → "2:00 AM". Si no es una hora, se devuelve tal cual. */
+export function formatHm(hhmm: string | null | undefined): string {
+  const m = /^(\d{1,2}):(\d{2})/.exec(hhmm ?? '')
+  return m ? clockText(Number(m[1]), Number(m[2])) : (hhmm ?? '')
+}
+
+/** La hora de un instante en una zona (o la del navegador sin `timeZone`): "3:18 PM". */
+export function formatTime(instant: string | number | Date, timeZone?: string): string {
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone, hourCycle: 'h23', hour: 'numeric', minute: 'numeric' }).formatToParts(new Date(instant))
+  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value)
+  return clockText(get('hour') % 24, get('minute'))
+}
+
+/** Un instante ISO → fecha y hora en la zona del negocio: "1 oct 2026, 3:18 PM". */
+export function formatDateTime(instant: string, timeZone: string | undefined, language: string): string {
+  const date = new Intl.DateTimeFormat(language, { timeZone, dateStyle: 'medium' }).format(new Date(instant))
+  return `${date}, ${formatTime(instant, timeZone)}`
 }
 
 export type DayRuleLike = { from?: string | null; timezone?: string | null; dayCutoff?: string | null }

@@ -30,7 +30,7 @@ describe('Cierre del día', () => {
   it('una tarjeta por jornada con su ventana exacta, el efectivo esperado y la fórmula; sin abrir ni contar', async () => {
     renderPanel(<CierresPage />)
     expect(await screen.findByRole('heading', { name: 'Total del periodo (2 días)' })).toBeInTheDocument()
-    expect(screen.getAllByText(/^28 sept? 2:00\sa\.\sm\. → 29 sept? 2:00\sa\.\sm\.$/)).toHaveLength(1)
+    expect(screen.getAllByText(/^28 sept? 2:00 AM → 29 sept? 2:00 AM$/)).toHaveLength(1)
     expect(screen.getAllByText('Efectivo esperado').length).toBeGreaterThanOrEqual(3)
     expect(screen.getAllByText(/ventas en efectivo \+ .* abonos en efectivo/).length).toBe(3)
     expect(screen.getAllByText(/1 venta eliminada/)).toHaveLength(2)

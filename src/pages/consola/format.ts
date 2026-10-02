@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { formatDateTime } from '../../lib/dates'
 
 /** Formatos de la consola: fechas en la zona horaria de quien mira (no hay un negocio) y nombres de país e idioma. Los números son conteos. */
 export function useConsoleFormat() {
   const { i18n, t } = useTranslation('consola')
   const lang = i18n.language
-  const dateTime = useCallback((iso?: string | null) => (iso ? new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso)) : '—'), [lang])
+  const dateTime = useCallback((iso?: string | null) => (iso ? formatDateTime(iso, undefined, lang) : '—'), [lang])
   const date = useCallback((iso?: string | null) => (iso ? new Intl.DateTimeFormat(lang, { dateStyle: 'medium' }).format(new Date(iso)) : '—'), [lang])
   const number = useCallback((n: number) => new Intl.NumberFormat(lang).format(n), [lang])
   const country = useCallback(

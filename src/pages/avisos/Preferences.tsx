@@ -60,7 +60,7 @@ type Form = { quietStart: string; quietEnd: string; summaryEnabled: boolean; sum
 
 function BusinessSettings() {
   const { t } = useTranslation('avisos')
-  const { isOwner } = useAuth()
+  const { canUsePanel } = useAuth()
   const { membership, business } = useBusiness()
   const businessId = membership.businessId ?? ''
   const data = useAsync(() => call(client.GET('/api/b/{businessId}/notification-settings', { params: { path: { businessId } } })), [businessId])
@@ -109,44 +109,44 @@ function BusinessSettings() {
   return (
     <Card title={t('biz.title')}>
       <p className="muted">{t('biz.hint', { zone: business.timezone ?? '' })}</p>
-      {!isOwner && <p className="notice warn">{t('biz.ownerOnly')}</p>}
+      {!canUsePanel && <p className="notice warn">{t('biz.ownerOnly')}</p>}
       {data.error && <ErrorNotice error={data.error} onRetry={data.reload} />}
       {data.loading && !data.data && <Spinner />}
       {form && (
         <div className="sched-form">
           <div className="settings-grid">
             <Field label={t('biz.quietStart')}>
-              <input type="time" value={form.quietStart} disabled={!isOwner} onChange={(e) => set('quietStart', e.target.value)} />
+              <input type="time" value={form.quietStart} disabled={!canUsePanel} onChange={(e) => set('quietStart', e.target.value)} />
             </Field>
             <Field label={t('biz.quietEnd')} hint={t('biz.quietHint')}>
-              <input type="time" value={form.quietEnd} disabled={!isOwner} onChange={(e) => set('quietEnd', e.target.value)} />
+              <input type="time" value={form.quietEnd} disabled={!canUsePanel} onChange={(e) => set('quietEnd', e.target.value)} />
             </Field>
           </div>
           <div className="settings-grid">
             <label className="sched-check">
-              <input type="checkbox" checked={form.summaryEnabled} disabled={!isOwner} onChange={(e) => set('summaryEnabled', e.target.checked)} />
+              <input type="checkbox" checked={form.summaryEnabled} disabled={!canUsePanel} onChange={(e) => set('summaryEnabled', e.target.checked)} />
               <span>{t('biz.summary')}</span>
             </label>
             <Field label={t('biz.summaryTime')}>
-              <input type="time" value={form.summaryTime} disabled={!isOwner || !form.summaryEnabled} onChange={(e) => set('summaryTime', e.target.value)} />
+              <input type="time" value={form.summaryTime} disabled={!canUsePanel || !form.summaryEnabled} onChange={(e) => set('summaryTime', e.target.value)} />
             </Field>
           </div>
           <div className="settings-grid">
             <label className="sched-check">
-              <input type="checkbox" checked={form.reminderOn} disabled={!isOwner} onChange={(e) => set('reminderOn', e.target.checked)} />
+              <input type="checkbox" checked={form.reminderOn} disabled={!canUsePanel} onChange={(e) => set('reminderOn', e.target.checked)} />
               <span>{t('biz.reminder')}</span>
             </label>
             <Field label={t('biz.reminderTime')}>
-              <input type="time" value={form.reminderTime} disabled={!isOwner || !form.reminderOn} onChange={(e) => set('reminderTime', e.target.value)} />
+              <input type="time" value={form.reminderTime} disabled={!canUsePanel || !form.reminderOn} onChange={(e) => set('reminderTime', e.target.value)} />
             </Field>
           </div>
           <Field label={t('biz.stale')} hint={t('biz.staleHint')}>
-            <input type="number" min={1} max={720} value={form.staleHours} disabled={!isOwner} onChange={(e) => set('staleHours', e.target.value)} />
+            <input type="number" min={1} max={720} value={form.staleHours} disabled={!canUsePanel} onChange={(e) => set('staleHours', e.target.value)} />
           </Field>
           {failure != null && <p className="notice error">{errorText(t, failure)}</p>}
           {!valid && <p className="notice warn">{t('biz.invalid')}</p>}
           {saved && <p className="notice" style={{ background: 'var(--green-soft)', color: 'var(--green)' }}>{t('biz.saved')}</p>}
-          {isOwner && (
+          {canUsePanel && (
             <div className="sched-actions-row">
               <Button kind="primary" disabled={!valid || saving} onClick={() => void save()}>
                 {t('actions.save')}

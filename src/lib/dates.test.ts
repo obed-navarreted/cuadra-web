@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { activeRule, addDays, businessDate, isValidRange, presets } from './dates'
+import { activeRule, addDays, businessDate, clockText, formatDateTime, formatHm, formatTime, isValidRange, presets } from './dates'
 
 describe('fechas del negocio', () => {
-  it('una venta a la 1:30 a. m. pertenece a la jornada anterior (corte 02:00)', () => {
+  it('una venta a la 1:30 AM pertenece a la jornada anterior (corte 02:00)', () => {
     // 2026-09-21 07:30 UTC = 01:30 en Managua (UTC−6).
     expect(businessDate(new Date('2026-09-21T07:30:00Z'), 'America/Managua', '02:00')).toBe('2026-09-20')
     // Y a las 02:30 ya es la nueva.
@@ -59,5 +59,28 @@ describe('regla de jornada vigente', () => {
     // 08:00 UTC = 04:00 en Nueva York: empieza el 1 de octubre.
     expect(activeRule([old, next], new Date('2026-10-01T08:00:00Z'), fallback)).toEqual({ timezone: 'America/New_York', cutoff: '04:00' })
     expect(activeRule([next, old], new Date('2026-12-01T12:00:00Z'), fallback).timezone).toBe('America/New_York')
+  })
+})
+
+describe('horas de 12 horas con AM/PM', () => {
+  it('mediodía y medianoche son 12, sin segundos, igual en todos los idiomas', () => {
+    expect(clockText(0, 0)).toBe('12:00 AM')
+    expect(clockText(12, 5)).toBe('12:05 PM')
+    expect(clockText(15, 18)).toBe('3:18 PM')
+    expect(clockText(23, 59)).toBe('11:59 PM')
+    expect(clockText(1, 30)).toBe('1:30 AM')
+  })
+
+  it('formatHm convierte "HH:mm" y "HH:mm:ss"', () => {
+    expect(formatHm('02:00')).toBe('2:00 AM')
+    expect(formatHm('21:30:00')).toBe('9:30 PM')
+    expect(formatHm(null)).toBe('')
+  })
+
+  it('formatTime y formatDateTime usan la zona dada', () => {
+    expect(formatTime('2026-10-01T21:18:42Z', 'America/Managua')).toBe('3:18 PM')
+    expect(formatTime('2026-10-01T06:00:00Z', 'America/Managua')).toBe('12:00 AM')
+    expect(formatTime('2026-10-01T18:05:00Z', 'America/Managua')).toBe('12:05 PM')
+    for (const lang of ['es', 'es-NI', 'en']) expect(formatDateTime('2026-10-01T21:18:42Z', 'America/Managua', lang)).toMatch(/, 3:18 PM$/)
   })
 })

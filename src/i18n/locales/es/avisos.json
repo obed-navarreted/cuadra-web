@@ -124,7 +124,7 @@
   "biz": {
     "title": "Reglas de avisos del negocio",
     "hint": "Horas en la zona horaria del negocio ({{zone}}). Estas reglas valen para todo el equipo.",
-    "ownerOnly": "Solo el dueño cambia estas reglas.",
+    "ownerOnly": "Solo el dueño y los administradores cambian estas reglas.",
     "quietStart": "Silencio desde",
     "quietEnd": "Silencio hasta",
     "quietHint": "En horas de silencio los avisos normales solo quedan en la bandeja; los críticos y los programados sí suenan.",
@@ -189,7 +189,7 @@
       "body": "Antes de vender, cuenta el efectivo con el que empieza la caja y anótalo al abrir el turno."
     },
     "closing": {
-      "title": "Cierre de caja a las 9 p. m.",
+      "title": "Cierre de caja a las 9 PM",
       "body": "Es hora de contar el efectivo y cerrar la caja del día."
     },
     "supplier": {

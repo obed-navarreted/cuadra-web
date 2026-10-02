@@ -124,7 +124,7 @@
   "biz": {
     "title": "Business alert rules",
     "hint": "Times use the business time zone ({{zone}}). These rules apply to the whole team.",
-    "ownerOnly": "Only the owner changes these rules.",
+    "ownerOnly": "Only the owner and admins change these rules.",
     "quietStart": "Quiet from",
     "quietEnd": "Quiet until",
     "quietHint": "During quiet hours normal alerts stay in the inbox only; critical and scheduled ones still ring.",
@@ -189,7 +189,7 @@
       "body": "Before selling, count the cash the register starts with and enter it when opening the shift."
     },
     "closing": {
-      "title": "Cash closing at 9 p.m.",
+      "title": "Cash closing at 9 PM",
       "body": "Time to count the cash and close the day's register."
     },
     "supplier": {

@@ -8,7 +8,7 @@ import { BusinessCards } from './BusinessCards'
 import { DangerZone } from './DangerZone'
 import { Templates } from './Templates'
 
-/** Ajustes del negocio. Lo exclusivo del dueño (editar, plan, zona de peligro) no se muestra a un admin; las plantillas las editan ambos. */
+/** Ajustes del negocio. El dueño y los admins editan los ajustes; la zona de peligro (eliminar, traspasar) y el código de acceso son solo del dueño. */
 export default function AjustesPage() {
   const { t } = useTranslation('ajustes')
   const { isOwner } = useAuth()
@@ -34,7 +34,7 @@ export default function AjustesPage() {
           {/* La clave reinicia los formularios si se elige otro negocio. */}
           <BusinessCards key={business.id} />
           <Templates />
-          {isOwner && <DangerZone />}
+          {isOwner ? <DangerZone /> : <p className="notice warn">{t('ownerOnlyActions')}</p>}
         </>
       )}
     </Page>

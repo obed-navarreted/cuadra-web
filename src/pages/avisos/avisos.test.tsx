@@ -142,9 +142,9 @@ describe('programadas', () => {
     api.responses[SCHEDS] = [schedule]
     await openTab()
     expect(await screen.findByText('Cierre a las 9')).toBeInTheDocument()
-    expect(screen.getByText('Todos los días a las 21:00')).toBeInTheDocument()
+    expect(screen.getByText('Todos los días a las 9:00 PM')).toBeInTheDocument()
     expect(screen.getByText('Todo el equipo')).toBeInTheDocument()
-    expect(screen.getByText(/Próximo envío:.*21:00/)).toBeInTheDocument()
+    expect(screen.getByText(/Próximo envío:.*9:00 PM/)).toBeInTheDocument()
     expect(screen.getByText('Enviados 3 · Leídos 1')).toBeInTheDocument()
   })
 
@@ -209,12 +209,12 @@ describe('preferencias', () => {
     expect(box).not.toBeChecked()
   })
 
-  it('un admin ve las reglas del negocio pero no las cambia', async () => {
+  it('un admin edita las reglas del negocio como el dueño', async () => {
     renderPanel(<AvisosPage />, { role: 'ADMIN' })
     fireEvent.click(await screen.findByRole('tab', { name: 'Preferencias' }))
-    expect(await screen.findByText('Solo el dueño cambia estas reglas.')).toBeInTheDocument()
-    expect(screen.getByLabelText('Silencio desde')).toBeDisabled()
-    expect(screen.queryByRole('button', { name: 'Guardar' })).not.toBeInTheDocument()
+    expect(await screen.findByLabelText('Silencio desde')).not.toBeDisabled()
+    expect(screen.queryByText('Solo el dueño y los administradores cambian estas reglas.')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Guardar' })).toBeInTheDocument()
   })
 
   it('el dueño guarda las reglas con horas válidas y el recordatorio de turno apagado no se manda', async () => {

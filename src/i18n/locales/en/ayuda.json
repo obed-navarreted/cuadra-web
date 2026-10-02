@@ -42,7 +42,7 @@
     },
     "closing": {
       "q": "How does the daily close work?",
-      "a": "The close is automatic: nobody opens or closes anything. Each business day runs from one day's cutoff time (02:00 by default) to the next, so what is sold at 1 a.m. counts for the previous day, and \"yesterday\" is yesterday 02:00 to today 02:00. In Daily close you see, per day, sales by payment method, expenses, withdrawals and the expected cash = cash sales + cash credit payments + cash in − drawer expenses − withdrawals. Transfers, card and credit do not go in the drawer."
+      "a": "The close is automatic: nobody opens or closes anything. Each business day runs from one day's cutoff time (2:00 AM by default) to the next, so what is sold at 1 AM counts for the previous day, and \"yesterday\" is yesterday 2:00 AM to today 2:00 AM. In Daily close you see, per day, sales by payment method, expenses, withdrawals and the expected cash = cash sales + cash credit payments + cash in − drawer expenses − withdrawals. Transfers, card and credit do not go in the drawer."
     },
     "import": {
       "q": "How do I import my products from a file?",

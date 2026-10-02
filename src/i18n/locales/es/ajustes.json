@@ -2,7 +2,8 @@
   "saved": "Cambios guardados.",
   "saveChanges": "Guardar cambios",
   "cancel": "Cancelar",
-  "ownerOnly": "Solo el dueño cambia estos ajustes. Tú puedes verlos y editar las plantillas de mensajes.",
+  "ownerOnly": "Solo el dueño y los administradores cambian estos ajustes. Tú puedes verlos.",
+  "ownerOnlyActions": "Solo el dueño puede eliminar el negocio, traspasarlo o cambiar el código de acceso.",
   "business": {
     "title": "Datos del negocio",
     "name": "Nombre",

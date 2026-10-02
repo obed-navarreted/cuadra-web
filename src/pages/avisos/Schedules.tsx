@@ -6,6 +6,7 @@ import { Button, Card, EmptyState, ErrorNotice, Spinner, Tag } from '../../compo
 import { Modal } from '../../components/Modal'
 import { useAsync } from '../../hooks/useAsync'
 import { useFormat } from '../../hooks/useFormat'
+import { formatHm } from '../../lib/dates'
 import { ScheduleEditor, type Member } from './ScheduleEditor'
 import { draftOf, emptyDraft, summarize, buildInput, type Draft, type ScheduleView } from './schedule'
 
@@ -161,15 +162,15 @@ function ruleText(t: ReturnType<typeof useTranslation>['t'], s: ScheduleView): s
   const r = summarize(s.rule ?? { type: 'DAILY' })
   switch (r.kind) {
     case 'once':
-      return t('rule.once', { date: r.date, time: r.time })
+      return t('rule.once', { date: r.date, time: formatHm(r.time) })
     case 'daily':
-      return t('rule.daily', { time: r.time })
+      return t('rule.daily', { time: formatHm(r.time) })
     case 'weekly':
-      return t('rule.weekly', { days: r.days.map((d) => t(`weekday.${d}`)).join(' '), time: r.time })
+      return t('rule.weekly', { days: r.days.map((d) => t(`weekday.${d}`)).join(' '), time: formatHm(r.time) })
     case 'monthly':
-      return t('rule.monthly', { day: r.day, time: r.time })
+      return t('rule.monthly', { day: r.day, time: formatHm(r.time) })
     case 'everyN':
-      return t('rule.everyN', { n: r.n, time: r.time })
+      return t('rule.everyN', { n: r.n, time: formatHm(r.time) })
   }
 }
 

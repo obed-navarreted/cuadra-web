@@ -122,7 +122,7 @@ describe('ajustes del negocio', () => {
     expect(screen.getByText(/Nueva regla desde el .*2026/)).toBeInTheDocument()
     expect(screen.getByText('Historial de reglas de la jornada')).toBeInTheDocument()
     expect(screen.getByText('Desde el inicio')).toBeInTheDocument()
-    expect(screen.getByText('corte 04:00')).toBeInTheDocument()
+    expect(screen.getByText('corte 4:00 AM')).toBeInTheDocument()
   })
 
   it('apagar el cobro en caja con cuentas pendientes pide confirmar y reenvía con la bandera', async () => {
@@ -153,14 +153,18 @@ describe('ajustes del negocio', () => {
     expect(await screen.findByText('La hora de corte no es válida.')).toBeInTheDocument()
   })
 
-  it('un administrador ve los valores sin poder cambiarlos, y no ve el plan ni la zona de peligro', async () => {
-    renderPanel(<AjustesPage />, { role: 'ADMIN' })
-    expect(screen.getByText(/Solo el dueño cambia estos ajustes/)).toBeInTheDocument()
-    expect(screen.getByLabelText(/^Nombre/)).toBeDisabled()
-    expect(screen.getByLabelText(/^Fiado/, { selector: 'input' })).toBeDisabled()
+  it('un administrador edita los ajustes como el dueño, sin plan ni zona de peligro, con una nota de lo que es solo del dueño', async () => {
+    const reload = vi.fn(async () => {})
+    renderPanel(<AjustesPage />, { role: 'ADMIN', reload })
+    expect(screen.queryByText(/Solo el dueño y los administradores cambian estos ajustes/)).not.toBeInTheDocument()
+    expect(screen.getByLabelText(/^Nombre/)).not.toBeDisabled()
+    expect(screen.getByLabelText(/^Fiado/, { selector: 'input' })).not.toBeDisabled()
     expect(screen.queryByText('Plan y facturación')).not.toBeInTheDocument()
     expect(screen.queryByText('Zona de peligro')).not.toBeInTheDocument()
-    // Las plantillas sí las edita.
+    expect(screen.getByText(/Solo el dueño puede eliminar el negocio/)).toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText(/^Exigir cliente al fiar/))
+    fireEvent.click(screen.getAllByRole('button', { name: 'Guardar cambios' })[0])
+    await waitFor(() => expect(put()?.opts?.body).toEqual({ creditRequiresCustomer: true }))
     expect(await screen.findByLabelText(/^Texto del mensaje/)).not.toBeDisabled()
   })
 })
