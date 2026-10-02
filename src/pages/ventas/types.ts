@@ -38,6 +38,14 @@ export function saleInstant(s: Pick<SaleRow, 'status' | 'completedAt' | 'cancell
   return (s.status === 'CANCELLED' ? (s.cancelledAt ?? s.completedAt) : s.completedAt) ?? s.createdAt ?? undefined
 }
 
+/** Cobro en caja (ADR 0015): quién la tomó y quién la cobró, solo si fueron personas distintas («Atendió: Kevin · Cobró: Ana»). */
+export function servedAndCharged(s: Pick<SaleRow, 'createdBy' | 'completedBy'>): { served: string; charged: string } | null {
+  const served = s.createdBy?.name
+  const charged = s.completedBy?.name
+  if (!served || !charged || s.createdBy?.id === s.completedBy?.id) return null
+  return { served, charged }
+}
+
 /** Letras mínimas del motivo para eliminar una venta cobrada (el servidor lo exige igual: REASON_REQUIRED). */
 export const MIN_REASON = 5
 

@@ -4,7 +4,7 @@ import { windowLocale, zoneFor, amountOf, cashAdjustments, cashParts, expectedCa
 const day = (over: Partial<DayClose>): DayClose => ({
   salesCount: 0, salesMinor: 0, byMethod: [], creditCollected: [], drawerExpensesMinor: 0, otherExpensesMinor: 0, withdrawalsMinor: 0, depositsMinor: 0,
   expectedCashMinor: 0, cancelledCount: 0, cancelledMinor: 0, returnsCount: 0, returnsMinor: 0, refundsByMethod: [], cashRefundsMinor: 0,
-  priorCancelledCount: 0, priorCancelledMinor: 0, priorCancelledCashMinor: 0, netSalesMinor: 0, laterVoids: [], ...over,
+  priorCancelledCount: 0, priorCancelledMinor: 0, priorCancelledCashMinor: 0, netSalesMinor: 0, laterVoids: [], pendingCheckoutCount: 0, pendingCheckoutMinor: 0, promotionDiscountMinor: 0, ...over,
 })
 
 describe('cierre del día', () => {

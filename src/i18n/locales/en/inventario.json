@@ -10,7 +10,8 @@
     "stock": "Stock",
     "purchases": "Purchases",
     "suppliers": "Suppliers",
-    "import": "Import"
+    "import": "Import",
+    "promotions": "Promotions"
   },
   "units": {
     "UNIT": "unit",
@@ -57,15 +58,20 @@
     "STOCK_NOT_TRACKED": "This product does not track stock.",
     "INVALID_PHONE": "The phone number does not look valid.",
     "INVALID_PAID": "The paid amount must be between zero and the total.",
-    "INVALID_QUANTITY": "The quantity is not valid.",
+    "INVALID_QUANTITY": "From 2 to 999 units.",
     "INVALID_COST": "The cost is not valid.",
     "INVALID_PRICE": "The price is not valid.",
     "INVALID_NAME": "The name is missing or too long.",
     "INVALID_LINES": "A purchase needs between 1 and 200 lines.",
-    "INVALID_PRODUCT": "That product no longer exists.",
+    "INVALID_PRODUCT": "Some product no longer exists.",
     "INVALID_SUPPLIER": "That supplier no longer exists.",
     "INVALID_CATEGORY": "That category no longer exists.",
-    "FORBIDDEN": "Only an admin or the owner can deactivate products."
+    "FORBIDDEN": "Only an admin or the owner can deactivate products.",
+    "PRODUCT_NOT_ELIGIBLE": "A product sold by weight or with an open price cannot be in a promotion.",
+    "PRODUCTS_REQUIRED": "Add at least one product.",
+    "INVALID_DATES": "The end date is before the start date.",
+    "PROMOTION_NOT_FOUND": "That promotion no longer exists.",
+    "PROMOTION_DELETED": "That promotion was deleted."
   },
   "products": {
     "search": "Search by name or code",
@@ -356,6 +362,71 @@
       "trackStock": "Stock tracking",
       "minStockMilli": "Minimum stock",
       "active": "Active"
+    }
+  },
+  "promotions": {
+    "intro": "“3 for C$ 100” on one or more products: the register applies it automatically (offline too). Pausing or changing one reaches the phones when they sync.",
+    "new": "New promotion",
+    "newTitle": "New promotion",
+    "editTitle": "Edit promotion",
+    "empty": "No promotions yet.",
+    "col": {
+      "name": "Promotion",
+      "rule": "Price",
+      "dates": "Dates",
+      "state": "Status"
+    },
+    "rule": "{{quantity}} for {{price}}",
+    "from": "from {{day}}",
+    "until": "until {{day}}",
+    "always": "Always",
+    "state": {
+      "ACTIVE": "Active",
+      "PAUSED": "Paused",
+      "SCHEDULED": "Scheduled",
+      "ENDED": "Ended"
+    },
+    "pause": "Pause",
+    "resume": "Resume",
+    "delete": "Delete promotion",
+    "deleteConfirm": "Yes, delete it (sales do not change)",
+    "added": "{{name}} added",
+    "already": "{{name}} is already on the list",
+    "notEligible": "{{name}} is sold by weight or with an open price: not included",
+    "unknownCode": "Code {{code}} is not in the catalog",
+    "noResults": "No product matches.",
+    "remove": "Remove {{name}}",
+    "example": "Example: {{units}} × {{unit}} = {{total}}",
+    "noBenefit": "With these prices there is no discount.",
+    "form": {
+      "name": "Name",
+      "nameHint": "E.g. Beer 3 for C$ 100",
+      "quantity": "Quantity",
+      "price": "Price for that quantity",
+      "active": "Active",
+      "activeHint": "a paused one is not applied at the register",
+      "startsOn": "From (optional)",
+      "endsOn": "Until (optional)",
+      "datesHint": "Business days",
+      "products": "Products in the promotion ({{count}})",
+      "productsHint": "Units of these products add up (2 Toña and 1 Victoria count as 3). Products sold by weight or with an open price are not included.",
+      "search": "Search by name or code",
+      "code": "Barcode or short code",
+      "codeHint": "Scan with the reader or type the code and press Enter: it is added to the list."
+    },
+    "field": {
+      "name": "name",
+      "quantity": "quantity",
+      "price": "price",
+      "products": "products",
+      "dates": "dates"
+    },
+    "problems": {
+      "name": "Type a name (up to 80 characters).",
+      "quantity": "From 2 to 999 units.",
+      "products": "Add at least one product.",
+      "dates": "The end date is before the start date.",
+      "summary": "Check: {{fields}}."
     }
   }
 }

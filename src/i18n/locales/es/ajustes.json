@@ -38,7 +38,9 @@
     "hint": "Pestañas que se ven al vender. Deja al menos una.",
     "TYPE": "Teclado",
     "QUICK": "Rápidos",
-    "LIST": "Lista"
+    "LIST": "Lista",
+    "registerCheckout": "Cobro en caja",
+    "registerCheckoutHint": "Quien atiende arma la cuenta y la envía a caja desde el teléfono; cualquiera la cobra después. Para restaurantes y bares."
   },
   "credit": {
     "title": "Fiado",

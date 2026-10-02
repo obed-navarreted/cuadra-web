@@ -12,7 +12,9 @@
     "salesHint_one": "{{count}} sale · ticket {{ticket}}",
     "salesHint_other": "{{count}} sales · ticket {{ticket}}",
     "receivableHint_one": "{{count}} pending",
-    "receivableHint_other": "{{count}} pending"
+    "receivableHint_other": "{{count}} pending",
+    "promotions": "Promotion discounts",
+    "promotionsHint": "Already taken off sales"
   },
   "chart": {
     "title": "Sales and expenses per day",

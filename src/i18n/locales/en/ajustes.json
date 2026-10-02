@@ -38,7 +38,9 @@
     "hint": "Tabs shown when selling. Keep at least one.",
     "TYPE": "Keypad",
     "QUICK": "Quick",
-    "LIST": "List"
+    "LIST": "List",
+    "registerCheckout": "Charge at the register",
+    "registerCheckoutHint": "Whoever serves builds the ticket and sends it to the register from the phone; anyone charges it later. For restaurants and bars."
   },
   "credit": {
     "title": "Credit",

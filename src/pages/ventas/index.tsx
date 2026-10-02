@@ -13,7 +13,8 @@ import type { DateRange } from '../../lib/dates'
 import { ReturnDialog } from './ReturnDialog'
 import { SaleDetail } from './SaleDetail'
 import { SaleTags } from './SaleTags'
-import { distinctMethods, METHODS, MIN_REASON, saleInstant, type SaleRow } from './types'
+import { RegisterQueue } from './RegisterQueue'
+import { distinctMethods, METHODS, MIN_REASON, saleInstant, servedAndCharged, type SaleRow } from './types'
 import './ventas.css'
 
 const PAGE_SIZE = 25
@@ -55,7 +56,14 @@ export default function VentasPage() {
   const columns = useMemo<Column<SaleRow>[]>(
     () => [
       { key: 'date', header: t('col.date'), className: 'nowrap', cell: (s) => (saleInstant(s) ? dateTime(saleInstant(s) as string) : '—') },
-      { key: 'by', header: t('col.by'), cell: (s) => s.completedBy?.name ?? s.createdBy?.name ?? '—' },
+      {
+        key: 'by',
+        header: t('col.by'),
+        cell: (s) => {
+          const pair = servedAndCharged(s)
+          return pair ? t('list.servedCharged', pair) : (s.completedBy?.name ?? s.createdBy?.name ?? '-')
+        },
+      },
       {
         key: 'methods',
         header: t('col.payments'),
@@ -181,6 +189,8 @@ export default function VentasPage() {
           </div>
         </Card>
       )}
+
+      <RegisterQueue businessId={businessId} enabled={business.registerCheckout === true} />
 
       {list.error ? (
         <ErrorNotice error={list.error} onRetry={list.reload} />

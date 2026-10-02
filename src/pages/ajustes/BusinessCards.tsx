@@ -236,6 +236,7 @@ export function BusinessCards() {
             </button>
           ))}
         </div>
+        <Switch label={t('pos.registerCheckout')} hint={t('pos.registerCheckoutHint')} checked={form.registerCheckout} disabled={!isOwner} onChange={(v) => set({ registerCheckout: v })} />
       </Card>
 
       <Card title={t('credit.title')}>

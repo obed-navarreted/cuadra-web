@@ -53,6 +53,7 @@ export default function ResumenPage() {
               value={money(profit.operatingExpensesMinor)}
               hint={profit.purchasesExcludedMinor > 0 ? t('kpi.expensesHint', { amount: money(profit.purchasesExcludedMinor) }) : t('kpi.expensesHintNone')}
             />
+            {(sales.promotionDiscountMinor ?? 0) > 0 && <Kpi label={t('kpi.promotions')} value={`−${money(sales.promotionDiscountMinor)}`} hint={t('kpi.promotionsHint')} tone="green" />}
             <Kpi label={t('kpi.profit')} value={money(profit.estimatedProfitMinor)} hint={t('kpi.profitHint')} tone={profit.estimatedProfitMinor >= 0 ? 'green' : 'red'} />
             <Kpi
               label={t('kpi.receivable')}

@@ -34,3 +34,9 @@
 .inv-form[hidden] { display: none; }
 .inv-pricing { border: 0; padding: 0; margin: 0; min-width: 0; }
 .inv-pricing legend { padding: 0; margin-bottom: 2px; }
+
+/* Promociones por cantidad: resultados de la búsqueda y productos elegidos (con su ✕). */
+.notice.ok { background: var(--green-soft); color: var(--green); }
+.promo-results, .promo-chosen { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.promo-results .btn { width: 100%; justify-content: flex-start; text-align: left; white-space: normal; }
+.promo-chosen li { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 12px; overflow-wrap: anywhere; }

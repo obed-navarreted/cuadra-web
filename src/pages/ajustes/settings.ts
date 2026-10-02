@@ -36,6 +36,8 @@ export type Form = {
   shiftNote: string
   country: string
   currency: string
+  /** Cobro en caja (ADR 0015): quien atiende envía la cuenta a caja y otra persona la cobra. */
+  registerCheckout: boolean
 }
 
 /** Monto en unidad menor → texto para un campo ("1000" → "10.00"; sin usar coma flotante). */
@@ -62,6 +64,7 @@ export function formOf(b: BusinessView): Form {
     shiftNote: b.shiftNoteThresholdMinor != null ? minorToInput(b.shiftNoteThresholdMinor, b.currency ?? 'USD') : '',
     country: b.country ?? '',
     currency: b.currency ?? '',
+    registerCheckout: b.registerCheckout === true,
   }
 }
 
@@ -106,6 +109,7 @@ export function patchOf(f: Form, b: BusinessView): UpdateBusiness {
   if (f.shiftRequired !== cur.shiftRequired) patch.shiftRequired = f.shiftRequired
   if (f.shiftNote.trim() && f.shiftNote.trim() !== cur.shiftNote) patch.shiftNoteThresholdMinor = parseMoney(f.shiftNote, b.currency ?? 'USD') ?? undefined
   if (f.country && f.country !== cur.country) patch.country = f.country
+  if (f.registerCheckout !== cur.registerCheckout) patch.registerCheckout = f.registerCheckout
   // La moneda solo se cambia antes de la primera venta (el servidor lo exige igual: CURRENCY_LOCKED).
   if (!b.currencyLocked && f.currency.trim() && f.currency.trim().toUpperCase() !== cur.currency) patch.currency = f.currency.trim().toUpperCase()
   return patch

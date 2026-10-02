@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink, Outlet } from 'react-router-dom'
+import { TenantScope } from '../components/TenantScope'
 import { useAuth } from '../auth/context'
 import { LanguageSwitcher } from '../components/LanguageSwitcher'
 import { SignOutAll } from '../components/SignOutAll'
@@ -75,7 +76,9 @@ export function AppShell() {
           )}
         </div>
       </aside>
-      <main className="content">{business ? <Outlet /> : error === 'BUSINESS_SUSPENDED' ? <SuspendedNotice /> : <Spinner />}</main>
+      <main className="content">
+        <TenantScope id={`${me?.id ?? ''}:${business?.id ?? ''}`}>{business ? <Outlet /> : error === 'BUSINESS_SUSPENDED' ? <SuspendedNotice /> : <Spinner />}</TenantScope>
+      </main>
     </div>
     <DeleteAccountDialog open={deleting} onClose={() => setDeleting(false)} />
     </>

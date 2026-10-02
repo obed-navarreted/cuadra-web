@@ -76,7 +76,10 @@
     "returnLine": "{{when}} · {{name}}",
     "reasonLine": "Reason: {{reason}}",
     "returnedTotal": "Returned",
-    "return": "Return items"
+    "return": "Return items",
+    "chargedBy": "Charged by",
+    "sentToRegister": "Sent to the register",
+    "promo": "Promo {{quantity}} for {{price}}"
   },
   "cancel": {
     "title": "Delete sale",
@@ -86,7 +89,8 @@
     "reasonRequired": "Write a reason of at least {{min}} characters to delete a paid sale."
   },
   "list": {
-    "cancelledBy": "by {{name}}"
+    "cancelledBy": "by {{name}}",
+    "servedCharged": "Served by: {{served}} · Charged by: {{charged}}"
   },
   "tag": {
     "CONFLICT": "Conflict: review",
@@ -121,5 +125,20 @@
       "RETURN_NOT_ALLOWED": "You are not allowed to return this sale.",
       "SALE_NOT_COMPLETED": "Only a paid sale can be returned."
     }
+  },
+  "queue": {
+    "title": "To charge at the register",
+    "hint": "Tickets sent to the register from a phone that nobody has charged yet. They are not sales until charged; they are charged in the app.",
+    "empty": "No tickets waiting at the register.",
+    "note": "Note",
+    "by": "Served by",
+    "sent": "Sent",
+    "items": "Items",
+    "total": "Total",
+    "noNote": "No note",
+    "detailTitle": "Ticket to charge",
+    "lockedBy": "{{name}} is charging it",
+    "summary_one": "{{count}} ticket · {{amount}}",
+    "summary_other": "{{count}} tickets · {{amount}}"
   }
 }

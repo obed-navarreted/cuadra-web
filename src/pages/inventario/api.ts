@@ -1,5 +1,5 @@
 import { call, client } from '../../api/http'
-import type { Category, ImportResult, Movement, MovementInput, PaymentView, Product, ProductHistoryEntry, ProductInput, PurchaseInput, PurchaseView, StockReport, SupplierView } from './types'
+import type { Category, ImportResult, Movement, MovementInput, PaymentView, Product, ProductHistoryEntry, ProductInput, Promotion, PromotionInput, PurchaseInput, PurchaseView, StockReport, SupplierView } from './types'
 import type { components } from '../../api/schema'
 
 type ImportRow = components['schemas']['ImportRow']
@@ -67,3 +67,16 @@ export const saveSupplier = (businessId: string, supplierId: string, body: { nam
 
 export const importProducts = (businessId: string, rows: ImportRow[], dryRun: boolean): Promise<ImportResult> =>
   call(client.POST('/api/b/{businessId}/products/import', { params: { path: { businessId }, query: { dryRun } }, body: { rows } }))
+
+// ---------- promociones por cantidad ----------
+
+export const loadPromotions = (businessId: string): Promise<Promotion[]> => call(client.GET('/api/b/{businessId}/promotions', { params: { path: { businessId } } }))
+
+export const savePromotion = (businessId: string, id: string, body: PromotionInput): Promise<Promotion> =>
+  call(client.PUT('/api/b/{businessId}/promotions/{id}', { params: { path: { businessId, id } }, body }))
+
+/** Pausar (`false`) o reanudar (`true`): los teléfonos lo reciben al sincronizar (al instante si tienen avisos de Firebase). */
+export const setPromotionActive = (businessId: string, id: string, active: boolean): Promise<Promotion> =>
+  call(client.POST('/api/b/{businessId}/promotions/{id}/active', { params: { path: { businessId, id } }, body: { active } }))
+
+export const deletePromotion = (businessId: string, id: string): Promise<void> => call(client.DELETE('/api/b/{businessId}/promotions/{id}', { params: { path: { businessId, id } } }))

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canReturn, distinctMethods, lineCost, lineNets, mulDivHalfUp, parseQuantity, refundMethods, returnableMilli, returnEstimate, saleCost, saleInstant, saleTags } from './types'
+import { canReturn, distinctMethods, lineCost, lineNets, mulDivHalfUp, parseQuantity, refundMethods, returnableMilli, returnEstimate, saleCost, saleInstant, saleTags, servedAndCharged } from './types'
 
 describe('ventas: costo y ganancia de una venta', () => {
   it('el costo de una línea redondea la mitad hacia arriba, igual que el servidor', () => {
@@ -67,5 +67,13 @@ describe('ventas: devoluciones', () => {
     expect(canReturn({ status: 'CANCELLED', items: sale.items })).toBe(false)
     expect(parseQuantity('1,5')).toBe(1500)
     expect(parseQuantity('x')).toBe(0)
+  })
+})
+
+describe('ventas: cobro en caja', () => {
+  it('atendió y cobró solo cuando fueron personas distintas', () => {
+    expect(servedAndCharged({ createdBy: { id: 'k', name: 'Kevin' }, completedBy: { id: 'a', name: 'Ana' } })).toEqual({ served: 'Kevin', charged: 'Ana' })
+    expect(servedAndCharged({ createdBy: { id: 'a', name: 'Ana' }, completedBy: { id: 'a', name: 'Ana' } })).toBeNull()
+    expect(servedAndCharged({ createdBy: { id: 'a', name: 'Ana' }, completedBy: undefined })).toBeNull()
   })
 })

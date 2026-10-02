@@ -17,11 +17,18 @@ const sale = {
   ],
 }
 
-function serve() {
+const queued = {
+  id: 'q1', status: 'PARKED', label: 'Mesa 4', subtotalMinor: 12000, discountMinor: 0, totalMinor: 12000, rev: 2, createdAt: new Date().toISOString(),
+  createdBy: { id: 'k', name: 'Kevin' }, sentBy: { id: 'k', name: 'Kevin' }, sentToRegisterAt: new Date().toISOString(), pendingCheckout: true,
+  items: [{ id: 'i9', name: 'Cerveza', quantityMilli: 2000, unitPriceMinor: 6000, discountMinor: 0, lineTotalMinor: 12000 }], payments: [],
+}
+
+function serve(queue: unknown[] = [], rows: unknown[] = [sale]) {
   vi.mocked(client.GET).mockImplementation(((path: string) => {
+    if (path.endsWith('/register-queue')) return ok(queue)
     if (path.endsWith('/members')) return ok([{ id: 'k', displayName: 'Kevin' }])
     if (path.endsWith('/reports/sales')) return ok({ sales: { count: 1, totalMinor: 8500, discountMinor: 0, averageTicketMinor: 8500, cancelledCount: 2 }, byMethod: [{ method: 'CASH', amountMinor: 5000 }, { method: 'CREDIT', amountMinor: 3500 }] })
-    return ok({ items: [sale], total: 1, page: 0, size: 25, last: true })
+    return ok({ items: rows, total: rows.length, page: 0, size: 25, last: true })
   }) as never)
   vi.mocked(client.POST).mockImplementation((() => ok({ ...sale, status: 'CANCELLED' })) as never)
 }
@@ -40,6 +47,19 @@ describe('Ventas', () => {
     expect(screen.getAllByText(/85\.00/).length).toBeGreaterThan(0)
     // Ventas eliminadas del periodo viene del reporte, no de la página.
     expect(await screen.findByText('Ventas eliminadas')).toBeInTheDocument()
+  })
+
+  it('muestra «Por cobrar en caja» (solo lectura) y quién atendió y quién cobró', async () => {
+    serve([queued], [{ ...sale, createdBy: { id: 'k', name: 'Kevin' }, completedBy: { id: 'a', name: 'Ana' }, sentBy: { id: 'k', name: 'Kevin' }, sentToRegisterAt: new Date().toISOString() }])
+    renderPanel(<VentasPage />)
+    expect(await screen.findByText('Atendió: Kevin · Cobró: Ana')).toBeInTheDocument()
+    expect(await screen.findByText('Por cobrar en caja')).toBeInTheDocument()
+    expect(screen.getByText(/^1 cuenta · .*120\.00$/)).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Mesa 4').closest('tr') as HTMLElement)
+    expect(await screen.findByText('Cuenta por cobrar')).toBeInTheDocument()
+    expect(screen.getByText('Cerveza')).toBeInTheDocument()
+    // Solo lectura: no hay cómo cobrarla desde la web.
+    expect(screen.queryByRole('button', { name: /Cobrar/ })).toBeNull()
   })
 
   it('pide las ventas con el estado y el rango elegidos', async () => {

@@ -12,7 +12,9 @@
     "salesHint_one": "{{count}} venta · ticket {{ticket}}",
     "salesHint_other": "{{count}} ventas · ticket {{ticket}}",
     "receivableHint_one": "{{count}} pendiente",
-    "receivableHint_other": "{{count}} pendientes"
+    "receivableHint_other": "{{count}} pendientes",
+    "promotions": "Descuentos por promociones",
+    "promotionsHint": "Ya restados de las ventas"
   },
   "chart": {
     "title": "Ventas y gastos por día",

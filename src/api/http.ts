@@ -38,7 +38,8 @@ const auth: Middleware = {
 }
 
 /** Cliente tipado generado del contrato (`docs/openapi.json` → `src/api/schema.d.ts`; ver `npm run gen:api`). */
-export const client = createClient<paths>({ baseUrl: API_BASE })
+// `fetch` se resuelve en cada llamada (no al cargar el módulo): así las pruebas pueden sustituirlo.
+export const client = createClient<paths>({ baseUrl: API_BASE, fetch: (request) => globalThis.fetch(request) })
 client.use(auth)
 
 type Reply<T> = { data?: T; error?: unknown; response: Response }

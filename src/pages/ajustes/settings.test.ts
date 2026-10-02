@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { MODULES, formOf, minorToInput, moduleOn, patchOf, previewTemplate, unknownVariables, validateForm, type BusinessView } from './settings'
 
-const b: BusinessView = { id: 'b', name: 'Quesería', type: 'Lácteos', country: 'NI', currency: 'NIO', timezone: 'America/Managua', defaultLocale: 'es', dayCutoff: '02:00:00', posViews: ['TYPE'], creditRequiresCustomer: false, creditLimitEnforced: false, creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, modules: {}, currencyLocked: false }
+const b: BusinessView = { id: 'b', name: 'Quesería', type: 'Lácteos', country: 'NI', currency: 'NIO', timezone: 'America/Managua', defaultLocale: 'es', dayCutoff: '02:00:00', posViews: ['TYPE'], creditRequiresCustomer: false, creditLimitEnforced: false, creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, modules: {}, currencyLocked: false, registerCheckout: false }
 
 describe('ajustes del negocio', () => {
   it('convierte la hora de corte y el umbral a lo que muestra el formulario', () => {
@@ -56,5 +56,13 @@ describe('plantillas', () => {
   it('avisa de variables que no existen', () => {
     expect(unknownVariables('{cliente} {saldo} {inventada} {inventada} {dias}')).toEqual(['inventada'])
     expect(unknownVariables('sin variables')).toEqual([])
+  })
+})
+
+describe('ajustes: cobro en caja', () => {
+  it('apagado por omisión y solo viaja cuando cambia', () => {
+    expect(formOf(b).registerCheckout).toBe(false)
+    expect(patchOf({ ...formOf(b), registerCheckout: true }, b)).toEqual({ registerCheckout: true })
+    expect(patchOf(formOf({ ...b, registerCheckout: true }), { ...b, registerCheckout: true })).toEqual({})
   })
 })

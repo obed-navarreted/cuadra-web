@@ -69,5 +69,10 @@
     "pending_one": "{{count}} operation not yet synced on {{device}}: this close may be incomplete.",
     "pending_other": "{{count}} operations not yet synced on {{device}}: this close may be incomplete.",
     "stale": "{{device}} has not synced since {{when}}: it may have sales that have not arrived yet."
+  },
+  "pendingCheckout_one": "{{count}} ticket still to charge at the register ({{amount}}): not a sale until charged.",
+  "pendingCheckout_other": "{{count}} tickets still to charge at the register ({{amount}}): not sales until charged.",
+  "promotions": {
+    "line": "Promotion discounts"
   }
 }

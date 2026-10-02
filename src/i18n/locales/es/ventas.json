@@ -76,7 +76,10 @@
     "returnLine": "{{when}} · {{name}}",
     "reasonLine": "Motivo: {{reason}}",
     "returnedTotal": "Devuelto",
-    "return": "Devolver productos"
+    "return": "Devolver productos",
+    "chargedBy": "Cobró",
+    "sentToRegister": "Enviada a caja",
+    "promo": "Promo {{quantity}} por {{price}}"
   },
   "cancel": {
     "title": "Eliminar venta",
@@ -86,7 +89,8 @@
     "reasonRequired": "Escribe un motivo de al menos {{min}} letras para eliminar una venta cobrada."
   },
   "list": {
-    "cancelledBy": "por {{name}}"
+    "cancelledBy": "por {{name}}",
+    "servedCharged": "Atendió: {{served}} · Cobró: {{charged}}"
   },
   "tag": {
     "CONFLICT": "Conflicto: revisar",
@@ -121,5 +125,20 @@
       "RETURN_NOT_ALLOWED": "No tienes permiso para devolver esta venta.",
       "SALE_NOT_COMPLETED": "Solo se puede devolver una venta cobrada."
     }
+  },
+  "queue": {
+    "title": "Por cobrar en caja",
+    "hint": "Cuentas que se enviaron a caja desde un teléfono y nadie ha cobrado. No son ventas hasta cobrarse; se cobran en la app.",
+    "empty": "No hay cuentas por cobrar en caja.",
+    "note": "Nota",
+    "by": "Atendió",
+    "sent": "Enviada",
+    "items": "Productos",
+    "total": "Total",
+    "noNote": "Sin nota",
+    "detailTitle": "Cuenta por cobrar",
+    "lockedBy": "La está cobrando {{name}}",
+    "summary_one": "{{count}} cuenta · {{amount}}",
+    "summary_other": "{{count}} cuentas · {{amount}}"
   }
 }

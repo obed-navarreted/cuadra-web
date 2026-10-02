@@ -89,6 +89,7 @@ export function totals(days: DayClose[]) {
     priorCancelledCashMinor: sum((d) => d.priorCancelledCashMinor ?? 0),
     netSalesMinor: sum((d) => d.netSalesMinor ?? d.salesMinor),
     laterVoids: mergeLaterVoids(days.map((d) => d.laterVoids)),
+    promotionDiscountMinor: sum((d) => d.promotionDiscountMinor ?? 0),
   }
 }
 

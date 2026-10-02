@@ -8,7 +8,7 @@ import { Ctx, type AuthValue } from '../../auth/context'
 export const baseBusiness = {
   id: 'b1', name: 'Quesería', type: 'Lácteos', currency: 'NIO', country: 'NI', timezone: 'America/Managua', dayCutoff: '02:00:00', defaultLocale: 'es', status: 'ACTIVE',
   modules: { credit: true, expenses: true, inventory: false, shifts: false, catalog: true, team: true }, posViews: ['TYPE'], creditRequiresCustomer: false, creditLimitEnforced: false,
-  creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, currencyLocked: false,
+  creditDefaultDueDays: 15, creditOverdueDays: 30, shiftRequired: false, shiftNoteThresholdMinor: 1000, currencyLocked: false, registerCheckout: false,
 } as Business
 
 /** El diálogo nativo no existe en jsdom: se imita lo mínimo (abrir y cerrar). */

@@ -8,7 +8,7 @@ export type CloseFigures = Pick<
   DayClose,
   'salesCount' | 'salesMinor' | 'byMethod' | 'creditCollected' | 'drawerExpensesMinor' | 'otherExpensesMinor' | 'withdrawalsMinor' | 'depositsMinor' | 'expectedCashMinor' | 'cancelledCount' | 'cancelledMinor'
 > &
-  Partial<Pick<DayClose, 'returnsCount' | 'returnsMinor' | 'cashRefundsMinor' | 'priorCancelledCount' | 'priorCancelledMinor' | 'priorCancelledCashMinor' | 'netSalesMinor' | 'laterVoids'>>
+  Partial<Pick<DayClose, 'returnsCount' | 'returnsMinor' | 'cashRefundsMinor' | 'priorCancelledCount' | 'priorCancelledMinor' | 'priorCancelledCashMinor' | 'netSalesMinor' | 'laterVoids' | 'pendingCheckoutCount' | 'pendingCheckoutMinor' | 'promotionDiscountMinor'>>
 
 /** Las cifras de una jornada (o de todo el rango): ventas, métodos, abonos, gastos, retiros y el efectivo que debe haber. Nadie abre ni cierra nada. */
 export function DayCard({ title, window, figures, muted }: { title: ReactNode; window?: string; figures: CloseFigures; muted?: boolean }) {
@@ -32,6 +32,12 @@ export function DayCard({ title, window, figures, muted }: { title: ReactNode; w
     <Card title={title}>
       <div className={`day-close${muted ? ' empty-day' : ''}`}>
         {window && <p className="window">{window}</p>}
+        {/* Cobro en caja (ADR 0015): cuentas enviadas a caja que seguían sin cobrar al terminar la jornada; no son ventas hasta cobrarse. */}
+        {(figures.pendingCheckoutCount ?? 0) > 0 && (
+          <p className="notice warn" role="status">
+            {t('pendingCheckout', { count: figures.pendingCheckoutCount ?? 0, amount: money(figures.pendingCheckoutMinor ?? 0) })}
+          </p>
+        )}
         <div className="cols">
           <div className="block">
             <div className="head">
@@ -39,6 +45,7 @@ export function DayCard({ title, window, figures, muted }: { title: ReactNode; w
               <span>{money(figures.salesMinor)}</span>
             </div>
             {(figures.byMethod ?? []).map((m) => row(method(m.method ?? ''), money(m.amountMinor), `s-${m.method}`))}
+            {(figures.promotionDiscountMinor ?? 0) > 0 && row(t('promotions.line'), `−${money(figures.promotionDiscountMinor ?? 0)}`, 'promotions')}
             {returnsCount > 0 && row(t('returns.line', { count: returnsCount }), `−${money(figures.returnsMinor ?? 0)}`, 'returns')}
             {priorCount > 0 && row(t('priorCancelled.line', { count: priorCount }), `−${money(figures.priorCancelledMinor ?? 0)}`, 'prior')}
             {adjusted && (

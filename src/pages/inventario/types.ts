@@ -16,6 +16,8 @@ export type StockReport = S['Inventory']
 export type StockLine = S['StockLine']
 export type ImportResult = S['ImportResult']
 export type ImportRowResult = S['ImportRowResult']
+export type Promotion = S['PromotionView']
+export type PromotionInput = S['PromotionInput']
 
 export const UNITS = ['UNIT', 'LB', 'KG', 'L', 'M'] as const
 export const SOURCES = ['CASH_DRAWER', 'BANK', 'CARD', 'OWNER', 'OTHER'] as const

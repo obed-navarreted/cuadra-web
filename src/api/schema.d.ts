@@ -107,7 +107,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_5"];
+        get: operations["list_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -251,7 +251,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_4"];
+        get: operations["list_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -379,7 +379,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_3"];
+        get: operations["list_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -669,7 +669,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["setActive"];
+        post: operations["setActive_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -731,7 +731,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_2"];
+        get: operations["list_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -875,8 +875,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_2"];
-        put: operations["upsert_1"];
+        get: operations["get_3"];
+        put: operations["upsert_2"];
         post?: never;
         delete: operations["deactivate"];
         options?: never;
@@ -910,6 +910,54 @@ export interface paths {
         get: operations["productMovements"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/b/{businessId}/promotions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/b/{businessId}/promotions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_2"];
+        put: operations["upsert_1"];
+        post?: never;
+        delete: operations["delete_2"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/b/{businessId}/promotions/{id}/active": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["setActive"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1316,6 +1364,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/b/{businessId}/sales/register-queue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["registerQueue"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/b/{businessId}/sales/summary": {
         parameters: {
             query?: never;
@@ -1627,7 +1691,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_3"];
+        get: operations["get_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1678,6 +1742,38 @@ export interface paths {
         get: operations["poll"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/devices/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["me_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/devices/me/members/{memberId}/verify-pin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["verifyPin"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2194,6 +2290,7 @@ export interface components {
             } | null;
             name?: string | null;
             posViews?: string[] | null;
+            registerCheckout: boolean;
             /** Format: int64 */
             shiftNoteThresholdMinor?: number | null;
             shiftRequired: boolean;
@@ -2427,11 +2524,17 @@ export interface components {
             /** Format: int64 */
             otherExpensesMinor: number;
             /** Format: int64 */
+            pendingCheckoutCount: number;
+            /** Format: int64 */
+            pendingCheckoutMinor: number;
+            /** Format: int64 */
             priorCancelledCashMinor: number;
             /** Format: int64 */
             priorCancelledCount: number;
             /** Format: int64 */
             priorCancelledMinor: number;
+            /** Format: int64 */
+            promotionDiscountMinor: number;
             refundsByMethod?: components["schemas"]["MethodAmount"][] | null;
             /** Format: int64 */
             returnsCount: number;
@@ -2470,6 +2573,15 @@ export interface components {
             oldestDays: number;
             /** Format: int64 */
             paidLast90Minor: number;
+        };
+        DeviceSelf: {
+            baseRole?: string | null;
+            /** Format: uuid */
+            businessId?: string | null;
+            /** Format: uuid */
+            deviceId?: string | null;
+            grants?: components["schemas"]["Grant"][] | null;
+            kind?: string | null;
         };
         DeviceSync: {
             /** Format: uuid */
@@ -2583,6 +2695,14 @@ export interface components {
         GoogleLoginRequest: {
             idToken: string | null;
             kind?: string | null;
+        };
+        Grant: {
+            /** Format: date-time */
+            expiresAt?: string | null;
+            /** Format: date-time */
+            grantedAt?: string | null;
+            /** Format: uuid */
+            memberId?: string | null;
         };
         ImportBody: {
             rows?: components["schemas"]["ImportRow"][] | null;
@@ -3507,6 +3627,43 @@ export interface components {
             /** Format: int64 */
             salesMinor: number;
         };
+        PromotionActiveBody: {
+            active?: boolean | null;
+        };
+        PromotionInput: {
+            active?: boolean | null;
+            /** Format: date */
+            endsOn?: string | null;
+            name?: string | null;
+            /** Format: int64 */
+            priceMinor?: number | null;
+            productIds?: string[] | null;
+            /** Format: int32 */
+            quantity?: number | null;
+            /** Format: date */
+            startsOn?: string | null;
+        };
+        PromotionView: {
+            active: boolean;
+            deleted: boolean;
+            /** Format: date */
+            endsOn?: string | null;
+            /** Format: uuid */
+            id: string;
+            name?: string | null;
+            /** Format: int64 */
+            priceMinor: number;
+            productIds?: string[] | null;
+            /** Format: int32 */
+            quantity: number;
+            /** Format: int64 */
+            rev: number;
+            /** Format: date */
+            startsOn?: string | null;
+            state?: string | null;
+            /** Format: date-time */
+            updatedAt?: string | null;
+        };
         PublicConfig: {
             announcement?: components["schemas"]["AnnouncementBanner"];
             minAppVersion?: string | null;
@@ -3675,7 +3832,35 @@ export interface components {
             items?: components["schemas"]["ItemInput"][] | null;
             label?: string | null;
             payments?: components["schemas"]["PaymentInput"][] | null;
+            promotions?: components["schemas"]["SalePromotionInput"][] | null;
+            sendToRegister?: boolean | null;
             status?: string | null;
+        };
+        SalePromotionInput: {
+            /** Format: int64 */
+            discountMinor?: number | null;
+            name?: string | null;
+            /** Format: int64 */
+            priceMinor?: number | null;
+            /** Format: uuid */
+            promotionId?: string | null;
+            /** Format: int32 */
+            quantity?: number | null;
+            /** Format: int32 */
+            units?: number | null;
+        };
+        SalePromotionView: {
+            /** Format: int64 */
+            discountMinor: number;
+            name?: string | null;
+            /** Format: int64 */
+            priceMinor: number;
+            /** Format: uuid */
+            promotionId?: string | null;
+            /** Format: int32 */
+            quantity: number;
+            /** Format: int32 */
+            units: number;
         };
         SaleView: {
             /** Format: uuid */
@@ -3705,17 +3890,25 @@ export interface components {
             id: string;
             items?: components["schemas"]["ItemView"][] | null;
             label?: string | null;
+            lockedBy?: components["schemas"]["MemberRef"];
             /** Format: uuid */
             lockedByDeviceId?: string | null;
             /** Format: date-time */
             lockedUntil?: string | null;
             payments?: components["schemas"]["PaymentView"][] | null;
+            pendingCheckout: boolean;
+            /** Format: int64 */
+            promotionDiscountMinor: number;
+            promotions?: components["schemas"]["SalePromotionView"][] | null;
             /** Format: int64 */
             returnedMinor: number;
             returns?: components["schemas"]["ReturnView"][] | null;
             /** Format: int64 */
             rev: number;
             reviewFlag?: string | null;
+            sentBy?: components["schemas"]["MemberRef"];
+            /** Format: date-time */
+            sentToRegisterAt?: string | null;
             status?: string | null;
             /** Format: int64 */
             subtotalMinor: number;
@@ -3739,6 +3932,8 @@ export interface components {
             priorCancelledCount: number;
             /** Format: int64 */
             priorCancelledMinor: number;
+            /** Format: int64 */
+            promotionDiscountMinor: number;
             /** Format: int64 */
             returnsCount: number;
             /** Format: int64 */
@@ -3996,6 +4191,7 @@ export interface components {
             } | null;
             name?: string | null;
             posViews?: string[] | null;
+            registerCheckout?: boolean | null;
             /** Format: int64 */
             shiftNoteThresholdMinor?: number | null;
             shiftRequired?: boolean | null;
@@ -4020,6 +4216,19 @@ export interface components {
             members: number;
             /** Format: int32 */
             schedules: number;
+        };
+        VerifiedPin: {
+            baseRole?: string | null;
+            /** Format: date-time */
+            expiresAt?: string | null;
+            /** Format: date-time */
+            grantedAt?: string | null;
+            /** Format: uuid */
+            memberId?: string | null;
+            role?: string | null;
+        };
+        VerifyPinBody: {
+            pin: string | null;
         };
     };
     responses: never;
@@ -4252,7 +4461,7 @@ export interface operations {
             };
         };
     };
-    list_5: {
+    list_6: {
         parameters: {
             query?: {
                 page?: number;
@@ -4503,7 +4712,7 @@ export interface operations {
             };
         };
     };
-    list_4: {
+    list_5: {
         parameters: {
             query?: {
                 status?: string;
@@ -4781,7 +4990,7 @@ export interface operations {
             };
         };
     };
-    list_3: {
+    list_4: {
         parameters: {
             query?: never;
             header?: {
@@ -5368,7 +5577,7 @@ export interface operations {
             };
         };
     };
-    setActive: {
+    setActive_1: {
         parameters: {
             query?: never;
             header?: {
@@ -5503,7 +5712,7 @@ export interface operations {
             };
         };
     };
-    list_2: {
+    list_3: {
         parameters: {
             query?: {
                 unreadOnly?: boolean;
@@ -5744,7 +5953,7 @@ export interface operations {
             };
         };
     };
-    get_2: {
+    get_3: {
         parameters: {
             query?: never;
             header?: {
@@ -5769,7 +5978,7 @@ export interface operations {
             };
         };
     };
-    upsert_1: {
+    upsert_2: {
         parameters: {
             query?: never;
             header?: {
@@ -5870,6 +6079,136 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseMovementView"];
+                };
+            };
+        };
+    };
+    list_2: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PromotionView"][];
+                };
+            };
+        };
+    };
+    get_2: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PromotionView"];
+                };
+            };
+        };
+    };
+    upsert_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromotionInput"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PromotionView"];
+                };
+            };
+        };
+    };
+    delete_2: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    setActive: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromotionActiveBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PromotionView"];
                 };
             };
         };
@@ -6565,6 +6904,30 @@ export interface operations {
             };
         };
     };
+    registerQueue: {
+        parameters: {
+            query?: never;
+            header?: {
+                "X-Member-Id"?: string;
+            };
+            path: {
+                businessId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SaleView"][];
+                };
+            };
+        };
+    };
     summary: {
         parameters: {
             query?: {
@@ -7168,7 +7531,7 @@ export interface operations {
             };
         };
     };
-    get_3: {
+    get_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -7252,6 +7615,52 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LinkStatus"];
+                };
+            };
+        };
+    };
+    me_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["DeviceSelf"];
+                };
+            };
+        };
+    };
+    verifyPin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                memberId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyPinBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VerifiedPin"];
                 };
             };
         };

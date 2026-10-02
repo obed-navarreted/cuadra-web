@@ -10,7 +10,8 @@
     "stock": "Existencias",
     "purchases": "Compras",
     "suppliers": "Proveedores",
-    "import": "Importar"
+    "import": "Importar",
+    "promotions": "Promociones"
   },
   "units": {
     "UNIT": "unidad",
@@ -57,15 +58,20 @@
     "STOCK_NOT_TRACKED": "Este producto no lleva control de existencia.",
     "INVALID_PHONE": "El teléfono no parece válido.",
     "INVALID_PAID": "Lo pagado debe estar entre cero y el total.",
-    "INVALID_QUANTITY": "La cantidad no es válida.",
+    "INVALID_QUANTITY": "De 2 a 999 unidades.",
     "INVALID_COST": "El costo no es válido.",
     "INVALID_PRICE": "El precio no es válido.",
     "INVALID_NAME": "Falta el nombre o es demasiado largo.",
     "INVALID_LINES": "Una compra necesita entre 1 y 200 líneas.",
-    "INVALID_PRODUCT": "Ese producto ya no existe.",
+    "INVALID_PRODUCT": "Algún producto ya no existe.",
     "INVALID_SUPPLIER": "Ese proveedor ya no existe.",
     "INVALID_CATEGORY": "Esa categoría ya no existe.",
-    "FORBIDDEN": "Solo un administrador o el dueño puede dar de baja productos."
+    "FORBIDDEN": "Solo un administrador o el dueño puede dar de baja productos.",
+    "PRODUCT_NOT_ELIGIBLE": "Un producto por peso o de precio abierto no puede estar en una promoción.",
+    "PRODUCTS_REQUIRED": "Agrega al menos un producto.",
+    "INVALID_DATES": "La fecha final es antes de la inicial.",
+    "PROMOTION_NOT_FOUND": "Esa promoción ya no existe.",
+    "PROMOTION_DELETED": "Esa promoción fue borrada."
   },
   "products": {
     "search": "Buscar por nombre o código",
@@ -356,6 +362,71 @@
       "trackStock": "Control de existencia",
       "minStockMilli": "Mínimo de existencia",
       "active": "Activo"
+    }
+  },
+  "promotions": {
+    "intro": "«3 por C$ 100» sobre uno o varios productos: la caja la aplica sola (también sin conexión). Pausar o cambiar una llega a los teléfonos al sincronizar.",
+    "new": "Nueva promoción",
+    "newTitle": "Nueva promoción",
+    "editTitle": "Editar promoción",
+    "empty": "Aún no hay promociones.",
+    "col": {
+      "name": "Promoción",
+      "rule": "Precio",
+      "dates": "Fechas",
+      "state": "Estado"
+    },
+    "rule": "{{quantity}} por {{price}}",
+    "from": "desde {{day}}",
+    "until": "hasta {{day}}",
+    "always": "Siempre",
+    "state": {
+      "ACTIVE": "Activa",
+      "PAUSED": "Pausada",
+      "SCHEDULED": "Programada",
+      "ENDED": "Terminada"
+    },
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "delete": "Borrar promoción",
+    "deleteConfirm": "Sí, borrarla (las ventas no cambian)",
+    "added": "{{name}} agregado",
+    "already": "{{name}} ya está en la lista",
+    "notEligible": "{{name}} se vende por peso o con precio abierto: no entra",
+    "unknownCode": "El código {{code}} no está en el catálogo",
+    "noResults": "Ningún producto coincide.",
+    "remove": "Quitar {{name}}",
+    "example": "Ejemplo: {{units}} × {{unit}} = {{total}}",
+    "noBenefit": "Con estos precios no hay descuento.",
+    "form": {
+      "name": "Nombre",
+      "nameHint": "Ej.: Cerveza 3 por C$ 100",
+      "quantity": "Cantidad",
+      "price": "Precio por esa cantidad",
+      "active": "Activa",
+      "activeHint": "pausada no se aplica en la caja",
+      "startsOn": "Desde (opcional)",
+      "endsOn": "Hasta (opcional)",
+      "datesHint": "Jornadas del negocio",
+      "products": "Productos de la promoción ({{count}})",
+      "productsHint": "Las unidades de estos productos se juntan (2 Toña y 1 Victoria cuentan como 3). No entran productos por peso ni de precio abierto.",
+      "search": "Buscar por nombre o código",
+      "code": "Código de barras o corto",
+      "codeHint": "Escanea con el lector o escribe el código y Enter: se agrega a la lista."
+    },
+    "field": {
+      "name": "nombre",
+      "quantity": "cantidad",
+      "price": "precio",
+      "products": "productos",
+      "dates": "fechas"
+    },
+    "problems": {
+      "name": "Escribe un nombre (hasta 80 letras).",
+      "quantity": "De 2 a 999 unidades.",
+      "products": "Agrega al menos un producto.",
+      "dates": "La fecha final es antes de la inicial.",
+      "summary": "Revisa: {{fields}}."
     }
   }
 }

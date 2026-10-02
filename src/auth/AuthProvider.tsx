@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
 import { ApiError, call, client } from '../api/http'
 import type { Business, Me } from '../api/types'
 import { Ctx, type AuthValue } from './context'
-import { clearSession, getToken, saveBusiness, savedBusiness, setToken, subscribe } from './session'
+import { clearSession, getToken, rememberUser, saveBusiness, savedBusiness, setToken, subscribe } from './session'
 
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -35,10 +35,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     let cancelled = false
     setLoaded(false)
+    // Un token nuevo es otra sesión (otra cuenta, o "Ver como"): nada de la anterior (perfil, negocio elegido, datos del negocio) queda a la vista mientras carga.
+    setMe(null)
+    setBusiness(null)
+    setBusinessId(null)
     void (async () => {
       try {
         const profile = await call(client.GET('/api/me'))
         if (cancelled) return
+        if (profile.id) rememberUser(profile.id)
         setMe(profile)
         const list = profile.businesses ?? []
         const saved = savedBusiness()
@@ -57,8 +62,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [token])
 
+  // Una respuesta que llega tarde de un negocio que ya no es el elegido no se guarda (el último negocio pedido es el único que cuenta).
+  const latestBusiness = useRef<string | null>(null)
   const loadBusiness = useCallback(async (id: string) => {
-    setBusiness(await call(client.GET('/api/b/{businessId}', { params: { path: { businessId: id } } })))
+    latestBusiness.current = id
+    const loaded = await call(client.GET('/api/b/{businessId}', { params: { path: { businessId: id } } }))
+    if (latestBusiness.current === id) setBusiness(loaded)
   }, [])
 
   useEffect(() => {

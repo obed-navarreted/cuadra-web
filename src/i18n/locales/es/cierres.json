@@ -69,5 +69,10 @@
     "pending_one": "Hay {{count}} operación sin sincronizar en {{device}}: este cierre puede estar incompleto.",
     "pending_other": "Hay {{count}} operaciones sin sincronizar en {{device}}: este cierre puede estar incompleto.",
     "stale": "{{device}} no se sincroniza desde {{when}}: puede tener ventas que aún no llegan."
+  },
+  "pendingCheckout_one": "Queda {{count}} cuenta por cobrar en caja ({{amount}}): no es venta hasta cobrarse.",
+  "pendingCheckout_other": "Quedan {{count}} cuentas por cobrar en caja ({{amount}}): no son ventas hasta cobrarse.",
+  "promotions": {
+    "line": "Descuentos por promociones"
   }
 }

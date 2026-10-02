@@ -33,14 +33,22 @@ export function setToken(token: string) {
   notify()
 }
 
+/**
+ * Cierra la sesión Y olvida todo lo que era del negocio o de la persona (ADR 0014): el negocio elegido y quién era el usuario. Quien entre después en este
+ * navegador no hereda nada. (El idioma es una preferencia del navegador, no de la cuenta: se queda.)
+ */
 export function clearSession() {
   memory = null
   adminMemory = null
   viewAsMemory = null
+  businessMemory = null
+  userMemory = null
   try {
     localStorage.removeItem(KEY)
     localStorage.removeItem(ADMIN_KEY)
     localStorage.removeItem(VIEW_AS_KEY)
+    localStorage.removeItem(BUSINESS_KEY)
+    localStorage.removeItem(USER_KEY)
   } catch {
     /* nada que borrar */
   }
@@ -128,18 +136,50 @@ function notify() {
   listeners.forEach((l) => l())
 }
 
+const USER_KEY = 'cuadra.user'
+let businessMemory: string | null = null
+let userMemory: string | null = null
+
 export function savedBusiness(): string | null {
   try {
-    return localStorage.getItem(BUSINESS_KEY)
+    return localStorage.getItem(BUSINESS_KEY) ?? businessMemory
   } catch {
-    return null
+    return businessMemory
   }
 }
 
 export function saveBusiness(id: string) {
+  businessMemory = id
   try {
     localStorage.setItem(BUSINESS_KEY, id)
   } catch {
     /* se elige de nuevo la próxima vez */
+  }
+}
+
+/**
+ * Se llama con el usuario que la API reconoció. Si no es el mismo de la vez anterior en este navegador (otra cuenta, o el token cambió sin cerrar sesión),
+ * el negocio elegido de aquella persona se olvida: ninguna cuenta hereda la elección de otra.
+ */
+export function rememberUser(userId: string) {
+  let previous: string | null = userMemory
+  try {
+    previous = localStorage.getItem(USER_KEY) ?? previous
+  } catch {
+    /* sin almacenamiento */
+  }
+  if (previous !== null && previous !== userId) {
+    businessMemory = null
+    try {
+      localStorage.removeItem(BUSINESS_KEY)
+    } catch {
+      /* nada que borrar */
+    }
+  }
+  userMemory = userId
+  try {
+    localStorage.setItem(USER_KEY, userId)
+  } catch {
+    /* queda en memoria */
   }
 }

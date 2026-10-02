@@ -39,6 +39,13 @@ describe('Cierre del día', () => {
     expect(call[0]).toBe('/api/b/{businessId}/reports/daily-close')
   })
 
+  it('avisa de las cuentas que quedan por cobrar en caja al terminar la jornada', async () => {
+    vi.mocked(client.GET).mockImplementation((() =>
+      ok({ range: {}, days: [day('2026-09-29', '2026-09-29T08:00:00Z', '2026-09-30T08:00:00Z', { pendingCheckoutCount: 1, pendingCheckoutMinor: 12000 })] })) as never)
+    renderPanel(<CierresPage />)
+    expect(await screen.findByText(/^Queda 1 cuenta por cobrar en caja \(.*120\.00\)/)).toBeInTheDocument()
+  })
+
   it('muestra devoluciones, ventas de días anteriores anuladas, anulaciones tardías y avisa de teléfonos sin sincronizar', async () => {
     vi.mocked(client.GET).mockImplementation((() =>
       ok({

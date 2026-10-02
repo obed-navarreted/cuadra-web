@@ -4,7 +4,7 @@ import { Modal } from '../../components/Modal'
 import { Button, Tag } from '../../components/ui'
 import { useFormat } from '../../hooks/useFormat'
 import { SaleTags } from './SaleTags'
-import { canReturn, saleCost, saleInstant, type SalePayment, type SaleReturn, type SaleRow } from './types'
+import { canReturn, saleCost, saleInstant, servedAndCharged, type SalePayment, type SaleReturn, type SaleRow } from './types'
 
 type Item = NonNullable<SaleRow['items']>[number]
 
@@ -15,13 +15,15 @@ export function SaleDetail({ sale, onClose, onCancel, onReturn }: { sale: SaleRo
   const items = sale?.items ?? []
   const payments = sale?.payments ?? []
   const { cost, coveragePercent } = saleCost(items)
+  const promoted = (sale?.promotions ?? []).length > 0
 
   const itemColumns: Column<Item>[] = [
     { key: 'name', header: t('detail.product'), cell: (i) => [i.name, i.variant].filter(Boolean).join(' · ') },
     { key: 'qty', header: t('detail.quantity'), align: 'right', cell: (i) => quantity(i.quantityMilli) },
     { key: 'price', header: t('detail.price'), align: 'right', cell: (i) => money(i.unitPriceMinor) },
     { key: 'cost', header: t('detail.cost'), align: 'right', cell: (i) => (i.unitCostMinor == null ? <span className="muted">—</span> : money(i.unitCostMinor)) },
-    { key: 'total', header: t('detail.lineTotal'), align: 'right', cell: (i) => <strong>{money(i.lineTotalMinor)}</strong> },
+    // Con promociones cada línea va a su precio de siempre; el descuento de la promoción va en su propia línea (abajo, en los totales).
+    { key: 'total', header: t('detail.lineTotal'), align: 'right', cell: (i) => <strong>{money(promoted ? i.lineTotalMinor + i.discountMinor : i.lineTotalMinor)}</strong> },
     ...((sale?.returnedMinor ?? 0) > 0
       ? [{ key: 'returned', header: t('detail.returned'), align: 'right' as const, cell: (i: Item) => (i.returnedMilli > 0 ? quantity(i.returnedMilli) : <span className="muted">—</span>) }]
       : []),
@@ -57,8 +59,25 @@ export function SaleDetail({ sale, onClose, onCancel, onReturn }: { sale: SaleRo
           <dl>
             <dt>{t('detail.date')}</dt>
             <dd>{saleInstant(sale) ? dateTime(saleInstant(sale) as string) : '—'}</dd>
-            <dt>{t('detail.by')}</dt>
-            <dd>{sale.completedBy?.name ?? sale.createdBy?.name ?? '—'}</dd>
+            {servedAndCharged(sale) ? (
+              <>
+                <dt>{t('detail.by')}</dt>
+                <dd>{sale.createdBy?.name}</dd>
+                <dt>{t('detail.chargedBy')}</dt>
+                <dd>{sale.completedBy?.name}</dd>
+              </>
+            ) : (
+              <>
+                <dt>{t('detail.by')}</dt>
+                <dd>{sale.completedBy?.name ?? sale.createdBy?.name ?? '-'}</dd>
+              </>
+            )}
+            {sale.sentToRegisterAt && (
+              <>
+                <dt>{t('detail.sentToRegister')}</dt>
+                <dd>{t('detail.byAt', { name: sale.sentBy?.name ?? '-', when: dateTime(sale.sentToRegisterAt) })}</dd>
+              </>
+            )}
             {sale.editedAt && (
               <>
                 <dt>{t('detail.editedBy')}</dt>
@@ -95,8 +114,14 @@ export function SaleDetail({ sale, onClose, onCancel, onReturn }: { sale: SaleRo
           <div className="sale-totals">
             <div>
               <span>{t('detail.subtotal')}</span>
-              <span>{money(sale.subtotalMinor)}</span>
+              <span>{money(sale.subtotalMinor + (sale.promotionDiscountMinor ?? 0))}</span>
             </div>
+            {(sale.promotions ?? []).map((p, i) => (
+              <div key={`promo-${i}`} className="promo">
+                <span>{t('detail.promo', { quantity: p.quantity, price: money(p.priceMinor) })}</span>
+                <span>−{money(p.discountMinor)}</span>
+              </div>
+            ))}
             {sale.discountMinor > 0 && (
               <div>
                 <span>{t('detail.discount')}</span>
